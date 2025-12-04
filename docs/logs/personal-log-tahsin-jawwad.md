@@ -11,6 +11,7 @@
 [Week 11 Personal Logs](#week-11)
 [Week 12 Personal Logs](#week-12)
 [Week 13 Personal Logs](#week-13)
+[Week 14 Personal Logs](#week-14)
 
 ## Week 3
 ### Date Range 
@@ -280,3 +281,34 @@ Since there are no peer evaluations, here is a list of tasks worked on:
 
 **Future cycle plans**:
 - Add export functionality for portfolio items (JSON, Markdown, HTML formats)
+
+## Week 14
+### Date Range 
+1st December 2025 - 7th December 2025
+
+### Type of tasks worked on
+
+
+### Weekly Goals
+**My features**:
+* Implemented complete Presentation Pipeline system for generating portfolio and resume items from stored project insights
+* Created PresentationPipeline class with multiple query methods: generate_by_id(), generate_by_name(), generate_for_zip(), and generate_all()
+* Developed PresentationResult and BatchPresentationResult dataclasses for structured single and batch operation results
+* Implemented regeneration control system with regenerate flag to balance template updates and performance
+* Built full-featured CLI interface with commands for listing projects, generating by ID/name, batch operations, and flexible output options
+* Created comprehensive error handling with structured error results and resilient batch operations that continue despite individual failures
+* Developed 20 comprehensive test cases covering initialization, generation methods, batch operations, error handling, and dataclass functionality
+* Created populate_demo_database.py script for quick testing without full orchestrator dependencies
+* Built presentation_pipeline_example.py demonstrating all pipeline features with clear Python API usage patterns
+* Achieved 703 total LOC (main: 334, tests: 262, example: 78) with 100% test pass rate and no linter errors
+
+**Task from project board**:
+* Portfolio and Resume Generation Pipeline #166
+
+**Completed/In-progress tasks**: 
+* Portfolio and Resume Generation Pipeline #166 (Completed)
+
+**Future cycle plans**:
+- Add export functionality for different formats (PDF, DOCX, HTML)
+- Implement filtering and ranking system for project selection
+- Add parallel processing for batch operations to improve performance
