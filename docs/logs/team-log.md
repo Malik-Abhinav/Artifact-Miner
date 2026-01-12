@@ -12,6 +12,7 @@
 [Week 12 Team Logs](#week-12)<br>
 [Week 13 Team Logs](#week-13)<br>
 [Week 14 Team Logs](#week-14)
+[Week 15 Team Logs](#week-15)<br>
 
 ## Week 3
 
@@ -1028,3 +1029,129 @@ We’re pausing for a short break to recharge, then will regroup for Milestone 2
 - Manage our time better for Milestone 2 to ensure a better timeline for our project.
 
 Overall, the team finished Milestone 1 on schedule, delivered a solid presentation/video demo, and is heading into the break with a stable pipeline foundation.
+
+
+
+## Week 15
+
+### January 5 2026 to January 11 2026
+
+### 1. Milestone Goals Recap
+
+This week marked the kickoff of Milestone 2 work, focused on enabling human-in-the-loop customization and strengthening the system foundation needed for incremental ingest and user edits.
+
+Planned Features for This Milestone:
+- Incorporate key role of the user in a given project
+- Allow user to associate an image for a given project to use as the thumbnail
+- Display and customize portfolio and résumé information through service style workflows
+- Strengthen persistence layer to support upcoming Milestone 2 features
+
+Tasks from Project Board Associated with These Features:
+- #184 Thumbnail Upload Endpoint
+- #191 Resume Item Customization
+- #186 Normalize SQLite Schema (Design + Docs)
+- #187 Normalize SQLite Schema (Migration + Storage Refactor)
+- #198 Project User Role Customization
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 15](images/week15-chart.png)
+
+---
+
+### 3. Username → Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Week 15](images/week15-tasks.png)
+
+| Task ID | Issue Title                                                  | Username        | Associated Feature                                   | Status    |
+| ------- | ------------------------------------------------------------ | --------------- | ---------------------------------------------------- | --------- |
+| 186     | Define normalized SQLite schema + document in database_schema.md | abijeet-dhillon | Milestone 2 Foundation. Persistence and relationships | Completed |
+| 187     | Implement migration/backfill to normalized schema + update storage APIs | abijeet-dhillon | Milestone 2 Foundation. Normalized persistence layer  | Completed |
+| 184     | Thumbnail upload endpoint (form + upload validation + tests) | abdur026        | Project Thumbnail Association                         | Completed |
+| 191     | Non persistent resume item customization (runtime edits + tests) | tahsinj         | Resume Item Customization                             | Completed |
+| 198     | Incorporate key role of the user in a given project          | Malik-Abhinav   | Project Role Metadata                                | Completed |
+| —       | Success Metrics Analyzer (evidence signals + scoring + tests) | kmerchant1      | Evidence of Success Metrics                           | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this week was accompanied by automated tests and validated with local and Docker runs where applicable.
+
+- Normalized SQLite Schema Refactor
+  - End to end save and retrieve flows validated after migrating to explicit tables.
+  - Tests updated to reflect new table names and query paths.
+
+- Thumbnail Upload Feature
+  - Pytest TestClient coverage for:
+    - Upload form rendering
+    - Valid uploads (PNG, JPEG, WebP)
+    - Invalid file types rejected
+    - Files larger than 5 MB rejected
+
+- Resume Item Customization
+  - 11 unit tests validating:
+    - Override precedence and index edits
+    - Input validation and error messaging
+    - No mutation behavior
+  - Verified existing presentation and pipeline test suites remain passing.
+
+- Project User Role Customization
+  - Validated role persistence and merge into project retrieval without modifying extracted insight payloads.
+  - Confirmed role data cleanup behavior aligns with project deletion lifecycle.
+
+- Success Metrics Analyzer
+  - 18 unit tests covering scoring metrics, badge extraction, feedback keyword detection, and edge cases.
+  - Integrated into orchestrator output and persisted through the store.
+
+---
+
+### 6. Additional Context
+
+This week established multiple Milestone 2 building blocks:
+
+- Database foundation was modernized through a normalized schema, improving support for future requirements like incremental ingest, deduplication, and per project customization.
+- Human-in-the-loop customization began with role metadata and resume item wording edits, setting a clear separation between extracted insights and user edits.
+- The thumbnail upload endpoint provides a controlled path for associating project images, with validation and tests in place.
+- Success metrics work initiated structured evidence of success signals that can later be surfaced in portfolio and résumé views.
+
+---
+
+### 7. Future Cycle Plans
+
+Next cycle will focus on integrating Milestone 2 customization and incrementality end to end:
+
+- Connect thumbnail upload to persistent storage and project records. Store and retrieve a thumbnail reference per project.
+- Add persistence for resume customization and expand portfolio customization support.
+- Implement incremental ingest. Add another ZIP to the same portfolio or résumé while preventing duplicates.
+- Implement duplicate file detection and retention. Use hash based dedupe across projects and runs.
+- Begin API first service workflows for retrieving and updating user customizations through stable endpoints.
+
+---
+
+### 8. Reflection on This Cycle
+
+What went well:
+- Multiple Milestone 2 aligned features shipped in parallel with tests, including customization, uploads, and database foundation work.
+- The normalized database overhaul removed a major blocker and makes upcoming features easier to implement cleanly.
+
+What could be improved:
+- Coordinate integration checkpoints earlier when multiple PRs touch storage and retrieval paths, to reduce merge conflicts and duplicate adjustments.
+
+How this informs us for the next cycle:
+- Prioritize end to end integration. Schema changes, API endpoints, and customization flows should be validated together using a single demo ZIP to ensure consistency across modules.
