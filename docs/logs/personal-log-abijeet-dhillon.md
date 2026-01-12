@@ -10,7 +10,55 @@
 [Week 10 Individual Logs](#week-10)<br>
 [Week 12 Individual Logs](#week-12)<br>
 [Week 13 Individual Logs](#week-13)<br>
-[Week 14 Individual Logs](#week-14)
+[Week 14 Individual Logs](#week-14)<br>
+[Semester 2 Week 1 Individual Logs](#week-14)
+
+---
+
+## Semester 2 Week 1 Individual Logs
+
+### January 5 2026 to January 11 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 1 Task Types Screenshot](images/abijeetdhillon_s2w1_tasks.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+This week I designed and documented a normalized SQLite schema to replace our legacy zipfile/project blob storage with explicit tables (projects, files, portfolio_insights) while keeping room for future upgrades like incremental ingest, file dedupe, and per-project portfolio/resume customization. I updated docs/design/database_schema.md with a clear field mapping that shows how rankings, chronology corrections, skills highlighting, evidence, thumbnails, and portfolio/resume items (resume bullets, skills, keywords, and other analysis outputs) are represented through proper foreign keys and relationships. I implemented a new schema migration that creates the normalized tables based on the documented DDL and refactored the persistence and retrieval code paths to write/read normalized rows rather than blob payloads. I verified that we can still save and pull report information correctly while preserving our existing rendering behavior for both portfolio and resume outputs without relying on the legacy blob fields. I also updated system_demo_walkthrough.md so the end-to-end demo flow works with the new schema and accurately reflects the updated database interactions. Overall, this cycle was focused on stabilizing the database foundation so we can confidently build the Milestone 2 requirements on top of it.
+
+---
+
+### 3. Features Owned in Project Plan
+
+- Define normalized SQLite schema for projects, files, and portfolio_insights + document in database_schema.md (#186)
+- Implement migration/backfill to normalized schema + update storage APIs to use projects/files/portfolio_insights (#187)
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+- Define normalized SQLite schema for projects, files, and portfolio_insights + document in database_schema.md (#186)
+- Implement migration/backfill to normalized schema + update storage APIs to use projects/files/portfolio_insights (#187)
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue Title                                                                                                      | Status    | Notes |
+| ------- | ---------------------------------------------------------------------------------------------------------------- | --------- | ----- |
+| 186     | Define normalized SQLite schema for projects, files, and portfolio_insights + document in database_schema.md     | Completed | N/A   |
+| 187     | Implement migration/backfill to normalized schema + update storage APIs to use projects/files/portfolio_insights | Completed | N/A   |
+
+---
+
+### 6. Future Cycle Plans & Reflection On This Week
+
+This week was highly productive because I overhauled the database to align with the Milestone 2 requirements, which removes a major blocker and gives us a stable foundation to keep shipping. Now that the schema, migration, docs, and read/write paths are in place, we can push ahead and start checking off Milestone 2 requirements more quickly. I also plan to start work on Monday so I can finish tasks earlier next week and keep momentum.
+
+For the next cycle, I plan to research and start implementing incremental ingest so we can upload another zipped folder for the same portfolio/resume and merge it safely into the existing project set. The goal is to define a deterministic merge key and strategy so existing projects and files can be updated without duplicating or overwriting data incorrectly. I’ll also look into how we can support dedupe and partial updates (only changed files/analysis) while keeping portfolio/resume outputs consistent.
 
 ---
 
@@ -46,10 +94,10 @@ This week I focused on closing PR #169 to finish the remaining Milestone 1 requi
 
 ### 5. Tasks Completed / In Progress in the Last 2 Weeks
 
-| Task ID | Issue Title                            | Status    | Notes                                                                                                                                                                                                                               |
-| ------- | -------------------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 165     | Bring Storage & Retrieval Up To Date   | Completed | In PR #169 I refreshed the ProjectInsightsStore/orchestrator path to align with the latest schema, ensured runs persist correctly, tightened backup/restore helpers, and verified the retrieval CLI can replay stored runs end to end. |
-| 168     | Add Data Consent To User Configurations | Completed | PR #169 also added a persisted “data consent” flag to UserConfigManager, wired it (with LLM consent) into the pipeline CLI prompts, and documented the config manager/CLI paths so users can set or update both consents once.       |
+| Task ID | Issue Title                             | Status    | Notes                                                                                                                                                                                                                                  |
+| ------- | --------------------------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 165     | Bring Storage & Retrieval Up To Date    | Completed | In PR #169 I refreshed the ProjectInsightsStore/orchestrator path to align with the latest schema, ensured runs persist correctly, tightened backup/restore helpers, and verified the retrieval CLI can replay stored runs end to end. |
+| 168     | Add Data Consent To User Configurations | Completed | PR #169 also added a persisted “data consent” flag to UserConfigManager, wired it (with LLM consent) into the pipeline CLI prompts, and documented the config manager/CLI paths so users can set or update both consents once.         |
 
 ---
 
