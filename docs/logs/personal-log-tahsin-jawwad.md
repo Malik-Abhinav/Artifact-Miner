@@ -11,6 +11,8 @@
 [Week 11 Personal Logs](#week-11)
 [Week 12 Personal Logs](#week-12)
 [Week 13 Personal Logs](#week-13)
+[Week 14 Personal Logs](#week-14)
+[T2 Week 1 Personal Logs](#term-2-week-1)
 
 ## Week 3
 ### Date Range 
@@ -311,3 +313,38 @@ Also worked on creating/contributing towards Team Contract and Presentation Slid
 **Future cycle plans**:
 - Add filtering and sorting options to generation pipeline
 - Implement caching mechanism to avoid regenerating unchanged projects
+
+## Term 2 Week 1
+### Date Range 
+5th January 2026 - 11th January 2026
+
+### Type of tasks worked on
+![Tahsin Type of Tasks Term 2 Week 1](images/tahsin-t2-week-1.png)
+
+### Weekly Goals
+**My features**:
+* Implemented non-persistent resume item customization functionality for runtime editing of resume bullet wording
+* Created apply_resume_item_customization() pure function supporting three customization modes: full bullets override, index-based edits, and project name override
+* Implemented comprehensive input validation with clear error messages for all edge cases (invalid indices, empty bullets, type errors)
+* Extended generate_resume_item() with optional customization parameter maintaining full backward compatibility
+* Extended generate_items_from_project_id() to thread customization through to resume generation for stored projects
+* Designed customization schema with clear precedence rules (bullets override > index edits > original content)
+* Built whitespace handling and text normalization (strip and validate all inputs)
+* Implemented max_bullets enforcement (default: 6) with configurable limit
+* Created comprehensive test suite with 11 unit tests achieving 100% coverage of customization logic
+* Verified all 40 existing presentation tests still pass (no breaking changes)
+* Verified all 21 pipeline tests still pass (backward compatible)
+* Developed working example demonstrating all customization modes
+* Explicitly avoided database persistence per requirements (non-persistent, runtime-only customization)
+
+**Task from project board**:
+* Resume Item Customization #191
+
+**Completed/In-progress tasks**: 
+* Resume Item Customization #191 (Completed)
+
+**Future cycle plans**:
+- Add database schema for persisting resume customizations
+- Implement persistence layer (save/load/update/delete operations)
+- Create UI components for resume editing interface
+- Add bulk customization operations for multiple projects
