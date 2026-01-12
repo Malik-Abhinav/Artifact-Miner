@@ -10,6 +10,7 @@
 1. [Week 12](#week-12)
 1. [Week 13](#week-13)
 1. [Week 14](#week-14)
+1. [Week 15](#week-15)
 
 ## Week 3 
 
@@ -447,3 +448,48 @@ This section outlines the individual log for week 13
 - Address any feedback from the Milestone 1 Pull Request review and make necessary updates.  
 - Begin planning and scoping tasks for the next milestone or sprint.  
 - Continue fostering team collaboration, ensuring adherence to the team contract in ongoing work.
+
+
+## Week 15
+This section outlines the individual log for week 1 of Semester 2
+### Tasks
+![](images/abdur-week1s2.png)
+
+- Implemented a **thumbnail upload feature** for projects using FastAPI, including endpoints for rendering an upload form and validating uploaded images.  
+- Added **server-side validation** to enforce allowed image types (PNG, JPEG, WebP) and a maximum file size of 5 MB.  
+- Wrote **automated tests** to verify successful uploads, invalid file types, oversized files, and form rendering.  
+- Created and prepared a **Pull Request** documenting the new feature and test coverage for review.
+
+---
+
+### Weekly Goals
+
+1. **Feature Development:**  
+   - Add a secure and validated **thumbnail upload endpoint** for projects.  
+   - Ensure uploaded images meet defined **type and size constraints**.
+
+2. **Testing & Quality:**  
+   - Create **pytest tests** to confirm correct behavior for valid and invalid uploads.  
+   - Ensure the feature integrates cleanly with the existing FastAPI application.
+
+---
+
+### Reflection Points
+
+**What went well:**  
+- The upload endpoints were implemented cleanly and validated through automated tests.  
+- The FastAPI router design made it easy to isolate and test the new functionality.  
+- Test coverage provides confidence that edge cases like invalid types and oversized files are handled properly.
+
+**What didn’t go well:**  
+- Minor time was spent tuning file size and MIME type validation logic, but no major blockers occurred.
+
+---
+
+### Planning Activities for Next Cycle
+
+**Week 16 Goals:**  
+- Integrate the thumbnail upload router into the main application if not already done.  
+- Add **persistent storage** (local or S3) for uploaded thumbnails.  
+- Introduce a **thumbnail URL field** in the project model and database.  
+
