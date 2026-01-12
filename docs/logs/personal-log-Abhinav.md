@@ -480,3 +480,45 @@ My contributions included:
 ### 6. Additional Context  
 - Performed multiple full pipeline runs to verify stability and output structure.  
 - Helped ensure the system meets all milestone deliverables before final submission.  
+
+
+
+## Week 15 – January 5 to January 11, 2026
+
+### 1. Type of Tasks Worked On  
+![Week 15 Task Screenshot](images/week15-abhinav.png)
+
+---
+
+### 3. Recap of Weekly Goals  
+
+My contributions included:  
+- designing and implementing support for user-defined project roles as editable metadata  
+- extending the storage layer with a new normalized table for project customizations  
+- integrating role data into existing project retrieval flows without re-running analysis  
+- exposing API endpoints to allow setting and updating a user’s role for a project  
+- ensuring backward compatibility with existing Milestone 1 data and outputs  
+
+---
+
+### 4. Features Owned in Project Plan  
+- Project Customization – User Role Metadata  
+
+---
+
+### 5. Tasks from Project Board Associated with These Features  
+- Incorporate key role of the user in a given project  
+
+---
+
+### 6. Tasks Completed / In Progress in the Last 2 Weeks  
+| Task ID | Issue Title                                   | Status     | Notes |
+|---------|-----------------------------------------------|------------|-------|
+| 198       | Project User Role Customization  | Completed  | Added persistent user role support with storage, API, and retrieval integration |
+
+---
+
+### 7. Additional Context  
+- The role metadata is stored separately from extracted insights to preserve immutability of analysis results.  
+- Changes were tested locally and in Docker to confirm persistence, correct API behavior, and safe deletion handling.  
+
