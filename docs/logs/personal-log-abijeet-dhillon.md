@@ -1,5 +1,7 @@
 # Individual Log – Abijeet Dhillon
 
+[Semester 2 Week 1 Individual Logs](#semester-2-week-1-individual-logs)<br>
+[Semester 2 Week 2 Individual Logs](#semester-2-week-2-individual-logs)<br>
 [Week 3 Individual Logs](#week-3)<br>
 [Week 4 Individual Logs](#week-4)<br>
 [Week 5 Individual Logs](#week-5)<br>
@@ -10,8 +12,83 @@
 [Week 10 Individual Logs](#week-10)<br>
 [Week 12 Individual Logs](#week-12)<br>
 [Week 13 Individual Logs](#week-13)<br>
-[Week 14 Individual Logs](#week-14)<br>
-[Semester 2 Week 1 Individual Logs](#week-14)
+[Week 14 Individual Logs](#week-14)
+
+---
+
+## Semester 2 Week 2 Individual Logs
+
+### January 5 2026 to January 11 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 2 Task Types Screenshot]()
+
+---
+
+### 2. Recap of Weekly Goals
+
+Building on last week’s database/persistence foundation work, this week I focused on **persisting custom project names** end-to-end so project naming is stable across runs and outputs.
+
+**Coding tasks**
+
+- Updated the schema/migrations to store `project_name` in `project_info` and wired inserts accordingly.
+- Extended resume-item persistence to optionally save the project name and adjusted loading logic to prefer the stored override.
+- Added an optional CLI prompt after analysis to collect custom project names before persistence.
+
+**Testing / debugging tasks**
+
+- Updated `test_resume_customization.py` to verify the project name update flow (ensuring project name overrides persist and are preferred on load).
+
+**Reviewing / collaboration tasks**
+
+- Documented Docker/SQLite access instructions in the PR to make it easier for PR reviewers to inspect the database state locally.
+
+**Pull request / issue references**
+
+- PR: [#202](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/202)
+- Issue: [#201](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/201)
+
+**Issues / blockers**
+
+- The main risk this week was ensuring the new “stored project_name override” behavior didn’t break existing resume customization flows. I addressed this by updating the persistence/loading precedence and adding a targeted test to lock in the expected behavior.
+
+**Plan / goals for next week**
+
+- Continue tightening persistence UX and data correctness around project identity and customization (including follow-ups from this work if any edge cases appear).
+- Begin progressing Milestone 2 work that depends on stable project identity (e.g., safer updates/partial changes and other persistence improvements).
+
+---
+
+### 3. Features Owned in Project Plan
+
+- Persist custom project names in project_info + wire persistence/loading precedence ([Issue #201](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/201))
+- Implement and validate the project name update flow via tests + documentation ([PR #202](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/202))
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+- [Issue #201 — Persist custom project names](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/201)
+- [PR #202 — Project name persistence + CLI prompt + tests](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/202)
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue                                                                                                            | Status    | Notes |
+| ------- | ---------------------------------------------------------------------------------------------------------------- | --------- | ----- |
+| 201     | [Persist custom project names](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/201)            | Completed | N/A   |
+| 186     | Define normalized SQLite schema for projects, files, and portfolio_insights + document in database_schema.md     | Completed | N/A   |
+| 187     | Implement migration/backfill to normalized schema + update storage APIs to use projects/files/portfolio_insights | Completed | N/A   |
+
+---
+
+### 6. Future Cycle Plans & Reflection On This Week
+
+This week was productive because it improved the reliability and usability of our persistence layer by ensuring project names can be saved, overridden, and consistently loaded across runs. With the schema/migrations, CLI prompt, and tests in place, we now have a clearer and more stable customization flow for project identity, which reduces downstream friction when generating portfolio/resume outputs.
+
+Next week, I’ll build on this by continuing Milestone 2-aligned work that benefits from stable project identity and customization, and I’ll address any edge cases that show up during review or integration.
 
 ---
 
