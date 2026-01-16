@@ -88,7 +88,7 @@ Building on last week’s database/persistence foundation work, this week I focu
 
 This week was productive because it improved the reliability and usability of our persistence layer by ensuring project names can be saved, overridden, and consistently loaded across runs. With the schema/migrations, CLI prompt, and tests in place, we now have a clearer and more stable customization flow for project identity, which reduces downstream friction when generating portfolio/resume outputs.
 
-Next week, I’ll build on this by continuing Milestone 2-aligned work that benefits from stable project identity and customization, and I’ll address any edge cases that show up during review or integration.
+Next week, I’ll keep tightening persistence and begin improving the CLI workflow so the tool is easier to use end-to-end from a user perspective.
 
 ---
 
