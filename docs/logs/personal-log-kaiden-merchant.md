@@ -14,6 +14,7 @@
 1. [Week 13](#week-13)
 1. [Week 14](#week-14)
 1. [Semester 2 - Week 1](#semester-2---week-1)
+1. [Semester 2 - Week 2](#semester-2---week-2)
 
 ## Week 3
 This section outlines the individual log for week 3
@@ -614,3 +615,68 @@ This section outlines the individual log for Semester 2 - Week 1
   - Deduplication strategy in pipeline processing
 - Research and plan for service API integration architecture
 
+## Semester 2 - Week 2
+This section outlines the individual log for Semester 2 - Week 2
+
+### January 13 - January 18
+
+### Tasks
+![](images/kaiden_sem2_week2_tasks.png)
+
+### Weekly Goals
+
+1. My Features:
+    - Implement database caching system for file analysis results
+    - Add duplicate file detection based on SHA256 hash comparison
+    - Integrate cache checking and reuse mechanism into pipeline
+    - Create comprehensive test suite for file analysis caching
+
+2. Associated Tasks
+    - File Analysis Cache Table Implementation
+    - Cache Storage and Retrieval Methods
+    - Pipeline Integration for Cache Checking
+    - Database Inspection Documentation
+    - Test Suite Development
+
+3. Completed/In-Progress
+    - ✅ Created `file_analysis_cache` table in database schema:`ProjectInsightsStore`:
+    - ✅ Integrated cache checking into pipeline orchestrator:
+        - Added `_build_sha256_lookup()` helper to map file paths to SHA256 hashes
+    - ✅ Created comprehensive test suite (`tests/insights/test_file_analysis_cache.py`):
+        - All tests passing
+
+### Key Implementation Details
+
+**Cache Workflow:**
+1. **First pipeline run**: Files analyzed normally, results cached by SHA256 hash
+2. **Subsequent runs**: Pipeline checks cache before analyzing each file
+3. **Cache hit**: Reuse stored result, increment `access_count`, update `last_accessed`
+4. **Cache miss**: Analyze file normally, store result in cache for future use
+5. **Console feedback**: Display cache hit rate per file type for user visibility
+
+### Reflection Points
+
+**What went well:**
+- Cache integration into pipeline was seamless with no breaking changes
+- Performance improvement is immediately visible through console output
+- Test coverage is comprehensive with 27 tests covering all scenarios
+
+**What didn't go well:**
+- Initial implementation had schema migration issues (old database needed deletion)
+
+**Technical Decisions:**
+- Created last_accessed column so we can check when the file was last used
+- Separated cache storage from file_info table for cleaner schema
+- Added access tracking (count + timestamp) for future cache eviction strategies
+- Made cache checking optional (gracefully handles missing insights_store)
+- Displayed cache statistics per file type for transparency
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 3 Goals:**
+- Begin API design exploration using FastAPI framework
+- Research RESTful API best practices for pipeline orchestration
+- Investigate async processing patterns for long-running pipeline operations
+- Explore file upload handling and temporary storage strategies
+- Plan error handling and response formatting standards
+- Research Docker containerization best practices for FastAPI services
