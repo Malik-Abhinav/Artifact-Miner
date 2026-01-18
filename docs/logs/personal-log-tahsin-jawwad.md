@@ -1,5 +1,8 @@
 # Personal Log
 
+[T2 Week 1 Personal Logs](#term-2-week-1)
+[T2 Week 2 Personal Logs](#term-2-week-2)
+
 [Week 3 Personal Logs](#week-3)
 [Week 4 Personal Logs](#week-4)
 [Week 5 Personal Logs](#week-5)
@@ -12,7 +15,6 @@
 [Week 12 Personal Logs](#week-12)
 [Week 13 Personal Logs](#week-13)
 [Week 14 Personal Logs](#week-14)
-[T2 Week 1 Personal Logs](#term-2-week-1)
 
 ## Week 3
 ### Date Range 
@@ -348,3 +350,66 @@ Also worked on creating/contributing towards Team Contract and Presentation Slid
 - Implement persistence layer (save/load/update/delete operations)
 - Create UI components for resume editing interface
 - Add bulk customization operations for multiple projects
+
+## Term 2 Week 2
+### Date Range 
+12th January 2026 - 18th January 2026
+
+### Connection to Previous Week
+Building on last week's resume customization feature (#191), this week focused on creating a unified CLI interface to make all pipeline functionality accessible from the command line. This provides the foundation for future UI/API development and makes the system more user-friendly for testing and demonstrations.
+
+### Type of Tasks Worked On
+![Tahsin Type of Tasks Term 2 Week 1](images/tahsin-t2-week-2.png)
+
+
+**Coding Tasks:**
+* Implemented unified CLI interface in `src/pipeline/cli.py`
+* Created five subcommands: `analyze`, `present`, `show-portfolio`, `show-resume`, and `list`
+* Developed module entry point `src/pipeline/__main__.py` enabling `python -m src.pipeline` usage
+* Implemented lazy imports to avoid loading heavy dependencies at module import time
+* Added comprehensive error handling with user-friendly messages and proper exit codes
+* Integrated consent management (data access + LLM) with orchestrator for `analyze` command
+* Built database encryption key support via environment variables
+* Implemented batch operations with optional limits for `present --all` command
+* Created human-readable output formatters for portfolio and resume display
+
+**Testing Tasks:**
+* Created comprehensive test suite in `tests/pipeline/test_pipeline_cli.py` 
+* Wrote 11 unit tests covering all CLI subcommands and main function behavior
+* Used mocking strategy to avoid heavy imports and ensure fast test execution 
+* Patched PresentationPipeline and orchestrator modules at appropriate levels
+* Captured stdout/stderr for output verification in formatting tests
+* Verified error handling paths and exit code correctness
+* Ensured no database or file system dependencies in tests
+* All tests passing with 100% success rate
+
+**Reviewing/Collaboration Tasks:**
+* Cleaned up comments while preserving functionality
+* Cherry-picked LOC reduction commit to `tests/cli-ui/tj` branch for clean PR workflow
+* Prepared two separate PRs: one for implementation, one for tests
+* Ensured backward compatibility with existing pipeline functionality
+
+### Pull Request Reviews 
+* **Add Resume Name Persistence, CLI Prompt, and Tests #202**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/202)
+  - `src/pipeline/cli.py` 
+  - `src/pipeline/__main__.py` 
+  - `src/pipeline/cli_formatters.py` 
+
+* This is the only PR reviewed at the time of logs. As more PRs come out, I will have reviewed more of them.
+
+### Task from Project Board
+* Initial CLI UI #204
+
+
+### Completed/In-progress Tasks
+* Initial CLI UI #204 (Completed)
+
+### Goals for Next Week
+* Begin work on web UI components that will consume the CLI/pipeline functionality
+* Begin working on FastAPI endpoints
+* Implement caching mechanism to avoid regenerating unchanged projects
+
+### Additional Notes
+* All existing tests remain passing 
+* CLI provides foundation for future API/UI development
+* Separation of concerns: formatting logic extracted for maintainability
