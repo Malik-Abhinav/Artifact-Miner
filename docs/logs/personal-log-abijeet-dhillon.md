@@ -22,7 +22,7 @@
 
 ### 1. Type of Tasks Worked On
 
-![Abijeet Dhillon Semester 2 Week 2 Task Types Screenshot]()
+![Abijeet Dhillon Semester 2 Week 2 Task Types Screenshot](images/abijeetdhillon_s2w2_tasks.png)
 
 ---
 
@@ -34,7 +34,7 @@ Building on last week’s database/persistence foundation work, this week I focu
 
 - Updated the schema/migrations to store `project_name` in `project_info` and wired inserts accordingly.
 - Extended resume-item persistence to optionally save the project name and adjusted loading logic to prefer the stored override.
-- Added an optional CLI prompt after analysis to collect custom project names before persistence.
+- Added an optional CLI prompt before analysis to collect custom project names for persistence.
 
 **Testing / debugging tasks**
 
