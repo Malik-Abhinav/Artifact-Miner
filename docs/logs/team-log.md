@@ -105,8 +105,6 @@ All new work this week was accompanied by automated tests and validated with loc
   - 18 unit tests covering scoring metrics, badge extraction, feedback keyword detection, and edge cases.
   - Integrated into orchestrator output and persisted through the store.
 
----
-
 ### 6. Additional Context
 
 This week established multiple Milestone 2 building blocks:
@@ -203,12 +201,30 @@ Tasks from Project Board Associated with These Features:
 
 All new work this week was accompanied by automated tests and targeted manual validation.
 
-- FastAPI skeleton and routes tested with pytest (health and runs endpoints)
-- Unified CLI covered by 11 unit tests across all subcommands
-- Portfolio/resume customization patch API covered with update and validation tests
-- File analysis cache covered with a comprehensive test suite for cache hits/misses
-- Project name persistence validated with updated resume customization tests
+![Kaiden tests](images/test-images/tests-week16-kaiden.png)
+- Kaiden (file analysis cache + duplicate detection)
+  - `pytest tests/insights/test_file_analysis_cache.py -v`
+  - Result: **23 passed** in 2.70s
 
+![Tahsin tests](images/test-images/tests-week16-abhijeet-tahsin.png)
+
+- Tahsin + Abijeet (CLI + project name persistence)
+  - `pytest tests/pipeline/test_pipeline_cli.py -v tests/test_resume_customization.py -q`
+  - Result: **23 passed** in 0.33s
+
+![Abdur tests](images/test-images/abdur-week16-tests.png)
+
+- Abdur (portfolio customization patch API + deletion endpoints)
+  - `pytest -q tests/insights/test_portfolio_customization.py tests/insights/test_deletion.py`
+  - Result: **5 passed** in 1.57s (4 warnings: Pydantic v1 validator deprecation and httpx app shortcut deprecation)
+  - Note: warnings are non-fatal deprecations and do not affect correctness of the endpoints tested.
+
+![Abhinav tests](images/test-images/abhinav-tests-week16.png)
+
+- Abhinav (FastAPI skeleton)
+  - `pytest tests/api/test_health.py tests/api/test_runs.py`
+  - Result: **2 passed**
+  - Note: scope is intentionally minimal (health + runs endpoints) for R31 service layer skeleton.
 ---
 
 ### 6. Additional Context
