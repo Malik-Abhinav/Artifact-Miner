@@ -67,6 +67,7 @@ My contributions included: - creating the FastAPI app entrypoint with OpenAPI do
 ---
 
 ### 7. Additional Context - Verified /docs, /health, and /runs with a stored pipeline run. - Resolved pytest environment and Windows temp DB cleanup issues to get tests passing.
+This work satisfies Milestone 2 requirement 31 only; full endpoint coverage (R32) will be implemented in next week sprint.
 
 ## Semester 1
 
