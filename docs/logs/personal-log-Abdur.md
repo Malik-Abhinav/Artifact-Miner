@@ -10,7 +10,9 @@
 1. [Week 12](#week-12)
 1. [Week 13](#week-13)
 1. [Week 14](#week-14)
-1. [Week 15](#week-15)
+1. [Week 1 semester 2](#week-1-semester-2)
+1. [Week 2 semester 2](#week-2-semester-2)
+
 
 ## Week 3 
 
@@ -450,7 +452,7 @@ This section outlines the individual log for week 13
 - Continue fostering team collaboration, ensuring adherence to the team contract in ongoing work.
 
 
-## Week 15
+## Week 1 semester 2
 This section outlines the individual log for week 1 of Semester 2
 ### Tasks
 ![](images/abdur-week1s2.png)
@@ -488,8 +490,52 @@ This section outlines the individual log for week 1 of Semester 2
 
 ### Planning Activities for Next Cycle
 
-**Week 16 Goals:**  
+**Week 2 semester 2  Goals:**  
 - Integrate the thumbnail upload router into the main application if not already done.  
 - Add **persistent storage** (local or S3) for uploaded thumbnails.  
 - Introduce a **thumbnail URL field** in the project model and database.  
 
+## Week 2 semester 2  
+This section outlines the individual log for week 15 of Semester 2  
+
+### Tasks
+
+- Implemented a **persistent storage layer** to support portfolio insight customization, including updating editable portfolio fields and replacing resume bullets.  
+- Added transactional methods to ensure **safe and consistent updates** while honoring the existing database schema.  
+- Developed a **PATCH API endpoint** (`/insights/portfolio/{project_info_id}`) to apply portfolio and resume updates selectively using validated payloads.  
+- Introduced **input validation and whitelisting** to prevent unintended field updates and ensure clean resume bullet data.  
+- Wrote **automated tests** to verify successful updates, no-op behavior, and proper handling of invalid project IDs.  
+- Created and finalized a **Pull Request** documenting the feature, API behavior, and test coverage.
+
+---
+
+### Weekly Goals
+
+1. **Feature Development:**  
+   - Enable users to **customize portfolio insight fields** and manually manage resume bullets.  
+   - Ensure updates are **persisted reliably** using transactions.
+
+2. **Testing & Quality:**  
+   - Add **pytest coverage** to confirm persistence, ordering, and error handling.  
+   - Validate API responses for success, no-op updates, and missing resources.
+
+---
+
+### Reflection Points
+
+**What went well:**  
+- The storage and API layers were implemented cleanly and integrated smoothly with the existing insights system.  
+- Using transactions helped ensure data consistency when updating multiple related records.  
+- The tests provided strong confidence that both positive and negative cases behave as expected.
+
+**What didn’t go well:**  
+- Some time was spent refining payload validation and handling no-op updates, but no major blockers were encountered.
+
+---
+
+### Planning Activities for Next Cycle
+
+**Week 3 semester 2 Goals:**  
+- Run full test suites to validate compatibility with other insights routes.  
+- Integrate the insights router into the main FastAPI application if not already included.  
+- Explore extending customization support to additional portfolio fields or UI-driven edits.
