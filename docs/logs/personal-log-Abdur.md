@@ -499,7 +499,7 @@ This section outlines the individual log for week 1 of Semester 2
 This section outlines the individual log for week 15 of Semester 2  
 
 ### Tasks
-
+![](images/abdur-week2s2.png)
 - Implemented a **persistent storage layer** to support portfolio insight customization, including updating editable portfolio fields and replacing resume bullets.  
 - Added transactional methods to ensure **safe and consistent updates** while honoring the existing database schema.  
 - Developed a **PATCH API endpoint** (`/insights/portfolio/{project_info_id}`) to apply portfolio and resume updates selectively using validated payloads.  
