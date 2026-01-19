@@ -1,5 +1,7 @@
-# Team 14 – Capstone Project Team Log
+# Team 14 - Capstone Project Team Log
 
+[Semester 2 - Week 1 Team Logs](#s2w1)<br>
+[Semester 2 - Week 2 Team Logs](#s2w2)<br>
 [Week 3 Team Logs](#week-3)<br>
 [Week 4 Team Logs](#week-4)<br>
 [Week 5 Team Logs](#week-5)<br>
@@ -11,8 +13,253 @@
 [Week 11 Team Logs](#week-11)<br>
 [Week 12 Team Logs](#week-12)<br>
 [Week 13 Team Logs](#week-13)<br>
-[Week 14 Team Logs](#week-14)
-[Week 15 Team Logs](#week-15)<br>
+[Week 14 Team Logs](#week-14)<br>
+
+## Semester 2
+
+<a id="s2w1"></a>
+## Semester 2 - Week 1 (Week 15 - January 5 2026 to January 11 2026)
+
+### January 5 2026 to January 11 2026
+
+### 1. Milestone Goals Recap
+
+This week marked the kickoff of Milestone 2 work, focused on enabling human-in-the-loop customization and strengthening the system foundation needed for incremental ingest and user edits.
+
+Planned Features for This Milestone:
+- Incorporate key role of the user in a given project
+- Allow user to associate an image for a given project to use as the thumbnail
+- Display and customize portfolio and r-sum- information through service style workflows
+- Strengthen persistence layer to support upcoming Milestone 2 features
+
+Tasks from Project Board Associated with These Features:
+- #184 Thumbnail Upload Endpoint
+- #191 Resume Item Customization
+- #186 Normalize SQLite Schema (Design + Docs)
+- #187 Normalize SQLite Schema (Migration + Storage Refactor)
+- #198 Project User Role Customization
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 15](images/week15-chart.png)
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Week 15](images/week15-tasks.png)
+
+| Task ID | Issue Title                                                  | Username        | Associated Feature                                   | Status    |
+| ------- | ------------------------------------------------------------ | --------------- | ---------------------------------------------------- | --------- |
+| 186     | Define normalized SQLite schema + document in database_schema.md | abijeet-dhillon | Milestone 2 Foundation. Persistence and relationships | Completed |
+| 187     | Implement migration/backfill to normalized schema + update storage APIs | abijeet-dhillon | Milestone 2 Foundation. Normalized persistence layer  | Completed |
+| 184     | Thumbnail upload endpoint (form + upload validation + tests) | abdur026        | Project Thumbnail Association                         | Completed |
+| 191     | Non persistent resume item customization (runtime edits + tests) | tahsinj         | Resume Item Customization                             | Completed |
+| 198     | Incorporate key role of the user in a given project          | Malik-Abhinav   | Project Role Metadata                                | Completed |
+| -       | Success Metrics Analyzer (evidence signals + scoring + tests) | kmerchant1      | Evidence of Success Metrics                           | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this week was accompanied by automated tests and validated with local and Docker runs where applicable.
+
+- Normalized SQLite Schema Refactor
+  - End to end save and retrieve flows validated after migrating to explicit tables.
+  - Tests updated to reflect new table names and query paths.
+
+- Thumbnail Upload Feature
+  - Pytest TestClient coverage for:
+    - Upload form rendering
+    - Valid uploads (PNG, JPEG, WebP)
+    - Invalid file types rejected
+    - Files larger than 5 MB rejected
+
+- Resume Item Customization
+  - 11 unit tests validating:
+    - Override precedence and index edits
+    - Input validation and error messaging
+    - No mutation behavior
+  - Verified existing presentation and pipeline test suites remain passing.
+
+- Project User Role Customization
+  - Validated role persistence and merge into project retrieval without modifying extracted insight payloads.
+  - Confirmed role data cleanup behavior aligns with project deletion lifecycle.
+
+- Success Metrics Analyzer
+  - 18 unit tests covering scoring metrics, badge extraction, feedback keyword detection, and edge cases.
+  - Integrated into orchestrator output and persisted through the store.
+
+### 6. Additional Context
+
+This week established multiple Milestone 2 building blocks:
+
+- Database foundation was modernized through a normalized schema, improving support for future requirements like incremental ingest, deduplication, and per project customization.
+- Human-in-the-loop customization began with role metadata and resume item wording edits, setting a clear separation between extracted insights and user edits.
+- The thumbnail upload endpoint provides a controlled path for associating project images, with validation and tests in place.
+- Success metrics work initiated structured evidence of success signals that can later be surfaced in portfolio and r-sum- views.
+
+---
+
+### 7. Future Cycle Plans
+
+Next cycle will focus on integrating Milestone 2 customization and incrementality end to end:
+
+- Connect thumbnail upload to persistent storage and project records. Store and retrieve a thumbnail reference per project.
+- Add persistence for resume customization and expand portfolio customization support.
+- Implement incremental ingest. Add another ZIP to the same portfolio or r-sum- while preventing duplicates.
+- Implement duplicate file detection and retention. Use hash based dedupe across projects and runs.
+- Begin API first service workflows for retrieving and updating user customizations through stable endpoints.
+
+---
+
+### 8. Reflection on This Cycle
+
+What went well:
+- Multiple Milestone 2 aligned features shipped in parallel with tests, including customization, uploads, and database foundation work.
+- The normalized database overhaul removed a major blocker and makes upcoming features easier to implement cleanly.
+
+What could be improved:
+- Coordinate integration checkpoints earlier when multiple PRs touch storage and retrieval paths, to reduce merge conflicts and duplicate adjustments.
+
+How this informs us for the next cycle:
+- Prioritize end to end integration. Schema changes, API endpoints, and customization flows should be validated together using a single demo ZIP to ensure consistency across modules.
+
+<a id="s2w2"></a>
+## Semester 2 - Week 2 (Week 16 - January 12 2026 to January 18 2026)
+
+### January 12 2026 to January 18 2026
+
+### 1. Milestone Goals Recap
+
+This week focused on expanding Milestone 2 foundations with API, CLI, and persistence improvements across the pipeline.
+
+Planned Features for This Milestone:
+- Add a minimal FastAPI service layer for backend-frontend communication (R31)
+- Strengthen persistence for portfolio/resume customization and project naming
+- Improve pipeline usability through a unified CLI
+- Reduce duplicate work via file analysis caching
+
+Tasks from Project Board Associated with These Features:
+- PR #214 - FastAPI service layer skeleton
+- Issue #201 - Persist custom project names
+- Issue #204 - Initial CLI UI
+- Portfolio/Resume customization persistence and patch API updates
+- File analysis cache and duplicate detection
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 16](images/week16-chart.png)
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Week 16](images/week16-tasks.png)
+
+| Task ID | Issue Title                                               | Username        | Associated Feature                              | Status    |
+| ------- | --------------------------------------------------------- | --------------- | ----------------------------------------------- | --------- |
+| 214     | FastAPI service layer skeleton (R31)                      | Malik-Abhinav   | API service layer                               | Completed |
+| 204     | Unified pipeline CLI interface                            | tahsinj         | CLI UX and orchestration                        | Completed |
+| 201     | Persist custom project names in storage + CLI prompt       | abijeet-dhillon | Project identity persistence                    | Completed |
+| N/A     | Portfolio/resume customization persistence + patch API     | abdur026        | Insights customization API                      | Completed |
+| N/A     | File analysis cache + duplicate detection (SHA256)         | kmerchant1      | Pipeline cache and performance                  | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this week was accompanied by automated tests and targeted manual validation.
+
+![Kaiden tests](images/test-images/tests-week16-kaiden.png)
+- Kaiden (file analysis cache + duplicate detection)
+  - `pytest tests/insights/test_file_analysis_cache.py -v`
+  - Result: **23 passed** in 2.70s
+
+![Tahsin tests](images/test-images/tests-week16-abhijeet-tahsin.png)
+
+- Tahsin + Abijeet (CLI + project name persistence)
+  - `pytest tests/pipeline/test_pipeline_cli.py -v tests/test_resume_customization.py -q`
+  - Result: **23 passed** in 0.33s
+
+![Abdur tests](images/test-images/abdur-week16-tests.png)
+
+- Abdur (portfolio customization patch API + deletion endpoints)
+  - `pytest -q tests/insights/test_portfolio_customization.py tests/insights/test_deletion.py`
+  - Result: **5 passed** in 1.57s (4 warnings: Pydantic v1 validator deprecation and httpx app shortcut deprecation)
+  - Note: warnings are non-fatal deprecations and do not affect correctness of the endpoints tested.
+
+![Abhinav tests](images/test-images/abhinav-tests-week16.png)
+
+- Abhinav (FastAPI skeleton)
+  - `pytest tests/api/test_health.py tests/api/test_runs.py`
+  - Result: **2 passed**
+  - Note: scope is intentionally minimal (health + runs endpoints) for R31 service layer skeleton.
+---
+
+### 6. Additional Context
+
+This week delivered key Milestone 2 building blocks:
+- A minimal FastAPI service layer now exists for backend-frontend communication (R31)
+- A unified CLI improves usability and supports demos and testing
+- Persistence work improved stability for project naming and customization flows
+- Caching and duplicate detection reduce redundant analysis across runs
+
+---
+
+### 7. Future Cycle Plans
+
+- Add additional FastAPI endpoints for project, resume, and portfolio workflows
+- Integrate insights customization routes into the main FastAPI app if needed
+- Expand cache strategy and consider eviction policies
+- Continue improving CLI UX and error handling
+
+---
+
+### 8. Reflection on This Cycle
+
+What went well:
+- Multiple Milestone 2 features shipped in parallel with tests and clean integration
+- The CLI and API foundations make future frontend work much easier
+
+What could be improved:
+- More coordination on shared persistence changes would reduce overlap
+
+How this informs us for the next cycle:
+- Prioritize API endpoint expansion and end-to-end validation using a single demo dataset
+
+
+## Semester 1
 
 ## Week 3
 
@@ -31,7 +278,7 @@
 
 ![Burnup Chart Placeholder](images/burnout-update.png)
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -80,7 +327,7 @@ Future weeks will include more detailed documentation of tasks as work progresse
 
 ![Burnup Chart Placeholder](images/burnup-chart-week4.png)
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -127,7 +374,7 @@ This week the team focused on defining the scope of the project and capturing th
 
 ![Burnup Chart For Week 5](images/burnout-update.png)
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -178,7 +425,7 @@ This week the team focused on researching and learning about data flow diagrams,
 
 ![Burnup Chart For Week 6](images/burnout-update.png)
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -215,12 +462,12 @@ This sprint focused more on understanding the full requirements, revising docs, 
 
 ### 1. Milestone Goals Recap
 
-This week’s milestone focused on implementing and validating several core backend components that support data ingestion and structured representation of project files:
+This week-s milestone focused on implementing and validating several core backend components that support data ingestion and structured representation of project files:
 
 - (#18) Zip Folder Validation and Basic Parser
 - (#50) Categorize Files & Create Structured Representation
-- (#16) User Consent – Directory Access
-- (#17) User Consent – External LLM Data Access
+- (#16) User Consent - Directory Access
+- (#17) User Consent - External LLM Data Access
 - (#20) External LLM analysis
 
 The goal was to extend the parsing layer so that all team members can validate and categorize project data in a reproducible, Dockerized environment.
@@ -229,7 +476,7 @@ The goal was to extend the parsing layer so that all team members can validate a
 
 ![Burnup Chart For Week 7](images/week7-burnup-chart.png)
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -256,12 +503,12 @@ All pytest suites passed successfully this week.
 
 - Tests implemented for Zip Folder Validation and Basic Parser (#18)
 - Tests implemented for Categorize Files & Create Structured Representation (#50)
-- Tests implemented for User Consent – Directory Access (#16)
-- Tests implemented for User Consent – External LLM Data Access (#17)
+- Tests implemented for User Consent - Directory Access (#16)
+- Tests implemented for User Consent - External LLM Data Access (#17)
 
 ### 7. Future Cycle Plans
 
-To build upon this cycle’s work and address identified challenges, the team will:
+To build upon this cycle-s work and address identified challenges, the team will:
 
 - Set up the analysis pipeline to connect the parsing and categorization layers into a unified data flow.
 - Implement storing/loading of user configurations to handle environment differences between Docker and local setups.
@@ -273,15 +520,15 @@ To build upon this cycle’s work and address identified challenges, the team wi
 
 What went well:
 
-- The team made strong progress on foundational backend functionality. We successfully implemented the zip folder validation, basic parser, and file categorization system that generates a structured representation of the project’s folder hierarchy. These features were integrated smoothly into the existing backend and passed all associated tests.
+- The team made strong progress on foundational backend functionality. We successfully implemented the zip folder validation, basic parser, and file categorization system that generates a structured representation of the project-s folder hierarchy. These features were integrated smoothly into the existing backend and passed all associated tests.
 
-What didn’t go as well:
+What didn-t go as well:
 
-- Time management was a challenge this week due to multiple academic commitments — specifically, studying and preparation for ongoing midterms (including this course's quiz) reduced the amount of time available to work toward issues. This caused slower progress on project features, which will carry over into the next cycle.
+- Time management was a challenge this week due to multiple academic commitments - specifically, studying and preparation for ongoing midterms (including this course's quiz) reduced the amount of time available to work toward issues. This caused slower progress on project features, which will carry over into the next cycle.
 
 How this informs next cycle:
 
-- To maintain steady momentum, the next cycle’s plan includes subdividing large tasks and setting clearer priorities early in the week. This will ensure that high-priority features receive consistent progress even during heavier academic weeks.
+- To maintain steady momentum, the next cycle-s plan includes subdividing large tasks and setting clearer priorities early in the week. This will ensure that high-priority features receive consistent progress even during heavier academic weeks.
 
 ## Week 8
 
@@ -289,12 +536,12 @@ How this informs next cycle:
 
 ### 1. Milestone Goals Recap
 
-This week’s milestone focused on expanding the Local Analysis Pipeline with specialized analyzers for multiple file types. Team members developed and tested modules as part of the unified local analyzer framework.
+This week-s milestone focused on expanding the Local Analysis Pipeline with specialized analyzers for multiple file types. Team members developed and tested modules as part of the unified local analyzer framework.
 
-- (#72) Local Analysis Pipeline – Code Analyzer
-- (#71) Local Analyzer – Video Processor
-- (#70) Local Analyzer – PNG/JPEG Processor
-- (#69) Local Analyzer – TXT File Processor
+- (#72) Local Analysis Pipeline - Code Analyzer
+- (#71) Local Analyzer - Video Processor
+- (#70) Local Analyzer - PNG/JPEG Processor
+- (#69) Local Analyzer - TXT File Processor
 - (#75) Connect Zip Folder Parser to Categorizer
 - (#22) Store/Load User Configurations
 
@@ -308,7 +555,7 @@ The goal for this milestone was to implement standalone analyzers capable of sca
 
 ---
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -328,10 +575,10 @@ The goal for this milestone was to implement standalone analyzers capable of sca
 | Task ID | Issue Title                              | Username        | Associated Feature                       | Status    |
 | ------- | ---------------------------------------- | --------------- | ---------------------------------------- | --------- |
 | 22      | Store/Load User Configurations           | abijeet-dhillon | Store User Configurations for Future Use | Completed |
-| 72      | Local Analysis Pipeline – Code Analyzer  | tahsinj         | Code Analyzer                            | Completed |
-| 71      | Local Analyzer – Video Processor         | Malik-Abhinav   | Video Analyzer                           | Completed |
-| 70      | Local Analyzer – PNG/JPEG Processor      | abdur026        | Image Analyzer                           | Completed |
-| 69      | Local Analyzer – TXT File Processor      | kmerchant1      | Text Analyzer                            | Completed |
+| 72      | Local Analysis Pipeline - Code Analyzer  | tahsinj         | Code Analyzer                            | Completed |
+| 71      | Local Analyzer - Video Processor         | Malik-Abhinav   | Video Analyzer                           | Completed |
+| 70      | Local Analyzer - PNG/JPEG Processor      | abdur026        | Image Analyzer                           | Completed |
+| 69      | Local Analyzer - TXT File Processor      | kmerchant1      | Text Analyzer                            | Completed |
 | 75      | Connect Zip Folder Parser to Categorizer | abijeet-dhillon | Parser Integration                       | Completed |
 
 ---
@@ -340,12 +587,12 @@ The goal for this milestone was to implement standalone analyzers capable of sca
 
 All automated tests for the new analyzer modules passed successfully.
 
-- ✅ Code Analyzer — 97% test coverage with comprehensive unit tests
-- ✅ Video Analyzer — 97% test coverage, validated with CLI output
-- ✅ Image Analyzer — verified image metadata extraction and format detection
-- ✅ Text Analyzer — validated text parsing and tokenization
-- ✅ Integration with categorizer under active development
-- ✅ Storing and loading user configurations
+- - Code Analyzer - 97% test coverage with comprehensive unit tests
+- - Video Analyzer - 97% test coverage, validated with CLI output
+- - Image Analyzer - verified image metadata extraction and format detection
+- - Text Analyzer - validated text parsing and tokenization
+- - Integration with categorizer under active development
+- - Storing and loading user configurations
 
 Each analyzer was tested using pytest with coverage reports, and manual CLI validation was performed where applicable.
 
@@ -353,7 +600,7 @@ Each analyzer was tested using pytest with coverage reports, and manual CLI vali
 
 ### 6. Additional Context
 
-This week marked a major milestone — completing the core components of the Local Analysis Layer, which now supports multiple file formats.  
+This week marked a major milestone - completing the core components of the Local Analysis Layer, which now supports multiple file formats.  
 The analyzers share a consistent design pattern, making future integration into the categorization and visualization modules straightforward. We also connected the parser to the categorizer and implemented a user configuration storage system.
 
 The team also worked on documenting testing procedures and improving module readability to support easier collaboration and merging.
@@ -383,7 +630,7 @@ What could be improved:
 
 How this informs us for the next cycle:
 
-- Overall, this sprint was productive — we now have a basic foundation for the Local Analysis Pipeline. The core analyzers for different file types are in place and functioning individually. We also have an initial user configuration storage system.
+- Overall, this sprint was productive - we now have a basic foundation for the Local Analysis Pipeline. The core analyzers for different file types are in place and functioning individually. We also have an initial user configuration storage system.
 - In the next cycle, we plan to connect these modules together, introduce a database layer, and expand the analysis capabilities to provide deeper, more integrated insights across all local artifacts.
 
 ## Week 9
@@ -392,7 +639,7 @@ How this informs us for the next cycle:
 
 ### 1. Milestone Goals Recap
 
-This week’s milestone focused on improving the Local Analysis Pipeline by implementing libraries and fixing previous issues. Team members developed and tested modules as part of the unified local analyzer framework.
+This week-s milestone focused on improving the Local Analysis Pipeline by implementing libraries and fixing previous issues. Team members developed and tested modules as part of the unified local analyzer framework.
 
 - (#97) Rsearch how we are going to build the report
 - (#95) Fix local pipeline for analyzing pdf files
@@ -408,7 +655,7 @@ This week’s milestone focused on improving the Local Analysis Pipeline by impl
 
 ---
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -439,9 +686,9 @@ This week’s milestone focused on improving the Local Analysis Pipeline by impl
 
 All automated tests for the updated modules passed successfully.
 
-- Language and Framework Identification — 95 total tests passing with 71 new tests in a comprehensive unit tests
-- Video Analyzer — 17 tests passing for the new implementation
-- Generate Chronological Skill List — all tests implemented and passing with good coverage
+- Language and Framework Identification - 95 total tests passing with 71 new tests in a comprehensive unit tests
+- Video Analyzer - 17 tests passing for the new implementation
+- Generate Chronological Skill List - all tests implemented and passing with good coverage
 - Photo Analyzer - all tests implemented and passing with good coverage
 
 Each code feature was tested using pytest with coverage reports, and manual testing where needed.
@@ -485,7 +732,7 @@ What went well:
 What could be improved:
 
 - Merge conflicts did occur once when integrating with the develop branch, highlighting the need for more frequent syncing with the main branch during development.
-- Some features require additional optional dependencies, which adds complexity to the deployment and testing process — better documentation of dependencies is needed.
+- Some features require additional optional dependencies, which adds complexity to the deployment and testing process - better documentation of dependencies is needed.
 - Cross-module integration testing remains limited; we're testing components individually but not yet validating the full pipeline end-to-end.
 
 How this informs us for the next cycle:
@@ -518,7 +765,7 @@ This week's milestone focused on pipeline integration, database setup, and enhan
 
 ---
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -551,10 +798,10 @@ This week's milestone focused on pipeline integration, database setup, and enhan
 
 All automated tests for the new and updated modules passed successfully.
 
-- **Pipeline Orchestrator** — 18 comprehensive tests covering ZIP parsing, categorization, edge cases, and integration (all passing)
-- **Database Layer** — Tests for schema creation, CRUD operations, and data persistence (all passing)
-- **Git Repository Analysis** — Tests for individual/collaboration detection and contribution metrics (all passing)
-- **Parser Updates** — Tests verifying absolute path handling and backward compatibility (all passing)
+- **Pipeline Orchestrator** - 18 comprehensive tests covering ZIP parsing, categorization, edge cases, and integration (all passing)
+- **Database Layer** - Tests for schema creation, CRUD operations, and data persistence (all passing)
+- **Git Repository Analysis** - Tests for individual/collaboration detection and contribution metrics (all passing)
+- **Parser Updates** - Tests verifying absolute path handling and backward compatibility (all passing)
 
 Each feature was developed following TDD principles with pytest, achieving good test coverage across all new functionality.
 
@@ -609,10 +856,10 @@ What went well:
 
 What could be improved:
 
-- Initial Docker container lifecycle confusion caused some delays — better documentation of container management patterns would help onboarding.
-- Python path issues with pytest imports required workarounds (`sys.path` manipulation) — should investigate proper package installation or PYTHONPATH configuration.
-- Some test expectations needed adjustment (e.g., JSON files categorized as code, not other) — clearer documentation of categorization rules would prevent confusion.
-- Integration testing between components is still limited — we're testing orchestrator and analyzers separately but not yet validating the full end-to-end flow.
+- Initial Docker container lifecycle confusion caused some delays - better documentation of container management patterns would help onboarding.
+- Python path issues with pytest imports required workarounds (`sys.path` manipulation) - should investigate proper package installation or PYTHONPATH configuration.
+- Some test expectations needed adjustment (e.g., JSON files categorized as code, not other) - clearer documentation of categorization rules would prevent confusion.
+- Integration testing between components is still limited - we're testing orchestrator and analyzers separately but not yet validating the full end-to-end flow.
 
 How this informs us for the next cycle:
 
@@ -637,7 +884,7 @@ Key milestone goals included:
 - Expand advanced skill extraction with deep CS concept detection across multiple languages
 - Refactor the pipeline architecture to support multi-project ZIPs and orchestrate analyzers in a project-centric workflow
 - Build contribution aggregation, ranking, and scoring components for project metrics
-- Generate portfolio and résumé items for each analyzed project
+- Generate portfolio and r-sum- items for each analyzed project
 - Add ranking and summary generation modules to support later reporting and UI layers
 
 ---
@@ -648,7 +895,7 @@ Key milestone goals included:
 
 ---
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -670,12 +917,12 @@ Key milestone goals included:
 | 144     | Deep CS Concept Detection for Skill Extractor      | Malik-Abhinav   | Advanced Skill Extractor    | Completed |
 | 30      | Store Project Insights                             | abijeet-dhillon | Database Insights Layer     | Completed |
 | 127     | Integrate User Configs Into SQLite Database        | abijeet-dhillon | Config Persistence          | Completed |
-| –       | Orchestrator Refactoring & Multi-Project Detection | kmerchant1      | Pipeline Architecture       | Completed |
-| –       | Git Repository Integration into Pipeline           | kmerchant1      | Git Analyzer Integration    | Completed |
-| –       | Connect Local Analyzer Components to Orchestrator  | kmerchant1      | Pipeline Integration        | Completed |
-| –       | Generate Portfolio and Resume Data                 | tahsinj         | Presentation Generator      | Completed |
-| –       | Extract Key Contribution Metrics                   | tahsinj         | Contribution Aggregator     | Completed |
-| –       | Ranking and Summary Generation Module              | abdur026        | Project Ranking & Summaries | Completed |
+| -       | Orchestrator Refactoring & Multi-Project Detection | kmerchant1      | Pipeline Architecture       | Completed |
+| -       | Git Repository Integration into Pipeline           | kmerchant1      | Git Analyzer Integration    | Completed |
+| -       | Connect Local Analyzer Components to Orchestrator  | kmerchant1      | Pipeline Integration        | Completed |
+| -       | Generate Portfolio and Resume Data                 | tahsinj         | Presentation Generator      | Completed |
+| -       | Extract Key Contribution Metrics                   | tahsinj         | Contribution Aggregator     | Completed |
+| -       | Ranking and Summary Generation Module              | abdur026        | Project Ranking & Summaries | Completed |
 
 ---
 
@@ -710,7 +957,7 @@ This two-week sprint represents one of the most significant integration phases s
 - Persistent configuration and encrypted insights storage
 - Multi-project ZIP detection and orchestrated analysis for each directory
 - Automatic Git analysis when repositories are detected
-- Generation of portfolio-ready descriptions and résumé bullet points
+- Generation of portfolio-ready descriptions and r-sum- bullet points
 - Contribution metric aggregation and deterministic project ranking
 - Unified data models across local analyzers, git analyzers, and project presentation modules
 
@@ -719,15 +966,15 @@ Key achievements:
 - The orchestrator now handles real-world multi-project layouts with robust error handling.
 - The database layer supports encrypted insights, user configurations, and reproducible stored runs.
 - The advanced skill extractor now analyzes architectural patterns, algorithms, object-oriented principles, functional patterns, and module-level structure.
-- Presentation modules produce professional portfolio and résumé items automatically.
+- Presentation modules produce professional portfolio and r-sum- items automatically.
 - Ranking and summary generation enables the upcoming reporting and frontend stages.
 
 ---
 
 ### 7. Future Cycle Plans
 
-- Connect pipeline output to the database for full ingestion of project insights, ranking results, and résumé/portfolio data.
-- Begin full end-to-end testing across pipeline → database → retrieval.
+- Connect pipeline output to the database for full ingestion of project insights, ranking results, and r-sum-/portfolio data.
+- Begin full end-to-end testing across pipeline - database - retrieval.
 - Implement API endpoints for pipeline execution, stored insights retrieval, and project ranking queries.
 - Prepare for Milestone 1 submission with documentation, demos, and integration verification.
 - Add complexity analysis module and chronological skill ordering (from Week 12 plans).
@@ -766,13 +1013,13 @@ This one-week cycle focused on closing the loop on our Milestone 1 pipeline by:
 - Implementing a **complete deletion lifecycle** for stored insights (storage layer, API layer, and audit logging).
 - Finalizing **LLM consent integration** into the pipeline CLI and SQLite-backed user config system.
 - Integrating the **advanced skill extractor**, **project ranking**, and **chronological skills timeline** into the orchestrator and persistence layer.
-- Generating **portfolio and résumé items directly from the database**, including richer metrics and quality indicators.
+- Generating **portfolio and r-sum- items directly from the database**, including richer metrics and quality indicators.
 
 Key milestone goals included:
 
 - Add irreversible, audited deletion for project insights (delete_all, delete_zip, delete_project) across storage, API, and docs.
 - Wire LLM consent into the config system so users see a one-time prompt backed by persistent configuration.
-- Integrate advanced skill analysis, project ranking/summaries, and a chronological skills timeline into the main pipeline and ensure they’re persisted.
+- Integrate advanced skill analysis, project ranking/summaries, and a chronological skills timeline into the main pipeline and ensure they-re persisted.
 - Enhance portfolio/resume generation with more expressive metrics and copy, and load items directly from stored project insights.
 
 ---
@@ -783,7 +1030,7 @@ Key milestone goals included:
 
 ---
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -805,13 +1052,13 @@ Key milestone goals included:
 | 30      | Store Project Insights (Deletion & Audit Log)        | abijeet-dhillon | Database Insights Layer              | Completed   |
 | 148     | Connect User Configuration to Pipeline (LLM Consent) | abijeet-dhillon | Config Persistence & Consent Flow    | Completed   |
 | 31      | Generate Portfolio/Resume Item using Database        | tahsinj         | Presentation Generator               | Completed   |
-| –       | Integrate AdvancedSkillExtractor into Orchestrator   | abdur026        | Advanced Skill Extractor Integration | Completed   |
-| –       | Project Ranking & Summary Generation Integration     | abdur026        | Project Ranking & Summaries          | Completed   |
-| –       | Chronological Skills Timeline Integration            | abdur026        | Skills Timeline                      | Completed   |
-| –       | JSON Serialization Bug Fixes for Persistence         | abdur026        | Pipeline Robustness / Persistence    | Completed   |
-| –       | Deletion Routes & Tests in FastAPI Layer             | abijeet-dhillon | API Layer (DELETE Endpoints)         | Completed   |
-| –       | Generate Chronological Project List                  | mishagavura     | Project Analytics                    | In Progress |
-| –       | Rank Projects by Contribution Significanc            | mishagavura     | Project Analytics                    | In Progress |
+| -       | Integrate AdvancedSkillExtractor into Orchestrator   | abdur026        | Advanced Skill Extractor Integration | Completed   |
+| -       | Project Ranking & Summary Generation Integration     | abdur026        | Project Ranking & Summaries          | Completed   |
+| -       | Chronological Skills Timeline Integration            | abdur026        | Skills Timeline                      | Completed   |
+| -       | JSON Serialization Bug Fixes for Persistence         | abdur026        | Pipeline Robustness / Persistence    | Completed   |
+| -       | Deletion Routes & Tests in FastAPI Layer             | abijeet-dhillon | API Layer (DELETE Endpoints)         | Completed   |
+| -       | Generate Chronological Project List                  | mishagavura     | Project Analytics                    | In Progress |
+| -       | Rank Projects by Contribution Significanc            | mishagavura     | Project Analytics                    | In Progress |
 
 ---
 
@@ -822,7 +1069,7 @@ All automated tests for new and updated modules passed successfully, and we perf
 - **Deletion Lifecycle (Insights Store + API)**
 
   - Storage-level tests covering `delete_all`, `delete_zip`, and `delete_project`, including multiple ZIPs and nested project data.
-  - API-level tests for FastAPI DELETE endpoints, with auto-skip behavior when FastAPI isn’t installed.
+  - API-level tests for FastAPI DELETE endpoints, with auto-skip behavior when FastAPI isn-t installed.
   - Manual testing against `data/app.db` to confirm irreversible deletion behavior and verify that shared data structures remain intact after project-level deletion.
   - Deletion audit log verified for correct entries and compatibility with the encrypted database structure.
 
@@ -842,11 +1089,11 @@ All automated tests for new and updated modules passed successfully, and we perf
   - Tested `_build_chronological_skills()` to ensure chronological skills timeline output is stored in `chronological_skills` and printed cleanly via console output for manual inspection.
   - JSON serialization tests validate `_make_json_serializable()` handles NumPy types, PIL EXIF types (e.g., `IFDRational`), datetimes, bytes, and custom classes before persistence.
 
-- **Portfolio & Résumé Generation from Database**
+- **Portfolio & R-sum- Generation from Database**
   - Comprehensive test suite (46 tests: 40 unit, 5 integration, 1 demo) covering:
     - Extended `ProjectMetrics` and `PortfolioItem` dataclasses (documentation metrics, media metrics, test metrics, quality flags, project_type, complexity, key_features).
     - `extract_project_metrics()` coverage for documentation, tests, images, and videos.
-    - Enhanced description and résumé bullet generation (multi-sentence, action-oriented, professional phrasing).
+    - Enhanced description and r-sum- bullet generation (multi-sentence, action-oriented, professional phrasing).
     - `load_project_insight_by_id()` behavior for direct project lookup from `ProjectInsightsStore`.
   - Integration tests updated for the richer output format while maintaining backward compatibility.
 
@@ -856,12 +1103,12 @@ All components were also validated manually using CLI commands and Dockerized ru
 
 ### 6. Additional Context
 
-This week’s work tightened the entire insights lifecycle and made the pipeline feel much closer to “production-ready”:
+This week-s work tightened the entire insights lifecycle and made the pipeline feel much closer to -production-ready-:
 
 - The **insights deletion flow** is now end-to-end: storage operations, audit logging, and FastAPI DELETE routes are implemented, tested, and documented, with irreversible behavior clearly validated.
 - **LLM consent** is fully wired through our existing SQLite-backed `UserConfigManager`, making consent feel like a one-and-done decision that can still be updated via the config CLI.
 - The **advanced skill extractor**, **project ranking**, and **chronological skills timeline** are now first-class pieces of the orchestrator, with results stored in the encrypted JSON blob and surfaced via console output for easy manual inspection.
-- **Portfolio and résumé items** are generated directly from database-backed insights with richer metrics and quality indicators (tests, documentation, media, etc.), setting us up for later UI and export features.
+- **Portfolio and r-sum- items** are generated directly from database-backed insights with richer metrics and quality indicators (tests, documentation, media, etc.), setting us up for later UI and export features.
 - As a team, we also synced on how these flows will be communicated in Milestone 1: slides, video demo, and documentation (including the updated `docs/config_management.md` and deletion/insights lifecycle docs).
 
 ---
@@ -872,12 +1119,12 @@ Looking ahead to Week 14 and beyond, the team plans to:
 
 - **Finalize Milestone 1 integration**
 
-  - Conduct full end-to-end validation: pipeline → database → retrieval → deletion → portfolio/resume generation.
+  - Conduct full end-to-end validation: pipeline - database - retrieval - deletion - portfolio/resume generation.
   - Ensure all integration points for Milestone 1 are stable and well-documented.
 
 - **Strengthen Documentation & Lifecycle Narratives**
 
-  - Improve documentation for the full insights lifecycle: generation → storage → retrieval → ranking/timeline → portfolio/resume → deletion.
+  - Improve documentation for the full insights lifecycle: generation - storage - retrieval - ranking/timeline - portfolio/resume - deletion.
   - Clarify LLM consent behavior and privacy guarantees in user-facing docs and slides.
 
 - **Close Remaining Testing Gaps**
@@ -919,7 +1166,7 @@ The team will continue to:
 - Lean on end-to-end tests and Dockerized runs earlier in the cycle to catch environment-specific issues.
 - Keep refining docs and UX (consent flow, deletion messaging, portfolio outputs) so that the pipeline is both technically solid and easy to explain for Milestone 1 reviewers.
 
-Overall, the project is on track for Milestone 1, with a now-complete loop from analysis → storage → ranking/timeline → portfolio/resume → deletion, all backed by the SQLite persistence and config layers.
+Overall, the project is on track for Milestone 1, with a now-complete loop from analysis - storage - ranking/timeline - portfolio/resume - deletion, all backed by the SQLite persistence and config layers.
 
 ## Week 14
 
@@ -947,7 +1194,7 @@ We hit every Milestone 1 requirement, delivered the in-class presentation, and r
 
 ---
 
-### 3. Username → Student Name Mapping
+### 3. Username - Student Name Mapping
 
 | GitHub Username | Student Name    |
 | --------------- | --------------- |
@@ -979,7 +1226,7 @@ All automated tests for new and updated modules passed successfully, with target
 
 - **Demo & Presentation Packaging**
 
-  - Reran the end-to-end pipeline (ingest → analyze → store → retrieve) to capture stable demo artifacts, validated the retrieval CLI output against the stored run, and confirmed the slide steps align with the live CLI flow.
+  - Reran the end-to-end pipeline (ingest - analyze - store - retrieve) to capture stable demo artifacts, validated the retrieval CLI output against the stored run, and confirmed the slide steps align with the live CLI flow.
   - Manual dry runs in Docker to ensure the recorded demo path is reproducible for graders.
 
 - **Storage/Retrieval Refresh + Data Consent**
@@ -989,24 +1236,24 @@ All automated tests for new and updated modules passed successfully, with target
 
 - **Orchestrator/Reporting Polish**
   - Verified ranking, summaries, and portfolio/resume outputs remain deterministic for the demo dataset, with serialization safeguards for dates/bytes/numpy-like types.
-  - Manual spot checks of the orchestrator’s printed summaries to match the demo narrative.
+  - Manual spot checks of the orchestrator-s printed summaries to match the demo narrative.
 
 ---
 
 ### 6. Additional Context & Future Cycle Plans
 
-This week’s work tied together the remaining Milestone 1 gaps and packaged the story for reviewers:
+This week-s work tied together the remaining Milestone 1 gaps and packaged the story for reviewers:
 
-- Delivered a clean, repeatable demo path ensuring the recorded video shows the exact consent → pipeline run → storage → retrieval sequence we’ll hand in.
+- Delivered a clean, repeatable demo path ensuring the recorded video shows the exact consent - pipeline run - storage - retrieval sequence we-ll hand in.
 - Refreshed storage/retrieval, added the new data consent flag, and made the CLI/config manager flow one-and-done for both LLM and data consent.
-- Polished the orchestrator’s ranked summaries and portfolio/resume outputs so the demo output looks solid on screen.
+- Polished the orchestrator-s ranked summaries and portfolio/resume outputs so the demo output looks solid on screen.
 
 As a result, we met every Milestone 1 requirement, the in-class presentation went smoothly, and we captured the video demo without. Documentation now matches the demo steps, making it easy for graders to follow the full lifecycle.
 
-We’re pausing for a short break to recharge, then will regroup for Milestone 2. This includes:
+We-re pausing for a short break to recharge, then will regroup for Milestone 2. This includes:
 
 - Take the winter break to rest after shipping Milestone 1 on time.
-- Kick off Milestone 2 planning with a lightweight backlog review and demo-driven goals once we’re back.
+- Kick off Milestone 2 planning with a lightweight backlog review and demo-driven goals once we-re back.
 - Identify any follow-ups/feedback from Milestone 1 to prioritize in the next cycle.
 
 ---
@@ -1015,7 +1262,7 @@ We’re pausing for a short break to recharge, then will regroup for Milestone 2
 
 **What went well:**
 
-- Closed final issues so the demo/presentation story (consent → pipeline run → storage/retrieval) was stable and matched the slides.
+- Closed final issues so the demo/presentation story (consent - pipeline run - storage/retrieval) was stable and matched the slides.
 - The in-class presentation and recorded video demo both ran smoothly.
 - Storage/retrieval plus both consent flags behaved consistently across CLI and config manager, which kept the live run predictable.
 
@@ -1029,129 +1276,3 @@ We’re pausing for a short break to recharge, then will regroup for Milestone 2
 - Manage our time better for Milestone 2 to ensure a better timeline for our project.
 
 Overall, the team finished Milestone 1 on schedule, delivered a solid presentation/video demo, and is heading into the break with a stable pipeline foundation.
-
-
-
-## Week 15
-
-### January 5 2026 to January 11 2026
-
-### 1. Milestone Goals Recap
-
-This week marked the kickoff of Milestone 2 work, focused on enabling human-in-the-loop customization and strengthening the system foundation needed for incremental ingest and user edits.
-
-Planned Features for This Milestone:
-- Incorporate key role of the user in a given project
-- Allow user to associate an image for a given project to use as the thumbnail
-- Display and customize portfolio and résumé information through service style workflows
-- Strengthen persistence layer to support upcoming Milestone 2 features
-
-Tasks from Project Board Associated with These Features:
-- #184 Thumbnail Upload Endpoint
-- #191 Resume Item Customization
-- #186 Normalize SQLite Schema (Design + Docs)
-- #187 Normalize SQLite Schema (Migration + Storage Refactor)
-- #198 Project User Role Customization
-
----
-
-### 2. Burnup Chart
-
-![Burnup Chart For Week 15](images/week15-chart.png)
-
----
-
-### 3. Username → Student Name Mapping
-
-| GitHub Username | Student Name    |
-| --------------- | --------------- |
-| abijeet-dhillon | Abijeet Dhillon |
-| tahsinj         | Tahsin Jawwad   |
-| kmerchant1      | Kaiden Merchant |
-| Malik-Abhinav   | Abhinav Malik   |
-| abdur026        | Abdur Rehman    |
-| mishgGavura     | Misha Gavura    |
-
----
-
-### 4. Completed / In Progress Tasks
-
-![Kanban Board for Week 15](images/week15-tasks.png)
-
-| Task ID | Issue Title                                                  | Username        | Associated Feature                                   | Status    |
-| ------- | ------------------------------------------------------------ | --------------- | ---------------------------------------------------- | --------- |
-| 186     | Define normalized SQLite schema + document in database_schema.md | abijeet-dhillon | Milestone 2 Foundation. Persistence and relationships | Completed |
-| 187     | Implement migration/backfill to normalized schema + update storage APIs | abijeet-dhillon | Milestone 2 Foundation. Normalized persistence layer  | Completed |
-| 184     | Thumbnail upload endpoint (form + upload validation + tests) | abdur026        | Project Thumbnail Association                         | Completed |
-| 191     | Non persistent resume item customization (runtime edits + tests) | tahsinj         | Resume Item Customization                             | Completed |
-| 198     | Incorporate key role of the user in a given project          | Malik-Abhinav   | Project Role Metadata                                | Completed |
-| —       | Success Metrics Analyzer (evidence signals + scoring + tests) | kmerchant1      | Evidence of Success Metrics                           | Completed |
-
----
-
-### 5. Test Report
-
-All new work this week was accompanied by automated tests and validated with local and Docker runs where applicable.
-
-- Normalized SQLite Schema Refactor
-  - End to end save and retrieve flows validated after migrating to explicit tables.
-  - Tests updated to reflect new table names and query paths.
-
-- Thumbnail Upload Feature
-  - Pytest TestClient coverage for:
-    - Upload form rendering
-    - Valid uploads (PNG, JPEG, WebP)
-    - Invalid file types rejected
-    - Files larger than 5 MB rejected
-
-- Resume Item Customization
-  - 11 unit tests validating:
-    - Override precedence and index edits
-    - Input validation and error messaging
-    - No mutation behavior
-  - Verified existing presentation and pipeline test suites remain passing.
-
-- Project User Role Customization
-  - Validated role persistence and merge into project retrieval without modifying extracted insight payloads.
-  - Confirmed role data cleanup behavior aligns with project deletion lifecycle.
-
-- Success Metrics Analyzer
-  - 18 unit tests covering scoring metrics, badge extraction, feedback keyword detection, and edge cases.
-  - Integrated into orchestrator output and persisted through the store.
-
----
-
-### 6. Additional Context
-
-This week established multiple Milestone 2 building blocks:
-
-- Database foundation was modernized through a normalized schema, improving support for future requirements like incremental ingest, deduplication, and per project customization.
-- Human-in-the-loop customization began with role metadata and resume item wording edits, setting a clear separation between extracted insights and user edits.
-- The thumbnail upload endpoint provides a controlled path for associating project images, with validation and tests in place.
-- Success metrics work initiated structured evidence of success signals that can later be surfaced in portfolio and résumé views.
-
----
-
-### 7. Future Cycle Plans
-
-Next cycle will focus on integrating Milestone 2 customization and incrementality end to end:
-
-- Connect thumbnail upload to persistent storage and project records. Store and retrieve a thumbnail reference per project.
-- Add persistence for resume customization and expand portfolio customization support.
-- Implement incremental ingest. Add another ZIP to the same portfolio or résumé while preventing duplicates.
-- Implement duplicate file detection and retention. Use hash based dedupe across projects and runs.
-- Begin API first service workflows for retrieving and updating user customizations through stable endpoints.
-
----
-
-### 8. Reflection on This Cycle
-
-What went well:
-- Multiple Milestone 2 aligned features shipped in parallel with tests, including customization, uploads, and database foundation work.
-- The normalized database overhaul removed a major blocker and makes upcoming features easier to implement cleanly.
-
-What could be improved:
-- Coordinate integration checkpoints earlier when multiple PRs touch storage and retrieval paths, to reduce merge conflicts and duplicate adjustments.
-
-How this informs us for the next cycle:
-- Prioritize end to end integration. Schema changes, API endpoints, and customization flows should be validated together using a single demo ZIP to ensure consistency across modules.
