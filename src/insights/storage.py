@@ -26,7 +26,7 @@ DEFAULT_DB_URL = "sqlite:///data/app.db"
 DEFAULT_DB_PATH = DEFAULT_DB_URL.replace("sqlite:///", "")
 # Fixed local encryption key (overridable via INSIGHTS_ENCRYPTION_KEY env var)
 DEFAULT_INSIGHTS_KEY = os.getenv("INSIGHTS_ENCRYPTION_KEY", "local-insights-key")
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6
 
 # Legacy tables (no longer written)
 LEGACY_ZIP_TABLE = "zipfile"
@@ -38,6 +38,7 @@ PROJECTS_TABLE = "projects"
 PROJECT_INFO_TABLE = "project_info"
 FILES_TABLE = "files"
 FILE_INFO_TABLE = "file_info"
+FILE_ANALYSIS_CACHE_TABLE = "file_analysis_cache"
 PORTFOLIO_INSIGHTS_TABLE = "portfolio_insights"
 RESUME_BULLETS_TABLE = "resume_bullets"
 TAGS_TABLE = "tags"
@@ -183,6 +184,13 @@ class ProjectInsightsStore:
                         "INSERT INTO schema_migrations (version, applied_at) VALUES (?, ?);",
                         (5, _utcnow()),
                     )
+                    current_version = 5
+                if current_version < 6:
+                    self._apply_project_info_name_migration(conn)
+                    conn.execute(
+                        "INSERT INTO schema_migrations (version, applied_at) VALUES (?, ?);",
+                        (6, _utcnow()),
+                    )
                 conn.commit()
 
     def _apply_initial_schema(self, conn: sqlite3.Connection) -> None:
@@ -273,6 +281,7 @@ class ProjectInsightsStore:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 project_id INTEGER NOT NULL,
                 ingest_id INTEGER NOT NULL,
+                project_name TEXT,
                 project_path TEXT,
                 is_git_repo INTEGER NOT NULL DEFAULT 0,
                 total_files INTEGER NOT NULL DEFAULT 0,
@@ -354,6 +363,27 @@ class ProjectInsightsStore:
         )
         conn.execute(
             f"CREATE INDEX IF NOT EXISTS idx_{FILE_INFO_TABLE}_content ON {FILE_INFO_TABLE}(content_hash);"
+        )
+        conn.execute(
+            f"""
+            CREATE TABLE IF NOT EXISTS {FILE_ANALYSIS_CACHE_TABLE} (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                sha256 TEXT NOT NULL,
+                file_ext TEXT,
+                analysis_type TEXT NOT NULL CHECK (analysis_type IN ('code', 'text', 'video', 'image')),
+                analysis_result BLOB NOT NULL,
+                created_at TEXT NOT NULL,
+                last_accessed TEXT NOT NULL,
+                access_count INTEGER NOT NULL DEFAULT 0,
+                UNIQUE(sha256, analysis_type)
+            );
+            """
+        )
+        conn.execute(
+            f"CREATE INDEX IF NOT EXISTS idx_{FILE_ANALYSIS_CACHE_TABLE}_sha256 ON {FILE_ANALYSIS_CACHE_TABLE}(sha256);"
+        )
+        conn.execute(
+            f"CREATE INDEX IF NOT EXISTS idx_{FILE_ANALYSIS_CACHE_TABLE}_type ON {FILE_ANALYSIS_CACHE_TABLE}(sha256, analysis_type);"
         )
         conn.execute(
             f"""
@@ -486,6 +516,108 @@ class ProjectInsightsStore:
             """
         )
 
+    # File Analysis Cache API
+    def cache_file_analysis(
+        self,
+        sha256: str,
+        analysis_type: str,
+        analysis_result: Dict[str, Any],
+        file_ext: Optional[str] = None,
+    ) -> None:
+        """
+        Store or update file analysis results in cache.
+        
+        Args:
+            sha256: SHA256 hash of the file content
+            analysis_type: Type of analysis ('code', 'text', 'video', 'image')
+            analysis_result: Dictionary containing analysis results
+            file_ext: File extension (optional)
+        """
+        if analysis_type not in ('code', 'text', 'video', 'image'):
+            raise ValueError(f"Invalid analysis_type: {analysis_type}")
+        
+        encrypted_result = self.serializer.encrypt(analysis_result)
+        now = _utcnow()
+        
+        with self._lock:
+            with self._connect() as conn:
+                # Try to insert, or update if exists
+                conn.execute(
+                    f"""
+                    INSERT INTO {FILE_ANALYSIS_CACHE_TABLE}
+                        (sha256, file_ext, analysis_type, analysis_result, created_at, last_accessed, access_count)
+                    VALUES (?, ?, ?, ?, ?, ?, 0)
+                    ON CONFLICT(sha256, analysis_type) DO UPDATE SET
+                        analysis_result = excluded.analysis_result,
+                        last_accessed = excluded.last_accessed,
+                        file_ext = excluded.file_ext;
+                    """,
+                    (sha256, file_ext, analysis_type, encrypted_result, now, now),
+                )
+                conn.commit()
+    
+    def get_cached_file_analysis(
+        self,
+        sha256: str,
+        analysis_type: str,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Retrieve cached file analysis results.
+        
+        Args:
+            sha256: SHA256 hash of the file content
+            analysis_type: Type of analysis to retrieve
+            
+        Returns:
+            Dictionary with analysis results, or None if not found
+        """
+        if analysis_type not in ('code', 'text', 'video', 'image'):
+            raise ValueError(f"Invalid analysis_type: {analysis_type}")
+        
+        with self._lock:
+            with self._connect() as conn:
+                row = conn.execute(
+                    f"""
+                    SELECT analysis_result FROM {FILE_ANALYSIS_CACHE_TABLE}
+                    WHERE sha256 = ? AND analysis_type = ?;
+                    """,
+                    (sha256, analysis_type),
+                ).fetchone()
+                
+                if row is None:
+                    return None
+                
+                # Update access tracking
+                now = _utcnow()
+                conn.execute(
+                    f"""
+                    UPDATE {FILE_ANALYSIS_CACHE_TABLE}
+                    SET last_accessed = ?, access_count = access_count + 1
+                    WHERE sha256 = ? AND analysis_type = ?;
+                    """,
+                    (now, sha256, analysis_type),
+                )
+                conn.commit()
+                
+                # Decrypt and return result
+                encrypted_result = row[0]
+                return self.serializer.decrypt(encrypted_result)
+    def _apply_project_info_name_migration(self, conn: sqlite3.Connection) -> None:
+        columns = {row[1] for row in conn.execute(f"PRAGMA table_info({PROJECT_INFO_TABLE});")}
+        if "project_name" in columns:
+            return
+        conn.execute(f"ALTER TABLE {PROJECT_INFO_TABLE} ADD COLUMN project_name TEXT;")
+        conn.execute(
+            f"""
+            UPDATE {PROJECT_INFO_TABLE}
+            SET project_name = (
+                SELECT project_name FROM {PROJECTS_TABLE} p
+                WHERE p.id = {PROJECT_INFO_TABLE}.project_id
+            )
+            WHERE project_name IS NULL;
+            """
+        )
+
     # Public API
     def record_pipeline_run(
         self,
@@ -528,6 +660,7 @@ class ProjectInsightsStore:
                             conn,
                             project_id,
                             ingest_id,
+                            project_name,
                             project_payload,
                             now,
                         )
@@ -755,6 +888,136 @@ class ProjectInsightsStore:
             if not row:
                 return None
             return self._build_project_payload(conn, project_id)
+
+
+    def _normalize_resume_bullets(
+        self,
+        resume_item: Dict[str, Any],
+        max_bullets: Optional[int],
+    ) -> List[str]:
+        if not isinstance(resume_item, dict):
+            raise TypeError(f"resume_item must be a dict, got {type(resume_item).__name__}")
+        bullets = resume_item.get("bullets")
+        if not isinstance(bullets, list):
+            raise ValueError("resume_item['bullets'] must be a list")
+
+        cleaned: List[str] = []
+        for bullet in bullets:
+            if not isinstance(bullet, str):
+                raise ValueError("All items in resume_item['bullets'] must be strings")
+            stripped = bullet.strip()
+            if stripped:
+                cleaned.append(stripped)
+
+        if not cleaned:
+            raise ValueError("resume_item['bullets'] must contain at least one non-empty bullet after stripping")
+        if max_bullets is not None and len(cleaned) > max_bullets:
+            raise ValueError(
+                f"resume_item['bullets'] cannot exceed {max_bullets} bullets, got {len(cleaned)}"
+            )
+        return cleaned
+
+    def update_resume_item_by_id(
+        self,
+        project_info_id: int,
+        resume_item: Dict[str, Any],
+        *,
+        source: str = "manual",
+        max_bullets: Optional[int] = 6,
+        create_if_missing: bool = True,
+    ) -> bool:
+        """
+        Persist customized resume bullets for a stored project insight.
+
+        Args:
+            project_info_id: The project_info.id primary key from the insights database.
+            resume_item: Resume item dict containing "bullets" (List[str]) and optional "project_name".
+            source: Bullet source label ("manual" or "generated").
+            max_bullets: Maximum number of bullets allowed (default 6). Use None to disable.
+            create_if_missing: If True, create a portfolio_insights row when missing.
+
+        Returns:
+            True if the resume item was updated, False if the project is not found
+            or no portfolio insight exists and create_if_missing is False.
+        """
+        if not isinstance(project_info_id, int):
+            raise TypeError(f"project_info_id must be an int, got {type(project_info_id).__name__}")
+        if source not in {"generated", "manual"}:
+            raise ValueError("source must be 'generated' or 'manual'")
+
+        project_name_value = resume_item.get("project_name")
+        if project_name_value is not None:
+            if not isinstance(project_name_value, str):
+                raise ValueError("resume_item['project_name'] must be a string")
+            project_name_value = project_name_value.strip()
+            if not project_name_value:
+                raise ValueError("resume_item['project_name'] cannot be empty after stripping")
+
+        bullets = self._normalize_resume_bullets(resume_item, max_bullets)
+
+        with self._lock:
+            with self._connect() as conn:
+                conn.isolation_level = None
+                conn.execute("BEGIN IMMEDIATE;")
+                try:
+                    row = conn.execute(
+                        f"SELECT id FROM {PROJECT_INFO_TABLE} WHERE id = ?;",
+                        (project_info_id,),
+                    ).fetchone()
+                    if not row:
+                        conn.execute("ROLLBACK;")
+                        return False
+
+                    if project_name_value is not None:
+                        conn.execute(
+                            f"""
+                            UPDATE {PROJECT_INFO_TABLE}
+                            SET project_name = ?, updated_at = ?
+                            WHERE id = ?;
+                            """,
+                            (project_name_value, _utcnow(), project_info_id),
+                        )
+
+                    row = conn.execute(
+                        f"SELECT id FROM {PORTFOLIO_INSIGHTS_TABLE} WHERE project_info_id = ?;",
+                        (project_info_id,),
+                    ).fetchone()
+                    if not row:
+                        if not create_if_missing:
+                            conn.execute("ROLLBACK;")
+                            return False
+                        now = _utcnow()
+                        conn.execute(
+                            f"""
+                            INSERT INTO {PORTFOLIO_INSIGHTS_TABLE} (
+                                project_info_id, generated_at, pipeline_version
+                            ) VALUES (?, ?, ?);
+                            """,
+                            (project_info_id, now, "manual"),
+                        )
+                        portfolio_insight_id = conn.execute("SELECT last_insert_rowid();").fetchone()[0]
+                    else:
+                        portfolio_insight_id = row[0]
+
+                    conn.execute(
+                        f"DELETE FROM {RESUME_BULLETS_TABLE} WHERE portfolio_insight_id = ?;",
+                        (portfolio_insight_id,),
+                    )
+                    for order, bullet in enumerate(bullets):
+                        conn.execute(
+                            f"""
+                            INSERT INTO {RESUME_BULLETS_TABLE} (
+                                portfolio_insight_id, bullet_text, display_order, is_selected, source
+                            ) VALUES (?, ?, ?, ?, ?);
+                            """,
+                            (portfolio_insight_id, bullet, order, 1, source),
+                        )
+
+                    conn.execute("COMMIT;")
+                    return True
+                except Exception:
+                    conn.execute("ROLLBACK;")
+                    raise
 
     def load_zip_report(self, zip_hash: str) -> Optional[Dict[str, Any]]:
         """Reconstruct a full zip-level report payload from grouped tables."""
@@ -1244,18 +1507,28 @@ class ProjectInsightsStore:
         conn: sqlite3.Connection,
         project_id: int,
         ingest_id: int,
+        project_name: str,
         project_payload: Dict[str, Any],
         timestamp: str,
     ) -> int:
+        project_name_value = project_payload.get("project_name") or project_name
         project_path = project_payload.get("project_path")
         is_git_repo = 1 if project_payload.get("is_git_repo") else 0
         conn.execute(
             f"""
             INSERT INTO {PROJECT_INFO_TABLE} (
-                project_id, ingest_id, project_path, is_git_repo, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, ?, ?);
+                project_id, ingest_id, project_name, project_path, is_git_repo, created_at, updated_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?);
             """,
-            (project_id, ingest_id, project_path, is_git_repo, timestamp, timestamp),
+            (
+                project_id,
+                ingest_id,
+                project_name_value,
+                project_path,
+                is_git_repo,
+                timestamp,
+                timestamp,
+            ),
         )
         return conn.execute("SELECT last_insert_rowid();").fetchone()[0]
 
@@ -1833,7 +2106,7 @@ class ProjectInsightsStore:
     ) -> Dict[str, Any]:
         row = conn.execute(
             f"""
-            SELECT pi.project_id, pi.project_path, pi.is_git_repo, pi.ingest_id, p.project_name, p.root_path
+            SELECT pi.project_id, pi.project_path, pi.is_git_repo, pi.ingest_id, p.project_name, p.root_path, pi.project_name
             FROM {PROJECT_INFO_TABLE} pi
             JOIN {PROJECTS_TABLE} p ON p.id = pi.project_id
             WHERE pi.id = ?;
@@ -1842,7 +2115,8 @@ class ProjectInsightsStore:
         ).fetchone()
         if not row:
             return {}
-        project_id, project_path, is_git_repo, ingest_id, project_name, root_path = row
+        project_id, project_path, is_git_repo, ingest_id, stored_name, root_path, project_name_override = row
+        project_name = project_name_override or stored_name
 
         categorized, file_revision_ids, file_rev_to_path = self._load_categorized_contents(
             conn,
