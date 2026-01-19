@@ -1,3 +1,6 @@
+"""
+FastAPI router for project-related operations.
+"""
 from __future__ import annotations
 
 from fastapi import APIRouter, UploadFile, File, HTTPException
@@ -6,8 +9,13 @@ from fastapi.responses import HTMLResponse, JSONResponse
 router = APIRouter(prefix="/projects", tags=["projects"])
 
 
+MAX_BYTES = 5 * 1024 * 1024
+ALLOWED_TYPES = {"image/png", "image/jpeg", "image/webp"}
+
+
 @router.get("/{project_name}/thumbnail", response_class=HTMLResponse)
 async def get_thumbnail_form(project_name: str):
+    """Display an HTML form for uploading a project thumbnail."""
     return (
         """
         <html>
@@ -24,12 +32,9 @@ async def get_thumbnail_form(project_name: str):
     )
 
 
-MAX_BYTES = 5 * 1024 * 1024
-ALLOWED_TYPES = {"image/png", "image/jpeg", "image/webp"}
-
-
 @router.post("/{project_name}/thumbnail")
 async def upload_thumbnail(project_name: str, file: UploadFile = File(...)):
+    """Upload a thumbnail image for a project."""
     if file.content_type not in ALLOWED_TYPES:
         raise HTTPException(status_code=400, detail="Invalid file type. Use PNG, JPEG, or WebP.")
 
@@ -47,3 +52,4 @@ async def upload_thumbnail(project_name: str, file: UploadFile = File(...)):
             "size": size,
         }
     )
+
