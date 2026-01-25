@@ -2,6 +2,7 @@
 
 [T2 Week 1 Personal Logs](#term-2-week-1)
 [T2 Week 2 Personal Logs](#term-2-week-2)
+[T2 Week 3 Personal Logs](#term-2-week-3)
 
 [Week 3 Personal Logs](#week-3)
 [Week 4 Personal Logs](#week-4)
@@ -413,3 +414,54 @@ Building on last week's resume customization feature (#191), this week focused o
 * All existing tests remain passing 
 * CLI provides foundation for future API/UI development
 * Separation of concerns: formatting logic extracted for maintainability
+
+## Term 2 Week 3
+### Date Range 
+19th January 2026 - 25th January 2026
+
+### Connection to Previous Week
+Building on last week's CLI interface (#204), this week focused on implementing project filtering functionality to help users narrow down their portfolio by tech stack. Additionally, created a comprehensive demo project to showcase all system capabilities for milestone demonstrations and peer testing.
+
+### Type of Tasks Worked On
+![Tahsin Type of Tasks Term 2 Week 3](images/tahsin-t2-week-3.png)
+
+**Coding Tasks:**
+* Enhanced `src/pipeline/cli.py` with `--language` and `--framework` filter arguments for the `list` command
+* Modified `src/pipeline/presentation_pipeline.py` to implement filtering logic in `list_available_projects()` method
+* Implemented case-insensitive filtering with OR logic within filter types and AND logic across filter types
+* Added filter information display in CLI output headers and empty result messages
+* Retrieved language/framework data from `languages_json` and `frameworks_json` database columns
+* Maintained full backward compatibility (no filters returns all projects)
+* Created comprehensive demo project structure in `tests/demo_capstone_project/` with 5 sub-projects
+* Developed realistic demo files showcasing diverse tech stacks: Python (Django, Flask, Scikit-learn, TensorFlow), TypeScript (React Native), HTML/CSS/JavaScript, Terraform
+* Compressed demo project into `tests/demo_capstone_project.zip` for pipeline testing
+
+**Testing Tasks:**
+* Created comprehensive test suite in `tests/pipeline/test_list_filtering.py`
+* Wrote 15 unit and integration tests covering all filtering scenarios
+* Tested single/multiple language filtering with OR logic
+* Tested single/multiple framework filtering with OR logic
+* Tested combined language AND framework filtering
+* Verified case-insensitive matching for both filter types
+* Tested empty result handling and unfiltered list behavior
+* Implemented proper Windows file locking cleanup in test fixtures
+* All tests passing with 100% success rate
+
+**Other Tasks:**
+* Created demo project for testing and peer feedback
+
+### Pull Request Reviews 
+* Reviewing **Data Access Consent Re-Prompt and Analyzer/Test Alignment #223**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
+* As more PRs come out, I will review them throughout the week
+
+### Task from Project Board
+* Project and Framework filters for Project List #225
+* Create Demo Project and User Tasks for Peer Feedback #227
+
+### Completed/In-progress Tasks
+* Project and Framework filters for Project List #225 (Completed)
+* Create Demo Project and User Tasks for Peer Feedback #227 (Completed)
+
+### Goals for Next Week
+* Continue work on Milestone #2 requirements
+* Work on FastAPI endpoints for project management
