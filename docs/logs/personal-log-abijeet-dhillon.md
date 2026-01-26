@@ -2,6 +2,7 @@
 
 [Semester 2 Week 1 Individual Logs](#semester-2-week-1-individual-logs)<br>
 [Semester 2 Week 2 Individual Logs](#semester-2-week-2-individual-logs)<br>
+[Semester 2 Week 3 Individual Logs](#semester-2-week-3-individual-logs)<br>
 [Week 3 Individual Logs](#week-3)<br>
 [Week 4 Individual Logs](#week-4)<br>
 [Week 5 Individual Logs](#week-5)<br>
@@ -16,9 +17,82 @@
 
 ---
 
+## Semester 2 Week 3 Individual Logs
+
+### January 19 2026 to January 25 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 3 Task Types Screenshot](images/abijeetdhillon_s2w3_tasks.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+This week I focused on tightening the **LLM/data-access consent flow** so it behaves correctly across first-time runs and repeated runs (including re-prompting after a prior denial), while also fixing a small correctness gap in our documentation totals calculation and shoring up test coverage around both areas.
+
+**Coding tasks**
+
+- Reworked `resolve_data_access_consent` to re-prompt when consent was previously denied, update/persist the stored config, keep the “already granted” fast-path, and keep the configured zip path in sync with the latest choice.
+- Fixed documentation totals calculation by constructing `TextMetrics` directly so `_analyze_categorized_files` can always compute totals reliably.
+
+**Testing / debugging tasks**
+
+- Added coverage in `test_llm_consent_flow.py` for the first-time prompt + save flow and for the re-prompt path after a prior denial.
+- Re-added the LLM consent reuse test to ensure stored consent is honored without prompting.
+- Updated `test_orchestrator_coverage.py` stubs to match the current `analyze_file` / `analyze_image` behavior and return valid totals.
+
+**Pull request / issue references**
+
+- PR: [#223](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
+- Issue: [#222](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/222)
+
+**Issues / blockers**
+
+- None this week.
+
+**Plan / goals for next week**
+
+- Address any review follow-ups from this PR and continue expanding test coverage around consent/config edge cases.
+- Keep improving orchestrator coverage/correctness so totals and outputs stay consistent as we evolve analysis behavior.
+- Tighten up the database to ensure no duplicates are being saved.
+
+---
+
+### 3. Features Owned in Project Plan
+
+- Improve LLM data-access consent behavior (re-prompt + persistence + fast-path) ([Issue #222](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/222))
+- Validate consent/config + orchestrator totals behavior via tests ([PR #223](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223))
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+- [Issue #222 — Rework data-access consent flow](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/222)
+- [PR #223 — Consent flow updates + tests + orchestrator coverage fixes](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue                                                                                                    | Status    | Notes                               |
+| ------- | -------------------------------------------------------------------------------------------------------- | --------- | ----------------------------------- |
+| 222     | [Rework data-access consent flow](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/222) | Completed | Implemented + tested in PR #223     |
+| 201     | [Persist custom project names](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/201)    | Completed | Landed last week; no follow-ups yet |
+
+---
+
+### 6. Future Cycle Plans & Reflection On This Week
+
+This week was productive because it improved both **user-facing correctness** (consent prompts behaving consistently across runs) and **internal reliability** (totals calculation and coverage stubs staying aligned with current behavior). With the re-prompt logic and tests in place, we’re less likely to regress consent/config handling as we keep iterating on the analysis pipeline.
+
+Next week, I’ll focus on any PR feedback and continue tightening orchestrator/test coverage so edge cases are caught early instead of surfacing during demos or late integration.
+
+---
+
 ## Semester 2 Week 2 Individual Logs
 
-### January 5 2026 to January 11 2026
+### January 12 2026 to January 18 2026
 
 ### 1. Type of Tasks Worked On
 
