@@ -128,3 +128,93 @@ Done. Core functionality is working
 
 #### Impact / Next
 Work on the milestone #2.
+
+---
+
+## Semester 2
+
+## Semester 2 - Week 2 (Week 16 - January 12 to January 18, 2026)
+
+### Tasks
+![Misha Gavura Week 16 Task Type Screenshot](images/misha-week-jan18.png)
+
+---
+
+### Recap of Weekly Goals
+
+This week focused on implementing API architecture refactoring and privacy consent management endpoints (Milestone 2, Requirement - Privacy Consent API).  
+
+My contributions included:
+- Consolidating scattered API code into a unified `src/api/` structure
+- Creating comprehensive privacy consent endpoints with full CRUD operations
+- Implementing shared dependency injection patterns for database access
+- Setting up FastAPI application with CORS and auto-generated documentation
+- Writing extensive tests and documentation for all new endpoints
+
+---
+
+### Features Owned in Project Plan
+- API Architecture Consolidation
+- Privacy Consent API Endpoints (Issue #218)
+- Backend API Infrastructure
+
+---
+
+### Tasks from Project Board Associated with These Features
+- PR #218 - API Architecture Refactoring & Privacy Consent Implementation
+
+---
+
+### Tasks Completed / In Progress
+| Task ID | Issue Title                                      | Status    | Notes |
+|---------|--------------------------------------------------|-----------|-------|
+| 218     | API Architecture Refactoring & Privacy Consent   | Completed | Created unified API structure, implemented 7 consent endpoints, added 15 tests |
+
+---
+
+### What I Did
+
+**1. API Consolidation**
+- Created new `src/api/` directory structure for centralized API management
+- Migrated existing routers from scattered locations (`insights/`, `projects/`) into organized `api/routers/` structure
+- Implemented shared dependencies module (`dependencies.py`) for reusable DB store factories
+- Set up main FastAPI application (`app.py`) with CORS configuration and auto-generated documentation
+
+**2. Privacy Consent API Endpoint**
+- Implemented comprehensive `/privacy-consent` endpoint with 7 routes:
+  - POST for granting consent (LLM, directory, or both)
+  - DELETE for revoking consent
+  - GET endpoints for status checking (all, LLM-only, directory-only)
+  - POST for resetting consents
+  - PATCH for updating allowed directory paths
+- Integrated with existing `LLMConsentManager` and `DirectoryConsentManager`
+- Added request/response validation using Pydantic models
+
+**3. Testing & Documentation**
+- Created `tests/api/test_consent_api.py` with 15 comprehensive test cases
+- Wrote detailed API documentation in `src/api/README.md`
+- All code passes linter checks with zero errors
+- Added interactive Swagger UI documentation at `/docs`
+
+**Technical Details:**
+- Used FastAPI framework with dependency injection pattern
+- Maintained backward compatibility with existing business logic
+- Implemented RESTful API design principles
+
+---
+
+### Additional Context
+- The API architecture now provides a clean foundation for future endpoint development
+- Privacy consent management is fully functional and ready for frontend integration
+- All consent operations are persisted to local JSON files as designed in Milestone 1
+- Verified /docs, /privacy-consent endpoints work correctly with all CRUD operations
+
+---
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 3 Goals:**
+- Continue expanding API endpoints for other features (projects, insights, analysis)
+- Integrate frontend with new privacy consent API
+- Add authentication/authorization layer if required
+- Explore WebSocket support for real-time pipeline status updates
