@@ -2,6 +2,7 @@
 
 [Semester 2 - Week 1 Team Logs](#s2w1)<br>
 [Semester 2 - Week 2 Team Logs](#s2w2)<br>
+[Semester 2 - Week 3 Team Logs](#s2w3)<br>
 [Week 3 Team Logs](#week-3)<br>
 [Week 4 Team Logs](#week-4)<br>
 [Week 5 Team Logs](#week-5)<br>
@@ -257,6 +258,164 @@ What could be improved:
 
 How this informs us for the next cycle:
 - Prioritize API endpoint expansion and end-to-end validation using a single demo dataset
+
+---
+
+<a id="s2w3"></a>
+## Semester 2 - Week 3 (Week 17 - January 19 2026 to January 25 2026)
+
+### January 19 2026 to January 25 2026
+
+### 1. Milestone Goals Recap
+
+This week continued expanding Milestone 2 with comprehensive API coverage, pipeline enhancements, and user-facing features for skills tracking and project filtering.
+
+Planned Features for This Milestone:
+- Complete FastAPI endpoint coverage for all core workflows (privacy, projects, resume, portfolio, skills)
+- Add progress tracking and cancellation support for long-running pipeline operations
+- Enable project filtering by tech stack (languages and frameworks)
+- Provide chronological skills timeline visualization
+- Improve consent flow UX with re-prompting capability
+
+Tasks from Project Board Associated with These Features:
+- PR #230 - Core FastAPI endpoints (privacy consent, project upload/listing, portfolio showcase)
+- PR #233 - Resume/portfolio generation and editing endpoints + skills index
+- PR #226 - Project filtering by language and framework in CLI
+- PR #223 - Data access consent re-prompting and documentation analysis fixes
+- Progress tracking and cancellation feature (Kaiden)
+- Chronological skills CLI and API (Misha)
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 17](images/week17-burnup-chart.png)
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Week 17](images/week17-kanban.png)
+
+| Task ID | Issue Title                                               | Username        | Associated Feature                              | Status    |
+| ------- | --------------------------------------------------------- | --------------- | ----------------------------------------------- | --------- |
+| 230     | Core FastAPI endpoints (privacy, projects, portfolio)      | Malik-Abhinav   | API service layer foundation                    | Completed |
+| 233     | Resume/portfolio generation and editing + skills API       | abdur026        | Complete API coverage for core workflows        | Completed |
+| 226     | Project filtering by language and framework in CLI         | abijeet-dhillon | Tech stack filtering and search                 | Completed |
+| 223     | Data access consent re-prompting and doc analysis fixes    | tahsinj         | Consent UX improvement and pipeline fixes       | Completed |
+| N/A     | Progress tracking and cancellation for pipeline operations | kmerchant1      | Pipeline observability and control              | Completed |
+| N/A     | Chronological skills CLI and API endpoints                 | mishgGavura     | Skills timeline visualization                   | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this week was accompanied by automated tests with comprehensive coverage of new functionality.
+
+**Abhinav (Core FastAPI endpoints - PR #230)**
+- Core API functionality tests
+  - `pytest tests/api/ -v`
+  - Endpoints tested: privacy consent, project upload, project listing, project detail, portfolio showcase
+  - Integration with existing UserConfigManager, ArtifactPipeline, and ProjectInsightsStore
+  - Result: **All API tests passing**
+
+**Abdur (Resume/Portfolio/Skills endpoints - PR #233)**
+- Complete workflow endpoint tests
+  - `pytest tests/api/ -v`
+  - New endpoints: GET /skills, GET /resume/{id}, POST /resume/generate, POST /resume/{id}/edit, POST /portfolio/generate, POST /portfolio/{id}/edit
+  - Stubbed heavy dependencies (zbar) for reliable CI
+  - Integration with ProjectRoleStore for role enrichment
+  - Result: **All endpoint tests passing**
+
+**Abijeet (Project filtering - PR #226)**
+- CLI filtering functionality tests
+  - Enhanced `list_available_projects()` with language/framework filters
+  - Case-insensitive matching with OR logic within filter types, AND across types
+  - Backward compatibility validation (no filters returns all projects)
+  - Result: **Filtering tests passing**
+
+**Tahsin (Consent re-prompting - PR #223)**
+- Consent flow and documentation analysis tests
+  - New test coverage for first-time consent persistence
+  - Re-prompt-after-denial behavior validation
+  - LLM consent reuse verification
+  - Documentation analysis totals fixed with proper TextMetrics construction
+  - Result: **Consent flow tests passing, orchestrator coverage improved**
+
+**Kaiden (Progress tracking and cancellation)**
+- Progress tracker comprehensive test suite
+  - `pytest tests/pipeline/test_progress_tracker.py -v`
+  - 27 test cases covering:
+    - Unit tests (percentage calculation, state updates, callbacks)
+    - Thread safety tests (concurrent updates from 10 threads, 1000+ operations)
+    - Integration tests (stage progression, cancellation workflow)
+  - Result: **27 passed in 2.34s**
+
+**Misha (Chronological skills CLI and API)**
+- Skills timeline functionality tests
+  - CLI tests for text/JSON/CSV output formats
+  - API endpoint tests for `/chronological/skills` and `/chronological/projects`
+  - Timeline ordering and categorization validation
+  - Result: **Skills timeline tests passing**
+
+---
+
+### 6. Additional Context
+
+This week marked a major milestone in API completeness and pipeline sophistication:
+- **Complete API coverage**: All core workflows (privacy, projects, resume, portfolio, skills) now have RESTful endpoints with proper request/response models
+- **Pipeline observability**: Progress tracking provides real-time visibility into long-running operations with thread-safe state management
+- **Enhanced UX**: Consent re-prompting, project filtering, and chronological skills improve usability
+- **Production-ready testing**: Heavy dependencies stubbed in tests, ensuring reliable CI/CD pipeline
+
+The combination of comprehensive API endpoints and improved pipeline features positions the system well for frontend integration and production deployment.
+
+---
+
+### 7. Future Cycle Plans
+
+- Integrate all API endpoints into a unified service deployment
+- Add WebSocket support for real-time progress streaming to frontend
+- Implement cache expiration with TTL management
+- Create batch analysis endpoints for processing multiple ZIP files
+- Explore file diff analysis for incremental scans
+- Enhance error recovery with retry logic and partial success handling
+- Begin frontend development with API integration
+- Add API authentication and rate limiting for production deployment
+
+---
+
+### 8. Reflection on This Cycle
+
+**What went well:**
+- Strong parallel development across API, pipeline, and CLI improvements
+- Comprehensive test coverage maintained across all new features
+- Clean integration patterns (callbacks, filters, stubbing) enable future extensibility
+- Documentation and helper scripts improve developer experience
+
+**What could be improved:**
+- Earlier coordination on API endpoint design would reduce potential overlap
+- More integration testing across the full API surface
+- Performance benchmarking for progress tracking overhead
+
+**How this informs us for the next cycle:**
+- Focus on end-to-end testing with realistic datasets
+- Prioritize frontend integration now that API is feature-complete
+- Consider load testing for concurrent API requests
+- Plan for production deployment requirements (authentication, monitoring, error tracking)
 
 
 ## Semester 1
