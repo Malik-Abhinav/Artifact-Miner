@@ -218,3 +218,61 @@ My contributions included:
 - Integrate frontend with new privacy consent API
 - Add authentication/authorization layer if required
 - Explore WebSocket support for real-time pipeline status updates
+
+---
+
+## Semester 2 - Week 3 (Week 17 - January 19 to January 25, 2026)
+
+### Tasks
+![Misha Gavura Week 17 Task Type Screenshot](images/misha-week-jan25.png)
+
+---
+
+### Recap of Weekly Goals
+
+This week focused on implementing chronological skills feature, creating helper scripts, and major documentation cleanup.
+
+My contributions included:
+- Building CLI tool and 3 API endpoints for chronological skills analysis
+- Creating 7 helper scripts for common operations (pipeline, API, port management)
+- Verifying all 21 project requirements are implemented and tested
+- Reorganizing and simplifying documentation (reduced by ~75%)
+- Cleaning up old report files and streamlining project structure
+
+---
+
+### Features Owned in Project Plan
+- Chronological Skills Timeline (CLI + API)
+- Helper Scripts and DevOps Automation
+- Documentation Organization
+
+---
+
+### Tasks from Project Board Associated with These Features
+- Chronological Skills Feature Implementation
+- Documentation Cleanup and Reorganization
+
+---
+
+### Tasks Completed / In Progress
+| Task ID | Issue Title                              | Status    | Notes |
+|---------|------------------------------------------|-----------|-------|
+| #33     | Chronological Skills Timeline            | Completed | CLI tool + 3 API endpoints with JSON/CSV/text output |
+| -       | Helper Scripts                           | Completed | 7 scripts for pipeline, API, and port management |
+| -       | Documentation Reorganization             | Completed | Reduced docs by ~75%, moved to docs/ directory |
+
+---
+
+### Additional Context
+- All endpoints verified working in Swagger UI and via API tests
+- Helper scripts support both local and Docker environments
+- Created comprehensive testing guides for all features
+- Project structure now clean with only README.md in root
+
+---
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 4 Goals:**
+- Enhance API error handling and response consistency
+- Support real-time pipeline status updates
