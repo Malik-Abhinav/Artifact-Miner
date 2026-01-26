@@ -371,6 +371,12 @@ All new work this week was accompanied by automated tests with comprehensive cov
   - Timeline ordering and categorization validation
   - Result: **Skills timeline tests passing**
 
+**Week 17 Test Results:**
+
+![Week 17 Tests - Part 1](images/week17-tests.png)
+
+![Week 17 Tests - Part 2](images/week17-tests2.png)
+
 ---
 
 ### 6. Additional Context
