@@ -1,6 +1,6 @@
 # Individual Log - Abhinav Malik
 
-[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2)  
+[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3)  
 [Semester 1 - Week 3](#s1w3) | [Semester 1 - Week 4](#s1w4) | [Semester 1 - Week 5](#s1w5) | [Semester 1 - Week 6](#s1w6) | [Semester 1 - Week 7](#s1w7) | [Semester 1 - Week 8](#s1w8)  
 [Semester 1 - Week 9](#s1w9) | [Semester 1 - Week 10](#s1w10) | [Semester 1 - Week 12](#s1w12) | [Semester 1 - Week 13](#s1w13) | [Semester 1 - Week 14](#s1w14)
 
@@ -68,6 +68,56 @@ My contributions included: - creating the FastAPI app entrypoint with OpenAPI do
 
 ### 7. Additional Context - Verified /docs, /health, and /runs with a stored pipeline run. - Resolved pytest environment and Windows temp DB cleanup issues to get tests passing.
 This work satisfies Milestone 2 requirement 31 only; full endpoint coverage (R32) will be implemented in next week sprint.
+
+<a id="s2w3"></a>
+## Semester 2 - Week 3 (Week 17 - January 19 to January 25, 2026)
+
+### 1. Type of Tasks Worked On
+![Week 17 Task Screenshot](images/week17-abhinav.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+This week focused on implementing Phase 1 of Milestone 2 Requirement 32 by adding a small, coherent set of API endpoints.  
+My contributions included: 
+- adding API routes for privacy consent, project upload, project list/detail, and portfolio showcase 
+- wiring dependency injection for config, role, and storage access 
+- triggering the pipeline from the upload endpoint and persisting results in the existing store 
+- merging user role metadata into project detail responses 
+- validating endpoints via Swagger UI and PowerShell requests
+
+---
+
+### 3. Features Owned in Project Plan
+
+ - FastAPI service layer for project upload and retrieval
+
+---
+
+### 4. Tasks from Project Board Associated with These Features 
+
+- Issue #229 - FastAPI service layer for project upload and retrieval
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+| Task ID | Issue Title                                   | Status     | Notes |
+|---------|-----------------------------------------------|------------|-------|
+| 229     | FastAPI core endpoints for projects, consent, and portfolio viewing | Completed  | Added routes, pipeline trigger, and tests for new endpoints |
+
+---
+
+### 6. Additional Context
+
+ - Confirmed upload pipeline executes successfully against a demo ZIP and persists results.
+ - Verified Swagger UI workflow for consent, upload, list, detail, and portfolio endpoints. 
+
+---
+
+### 7. Next Week's Focus
+ - Implement remaining R32 endpoints (skills, resume, portfolio edit/generate) 
+ - Improve API error handling and response consistency - Support frontend integration with API responses
 
 ## Semester 1
 
