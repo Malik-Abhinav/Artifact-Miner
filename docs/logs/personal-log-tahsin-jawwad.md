@@ -523,6 +523,9 @@ Building on last week's project filtering functionality (#225), these two weeks 
 * Tested edge cases: long content truncation, minimal data, None values, special characters
 * Verified collaborative vs individual project CTA differences
 
+**Other Tasks:**
+* Populated project board with bugs and issues found during Peer Review
+
 ### Pull Request Reviews 
 * Reviewed **Fixed Insight/Configuration Deletion #251**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
 * Reviewed **Fixed chronological skills timestamps #252**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
@@ -530,14 +533,14 @@ Building on last week's project filtering functionality (#225), these two weeks 
 * Will review additional PRs as they come in throughout the week
 
 ### Task from Project Board
-* Git User Identification for Individual Contribution Extraction
-* Windows ZIP Path Separator Bug Fix (discovered during testing)
-* LinkedIn Portfolio Sharing Feature
+* Implement GitHub username + email checking for user #249
+* Bug: List projects shows root project only #243
+* LinkedIn Post Integration #255
 
 ### Completed/In-progress Tasks
-* Git User Identification for Individual Contribution Extraction (Completed)
-* Windows ZIP Path Separator Bug Fix (Completed)
-* LinkedIn Portfolio Sharing Feature (Completed)
+* GImplement GitHub username + email checking for user #249 (Completed)
+* Wug: List projects shows root project only (Completed)
+* LinkedIn Post Integration (Completed)
 
 ### Goals for Next Week
 * Implement frontend UI for Git identifier input during user onboarding
