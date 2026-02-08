@@ -3,6 +3,7 @@
 [T2 Week 1 Personal Logs](#term-2-week-1)
 [T2 Week 2 Personal Logs](#term-2-week-2)
 [T2 Week 3 Personal Logs](#term-2-week-3)
+[T2 Week 4-5 Personal Logs](#term-2-week-4-5)
 
 [Week 3 Personal Logs](#week-3)
 [Week 4 Personal Logs](#week-4)
@@ -465,3 +466,94 @@ Building on last week's CLI interface (#204), this week focused on implementing 
 ### Goals for Next Week
 * Continue work on Milestone #2 requirements
 * Work on FastAPI endpoints for project management
+
+## Term 2 Week 4-5
+### Date Range 
+26th January 2026 - 8th February 2026
+
+### Connection to Previous Week
+Building on last week's project filtering functionality (#225), these two weeks focused on two critical improvements: (1) implementing Git user identification to extract individual contributions from collaborative repositories, and (2) fixing a Windows ZIP path separator bug that prevented proper multi-project detection.
+
+### Type of Tasks Worked On
+![Tahsin Type of Tasks Term 2 Week 4-5](images/tahsin-t2-week-4-5.png)
+
+**Coding Tasks:**
+
+*Git User Identification Feature:*
+* Added `git_identifier` field to `UserConfig` dataclass with automatic database migration
+* Created new API endpoints in `src/api/routers/privacy.py` for setting/retrieving Git identifiers
+* Enhanced `src/pipeline/orchestrator.py` to accept and process `git_identifier` parameter throughout the analysis flow
+* Created `_extract_user_contribution()` helper method with case-insensitive substring matching for emails, partial emails, and names
+* Integrated git_identifier flow in project upload endpoint with user-specific contribution extraction
+* Implemented flexible matching supporting multiple identifier formats
+
+*Windows ZIP Path Separator Bug Fix:*
+* Fixed critical bug in `src/pipeline/orchestrator.py` where Windows-style backslash paths (`\`) in ZIP files caused improper extraction on Linux (Docker)
+* Replaced `zipfile.extractall()` with custom extraction logic that normalizes path separators (converts `\` to `/`)
+* Added proper directory creation with `mkdir(parents=True)` for nested structures
+* Implemented filtering for directory entries and macOS metadata files (`__MACOSX`, `.` files)
+* Ensured cross-platform compatibility for ZIP files created on Windows and extracted on Linux
+* Bug caused detection of only 1 "root" project instead of multiple distinct projects (e.g., 5 separate projects in demo ZIP)
+
+*LinkedIn Portfolio Sharing Feature:*
+* Implemented `LinkedInFormatter` class for converting portfolio items into LinkedIn-ready post text
+* Created configurable formatting with emoji/hashtag toggling and 3000-character limit enforcement
+* Developed professional post structure with header, tech stack, skills, metrics, and call-to-action sections
+* Implemented smart hashtag generation from languages/frameworks with case-insensitive normalization
+* Added different CTAs for collaborative vs individual projects
+* Implemented intelligent text truncation with sentence/word boundary awareness
+
+**Testing Tasks:**
+
+*Git User Identification Tests (7 total):*
+* Added 2 tests to `tests/config/test_config_manager.py` for database persistence and backward compatibility
+* Added 1 test to `tests/api/test_privacy_consent.py` for API endpoint validation
+* Created `tests/pipeline/test_git_identifier.py` with 4 tests covering email matching, partial matching, name matching, and not-found cases
+
+*Windows ZIP Bug Fix Tests (1 new + 19 regression):*
+* Added `test_zip_with_windows_style_backslash_paths` to `tests/pipeline/test_orchestrator.py` as regression test
+* Test creates ZIP with Windows backslash paths and verifies multiple projects are correctly detected
+* All 19 existing orchestrator tests still passing (100% backward compatibility)
+* Verified with actual `tests/demo_capstone_project.zip` showing 5 projects detected instead of 1
+
+*LinkedIn Formatter Tests (8 comprehensive tests):*
+* Created `tests/integrations/test_linkedin_formatter.py` with TDD approach
+* Tested basic formatting, content inclusion, and all required field generation
+* Verified hashtag/emoji inclusion and exclusion modes
+* Tested edge cases: long content truncation, minimal data, None values, special characters
+* Verified collaborative vs individual project CTA differences
+
+**Other Tasks:**
+* Populated project board with bugs and issues found during Peer Review
+
+### Pull Request Reviews 
+* Reviewed **Fixed Insight/Configuration Deletion #251**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
+* Reviewed **Fixed chronological skills timestamps #252**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/223)
+* Reviewing **added a fix to detect a detection of the .git repo #253**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/253)
+* Will review additional PRs as they come in throughout the week
+
+### Task from Project Board
+* Implement GitHub username + email checking for user #249
+* Bug: List projects shows root project only #243
+* LinkedIn Post Integration #255
+
+### Completed/In-progress Tasks
+* GImplement GitHub username + email checking for user #249 (Completed)
+* Wug: List projects shows root project only (Completed)
+* LinkedIn Post Integration (Completed)
+
+### Goals for Next Week
+* Implement frontend UI for Git identifier input during user onboarding
+* Add validation and error handling for email format
+* Continue work on Milestone #2 requirements
+* Support multiple Git identifiers per user for different Git configurations
+* Add LinkedIn API endpoints for portfolio sharing (Phase 2 of LinkedIn feature)
+
+### Additional Notes
+* Git identifier feature maintains full backward compatibility (defaults to None)
+* ZIP fix ensures proper multi-project detection regardless of OS where ZIP was created
+* Database migration handled automatically for existing installations
+* Flexible matching algorithm supports various user input formats
+* Foundation laid for future enhancements: multiple identifiers, advanced fuzzy matching, privacy options
+* LinkedIn formatter core functionality complete at 255 LOC; API endpoints deferred to stay under 500 LOC limit
+* LinkedIn feature produces professional, copy-paste ready posts with configurable formatting
