@@ -3,6 +3,7 @@
 [Semester 2 Week 1 Individual Logs](#semester-2-week-1-individual-logs)<br>
 [Semester 2 Week 2 Individual Logs](#semester-2-week-2-individual-logs)<br>
 [Semester 2 Week 3 Individual Logs](#semester-2-week-3-individual-logs)<br>
+[Semester 2 Week 5 Individual Logs](#semester-2-week-5-individual-logs)<br>
 [Week 3 Individual Logs](#week-3)<br>
 [Week 4 Individual Logs](#week-4)<br>
 [Week 5 Individual Logs](#week-5)<br>
@@ -14,6 +15,91 @@
 [Week 12 Individual Logs](#week-12)<br>
 [Week 13 Individual Logs](#week-13)<br>
 [Week 14 Individual Logs](#week-14)
+
+---
+
+## Semester 2 Week 5 Individual Logs
+
+### January 26 2026 to February 8 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 5 Task Types Screenshot](images/abijeetdhillon_s2w5_tasks.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+This week (week 4 and week 5) mostly focused on addressing the feedback we received from **Milestone #1** as we’re now over halfway through **Milestone #2** and getting ready for the next deliverable.
+
+I spent most of my time working through [Issue #248](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/248) (users were not being deduplicated in git repos for collaborators, which caused duplicate entries in collaborator data) and [Issue #246](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/246) (deleting stored insights/configurations wasn’t working, which could leave stale data behind).
+
+I finished/merged the corresponding fixes in [PR #251](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/251) and [PR #258](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/258).
+
+**Coding tasks**
+
+- Implemented and refined changes tied to Milestone #1 feedback to improve overall stability and “demo readiness” heading into the next Milestone #2 deliverable.
+- Fixed the collaborator user deduplication bug (Issue #248) and the delete insight/config flow (Issue #246), keeping the implementation aligned with our milestone requirements and expected user flows.
+- Merged the updates in PRs #251 and #258 and ensured they fit cleanly with the rest of the Milestone #2 work in progress.
+
+**Testing / debugging tasks**
+
+- Did targeted regression testing around the areas touched by Issues #248 and #246 to make sure the fixes didn’t introduce new breakage.
+- Verified the updates from PRs #251 and #258 behave as expected when running the app locally, focusing on the main flows we’ll be demonstrating for the next deliverable.
+
+**Reviewing / collaboration tasks**
+
+- Reviewed Milestone #1 feedback items with the team and aligned on which changes were highest priority to complete before the next Milestone #2 checkpoint.
+
+**Pull request / issue references**
+
+- PR: [#251](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/251)
+- PR: [#258](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/258)
+- Issue: [#248](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/248)
+- Issue: [#246](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/246)
+
+**Issues / blockers**
+
+- None this week.
+
+**Plan / goals for next week**
+
+- Test all of our API endpoints end-to-end and confirm they’re working reliably (including validating responses on both success and error cases).
+- Fix any regressions or edge cases uncovered during testing so we’re in a strong spot for the next deliverable.
+- Continue polishing Milestone #2 work.
+
+---
+
+### 3. Features Owned in Project Plan
+
+- Address Milestone #1 feedback items and stabilize core user flows in preparation for the next Milestone #2 deliverable ([Issue #248](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/248), [Issue #246](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/246))
+- Implement and land the corresponding fixes via PRs ([PR #251](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/251), [PR #258](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/258))
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+- [Issue #248](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/248)
+- [Issue #246](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/246)
+- [PR #251](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/251)
+- [PR #258](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/258)
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue                                                                                                                                   | Status    | Notes                |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------- | -------------------- |
+| 248     | [Bug: Users are not deduplicated in git repos for collaborators](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/248) | Completed | Completed in PR #258 |
+| 246     | [Bug: Delete insight/config doesn't work](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/246)                        | Completed | Completed in PR #251 |
+
+---
+
+### 6. Future Cycle Plans & Reflection On This Week
+
+This week was productive, and we fixed some key issues that were present after Milestone #1. Most of the work was driven directly by the feedback we received, which helped us tighten up the parts of the product that matter most for the next Milestone #2 deliverable. There were no issues or blockers this week.
+
+Next week, my main focus is to test all of our API endpoints and ensure they are working reliably end-to-end.
 
 ---
 
