@@ -515,6 +515,18 @@ All new work was validated with automated tests and targeted manual runs.
 - Added regression test for Windows backslash ZIP extraction
 - Added comprehensive tests for LinkedIn formatter output and truncation behavior
 
+
+![Week 18-19 Tests - Part 1](images/test-images/week18-19-tests-p1.png)
+
+![Week 18-19 Tests - Part 2](images/test-images/week19-19-p2.png)
+
+![Week 18-19 Tests - Part 3](images/test-images/week18-19-p3.png)
+
+![Week 18-19 Tests - Part 4](images/test-images/week18-19-p4.png)
+
+
+
+
 ---
 
 ### 6. Additional Context
