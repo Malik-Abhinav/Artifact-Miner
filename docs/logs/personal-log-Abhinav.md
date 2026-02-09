@@ -1,6 +1,6 @@
 # Individual Log - Abhinav Malik
 
-[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3)  
+[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5)  
 [Semester 1 - Week 3](#s1w3) | [Semester 1 - Week 4](#s1w4) | [Semester 1 - Week 5](#s1w5) | [Semester 1 - Week 6](#s1w6) | [Semester 1 - Week 7](#s1w7) | [Semester 1 - Week 8](#s1w8)  
 [Semester 1 - Week 9](#s1w9) | [Semester 1 - Week 10](#s1w10) | [Semester 1 - Week 12](#s1w12) | [Semester 1 - Week 13](#s1w13) | [Semester 1 - Week 14](#s1w14)
 
@@ -118,6 +118,60 @@ My contributions included:
 ### 7. Next Week's Focus
  - Implement remaining R32 endpoints (skills, resume, portfolio edit/generate) 
  - Improve API error handling and response consistency - Support frontend integration with API responses
+
+<a id="s2w4w5"></a>
+## Semester 2 - Week 4-5 (Week 18-19 - January 26 to February 8, 2026)
+
+### 1. Type of Tasks Worked On
+![Week 18-19 Task Screenshot](images/week5-abhinav.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+These two weeks focused on improving pipeline correctness and usability around ZIP processing and project listing.  
+My contributions included:
+- fixing chronological skill ordering by using ZIP metadata timestamps rather than extraction/analysis time
+- filtering macOS metadata artifacts from timelines and normalizing ZIP entry paths for cross-platform lookups
+- improving multi-project ZIP root detection so top-level folders are treated as distinct projects
+- adding ZIP-scoped listing filters (`--zip-path`, `--zip-hash`) to query projects from a specific run
+- making barcode detection optional when zbar is unavailable to avoid macOS/pyenv crashes
+
+---
+
+### 3. Features Owned in Project Plan
+
+ - Chronological skills ordering and ZIP metadata handling
+ - Multi-project ZIP detection and scoped project listing filters
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+ - Issue #247 - Chronological skills ordering and macOS metadata filtering
+ - Issue #244 - Multi-project ZIP listing and scoped filters
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+| Task ID | Issue Title                                   | Status     | Notes |
+|---------|-----------------------------------------------|------------|-------|
+| 247     | Chronological skills ordering + macOS metadata filtering | Completed  | Used ZIP metadata timestamps, normalized paths, added tests/docs |
+| 244     | Multi-project ZIP listing + scoped filters     | Completed  | Improved root detection, added `--zip-path`/`--zip-hash`, optional zbar |
+
+---
+
+### 6. Additional Context
+
+ - Validated Docker-based runs with demo ZIPs and chronological skills CLI.
+ - Added/updated tests for timestamp overrides, macOS filtering, list filtering, and project root detection.
+
+---
+
+### 7. Next Week's Focus
+
+ - Support frontend integration and improve response consistency.
+ - Do more test runs for the api endpoints and its edgecases.
 
 ## Semester 1
 
