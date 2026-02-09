@@ -3,6 +3,7 @@
 [Semester 2 - Week 1 Team Logs](#s2w1)<br>
 [Semester 2 - Week 2 Team Logs](#s2w2)<br>
 [Semester 2 - Week 3 Team Logs](#s2w3)<br>
+[Semester 2 - Week 4-5 Team Logs](#s2w4w5)<br>
 [Week 3 Team Logs](#week-3)<br>
 [Week 4 Team Logs](#week-4)<br>
 [Week 5 Team Logs](#week-5)<br>
@@ -422,6 +423,147 @@ The combination of comprehensive API endpoints and improved pipeline features po
 - Prioritize frontend integration now that API is feature-complete
 - Consider load testing for concurrent API requests
 - Plan for production deployment requirements (authentication, monitoring, error tracking)
+
+<a id="s2w4w5"></a>
+## Semester 2 - Week 4-5 (Week 18-19 - January 26 2026 to February 8 2026)
+
+### January 26 2026 to February 8 2026
+
+### 1. Milestone Goals Recap
+
+These two weeks focused on stabilizing Milestone 2 with correctness fixes and new capabilities across the pipeline, project listing, and contribution-aware analytics.
+
+Planned Features for This Milestone:
+- Fix ZIP processing correctness (timestamps, path normalization, macOS metadata filtering, Windows backslashes)
+- Improve multi-project detection and project listing for ZIP runs
+- Add user-specific contribution analytics and ranking
+- Implement pipeline cancellation and cleanup
+- Add Git identifier support for user contribution extraction
+- Expand portfolio sharing formats (LinkedIn formatter)
+
+Tasks from Project Board Associated with These Features:
+- #247 Chronological skills ordering and timestamp fixes
+- #244 Multi-project ZIP listing + scoped filters
+- #248 Collaborator user deduplication
+- #246 Delete insight/config fixes
+- #249 Git identifier support for user contribution
+- #243 Project listing root detection bug
+- #255 LinkedIn post integration
+
+---
+
+### 2. Burnup Chart
+
+N/A
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+| Task ID | Issue Title                                                     | Username        | Associated Feature                                        | Status    |
+| ------- | --------------------------------------------------------------- | --------------- | --------------------------------------------------------- | --------- |
+| 247     | Chronological skills ordering + macOS metadata filtering         | Malik-Abhinav   | ZIP timestamp correctness and timeline quality            | Completed |
+| 244     | Multi-project ZIP listing + scoped filters                        | Malik-Abhinav   | Project listing usability for ZIP runs                    | Completed |
+| N/A     | Contribution-aware project ranking + user identification         | abdur026        | Ranking system enhancement                                | Completed |
+| N/A     | Pipeline cancellation endpoint + tracker registry + cleanup       | kmerchant1      | Pipeline observability and control                        | Completed |
+| 248     | Collaborator user deduplication in git repos                      | abijeet-dhillon | Data correctness and stability                            | Completed |
+| 246     | Delete insight/config fixes                                       | abijeet-dhillon | Data lifecycle integrity                                  | Completed |
+| 249     | Git identifier support for user contribution                      | tahsinj         | User-specific contribution extraction                     | Completed |
+| 243     | Project listing root detection bug (Windows ZIP path fix)         | tahsinj         | Multi-project ZIP detection and cross-platform extraction | Completed |
+| 255     | LinkedIn portfolio post formatter                                 | tahsinj         | Portfolio sharing outputs                                 | Completed |
+
+---
+
+### 5. Test Report
+
+All new work was validated with automated tests and targeted manual runs.
+
+**Abhinav (ZIP timestamps, listing filters)**
+- Docker-based validation with demo ZIP and chronological skills CLI
+- Tests:
+  - `pytest tests/analyze/test_chronological_skills.py -v`
+  - `pytest tests/pipeline/test_list_filtering.py -v`
+  - `pytest tests/pipeline/test_orchestrator_coverage.py -v -k "identify_projects"`
+
+**Abdur (Contribution-aware ranking)**
+- Added tests for contribution scoring, ranking behavior, and summary export formats
+- Manual verification for ranking order and edge cases (no user, unmatched authors)
+
+**Kaiden (Cancellation and tracker safety)**
+- Added `tests/test_cancellation.py` with 8 cases for registry, cleanup, and integration
+- Thread-safety validated with concurrent access checks
+
+**Abijeet (Dedup and delete flows)**
+- Regression testing around collaborator deduplication and delete insight/config flows
+- Validated fixes via PRs #251 and #258
+
+**Tahsin (Git identifier, Windows ZIP paths, LinkedIn formatter)**
+- Added tests for git identifier persistence and matching
+- Added regression test for Windows backslash ZIP extraction
+- Added comprehensive tests for LinkedIn formatter output and truncation behavior
+
+
+![Week 18-19 Tests - Part 1](images/test-images/week18-19-tests-p1.png)
+
+![Week 18-19 Tests - Part 2](images/test-images/week19-19-p2.png)
+
+![Week 18-19 Tests - Part 3](images/test-images/week18-19-p3.png)
+
+![Week 18-19 Tests - Part 4](images/test-images/week18-19-p4.png)
+
+
+
+
+---
+
+### 6. Additional Context
+
+These two weeks addressed several correctness gaps identified after Milestone 1 feedback and improved usability for real-world ZIP inputs:
+- ZIP metadata timestamps now drive chronological skills ordering, with macOS artifacts filtered.
+- Multi-project ZIPs are properly detected across platforms, and listing can be scoped to a specific ZIP run.
+- User-specific contribution analysis is now supported with configurable identifiers and ranking.
+- A cancellation endpoint and cleanup flow provide safer interruption handling for long-running analyses.
+- LinkedIn-ready portfolio formatting is available for sharing outputs.
+
+---
+
+### 7. Future Cycle Plans
+
+- Expand API endpoint coverage and harden response consistency.
+- Add frontend UI for git identifier input and validation.
+- Improve contribution weighting with additional datasets.
+- Add HTTP-level tests for cancel endpoint and API reliability.
+- Continue polishing Milestone 2 deliverables based on feedback.
+
+---
+
+### 8. Reflection on This Cycle
+
+**What went well:**
+- Several correctness bugs were resolved with strong automated test coverage.
+- Pipeline and listing behavior is now more robust across platforms and ZIP formats.
+- Contribution-aware analytics and cancellation support improve user control and relevance.
+
+**What could be improved:**
+- More coordinated integration testing across API + pipeline features.
+- Earlier alignment on ZIP handling edge cases to reduce duplicate fixes.
+
+**How this informs us for the next cycle:**
+- Prioritize end-to-end flows (upload → list → insights) using shared demo ZIPs.
+- Add API-level tests for critical workflows before UI integration.
 
 
 ## Semester 1
