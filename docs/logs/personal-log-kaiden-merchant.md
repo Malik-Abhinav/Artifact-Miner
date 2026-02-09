@@ -16,6 +16,7 @@
 1. [Semester 2 - Week 1](#semester-2---week-1)
 1. [Semester 2 - Week 2](#semester-2---week-2)
 1. [Semester 2 - Week 3](#semester-2---week-3)
+1. [Semester 2 - Week 4/5](#semester-2---week-45)
 
 ## Week 3
 This section outlines the individual log for week 3
@@ -772,3 +773,124 @@ This section outlines the individual log for Semester 2 - Week 3
 - Explore file diff analysis for incremental scans (detect what changed between runs)
 - Implement enhanced error recovery with retry logic and partial success handling
 - Research WebSocket integration for real-time progress streaming to clients
+
+## Semester 2 - Week 4/5
+This section outlines the individual log for Semester 2, Week 4/5
+
+### February 1 - February 8
+
+### Tasks
+
+![](images/kaiden_sem2_week4_tasks.png)
+
+### Weekly Goals
+
+1. My Features: 
+    - Design and implement pipeline cancellation mechanism
+    - Add POST /insights/cancel/{zip_hash} API endpoint
+    - Ensure thread-safe tracker registry with proper locking
+    - Integrate cancellation detection into pipeline flow
+    - Implement automatic cleanup of partial database records
+    - Build comprehensive test suite with thread safety validation
+
+2. Associated Tasks
+    - Cancellation Endpoint Implementation
+    - Progress Tracker Thread-Safety Fixes
+    - Pipeline Orchestrator Integration
+    - Tracker Registry Development
+    - Database Cleanup Logic
+    - Testing and Documentation
+
+3. Completed/In-Progress
+    - ✅ Fixed thread-safety deadlock in `ProgressTracker`:
+        - Resolved issue where `update()` called `get_state()` while holding lock
+        - Moved callback notification outside lock to prevent deadlock scenarios
+        - Created `_notify_callbacks_direct()` to avoid re-acquiring lock
+        - All state copies now created within lock, callbacks invoked outside
+    - ✅ Implemented cancellation endpoint in `src/insights/api.py`:
+        - `POST /insights/cancel/{zip_hash}` - triggers cancellation and schedules cleanup
+        - Global tracker registry with thread-safe register/unregister/get functions
+        - Background cleanup task using FastAPI's `BackgroundTasks`
+        - Proper error handling for missing trackers and orphaned records
+    - ✅ Integrated cancellation into pipeline orchestrator:
+        - Added `_get_zip_hash()` method to calculate SHA256 of ZIP files
+        - Tracker registration at pipeline start with `register_tracker(zip_hash, tracker)`
+        - Cancellation checkpoints at 3 strategic locations:
+            * After ZIP parsing (line 141)
+            * After extraction (line 178)
+            * Before processing each project (line 214)
+        - `_cleanup_on_cancel()` method to delete partial database records
+        - Tracker unregistration in `finally` block to ensure cleanup
+    - ✅ Created comprehensive test suite (`tests/test_cancellation.py`):
+        - 8 test cases covering registry, cleanup, and integration scenarios
+        - Thread safety validated with concurrent operations
+        - All tests passing (8/8)
+        - Tests cover: tracker registry, database cleanup, cancellation flow, pipeline integration
+
+### Key Implementation Details
+
+**Cancellation Workflow:**
+1. **Pipeline Start**: Calculate SHA256 hash of ZIP file to uniquely identify the run
+2. **Registration**: Register `ProgressTracker` in global registry with `zip_hash` as key
+3. **Processing**: Pipeline runs normally, checking `should_cancel()` at checkpoints
+4. **Cancel Request**: External caller (API endpoint) retrieves tracker and calls `request_cancel()`
+5. **Detection**: Pipeline detects flag at next checkpoint (parsing/extraction/project loop)
+6. **Cleanup**: `_cleanup_on_cancel(zip_hash)` deletes all database records for that ZIP
+7. **Exit**: Pipeline returns `{"status": "cancelled"}` and unregisters tracker in `finally` block
+
+**Thread-Safety Improvements:**
+- **Problem**: Original implementation acquired lock in `update()`, then called `get_state()` which tried to acquire lock again, then `_notify_callbacks()` acquired lock a third time
+- **Solution**: Create state copy and callback list while holding lock once, then notify outside lock
+- **Result**: No deadlocks, callbacks can safely call other tracker methods if needed
+
+**Tracker Registry Design:**
+```python
+_active_trackers: Dict[str, Any] = {}  # Maps zip_hash -> ProgressTracker
+_tracker_lock = threading.Lock()       # Thread-safe access
+
+register_tracker(zip_hash, tracker)    # Called at pipeline start
+get_tracker(zip_hash)                  # Called by cancel endpoint
+unregister_tracker(zip_hash)           # Called in finally block
+```
+
+**Database Cleanup:**
+- Uses existing `store.delete_zip(zip_hash)` method to remove all records
+- Returns count of deleted projects and zips
+- Runs in FastAPI background task to not block response
+- Also called directly in pipeline for immediate cleanup
+
+### Reflection Points
+
+**What went well:**
+- Clean separation of concerns - cancellation logic isolated in API layer
+- Non-breaking changes - existing pipeline functionality unchanged
+- Comprehensive test coverage caught the deadlock issue early
+- Strategic checkpoint placement allows cancellation without losing much work
+- Background cleanup ensures API remains responsive
+
+**What didn't go well:**
+- Initial implementation had subtle deadlock that only appeared under specific conditions
+- Took several iterations to find optimal checkpoint locations in pipeline
+- Had to refactor progress tracker callback mechanism to fix threading issues
+
+**Technical Decisions:**
+- Used SHA256 of entire ZIP file (not just filename) to uniquely identify runs
+- Chose to delete all records on cancel rather than marking as "partial" or "cancelled"
+- Implemented cleanup in both API endpoint (background) and pipeline (immediate) for safety
+- Decided to defer API server setup to next week - focused on core logic first
+- Made tracker registry global with explicit lock rather than thread-local storage
+
+**Testing Strategy:**
+- Unit tests for tracker registry operations (register/get/unregister)
+- Thread-safety tests with concurrent access (tested with multiple threads)
+- Integration tests for full cancellation flow (tracker + pipeline + cleanup)
+- Database cleanup verification (insert records, cancel, verify deletion)
+- Manual testing script for end-to-end validation without HTTP layer
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 6 Goals:**
+- Set up FastAPI server with proper entry point (`src/main.py`)
+- Update `docker-compose.yml` with uvicorn command to run API server
+- Test cancel endpoint with actual HTTP requests (cURL/Postman)
+- Implement health check endpoints for API monitoring
