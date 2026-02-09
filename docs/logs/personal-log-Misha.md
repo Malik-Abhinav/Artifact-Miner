@@ -273,6 +273,119 @@ My contributions included:
 
 ### Planning Activities for Next Cycle
 
-**Semester 2 - Week 4 Goals:**
+**Semester 2 - Week 4 & 5 Goals:**
+- Implement advanced project filtering system with comprehensive filter engine
+- Add filter preset management functionality
+- Create database schema for filter presets
+
+---
+
+## Semester 2 - Weeks 4 & 5 (Weeks 18-19 - January 26 to February 8, 2026)
+
+### Tasks
+![Misha Gavura Weeks 18-19 Task Type Screenshot](images/misha-week-feb8.png)
+
+---
+
+### Recap of Weekly Goals
+
+This two-week period focused on implementing **Part 1** of the advanced project filtering system: the core filtering engine and data models.
+
+My contributions included:
+- Building comprehensive filtering engine with 11 sorting options and multiple filter criteria
+- Implementing filter preset management (save, load, list, delete)
+- Creating type-safe design using dataclasses and enums
+- Adding full integration with existing `ProjectInsightsStore` database schema
+- Writing extensive documentation and test scripts
+
+---
+
+### Features Owned in Project Plan
+- Advanced Project Filtering Engine
+- Filter Preset Management System
+- Success Metrics Filtering (LOC, commits, contributors, files)
+
+---
+
+### Tasks from Project Board Associated with These Features
+- Part 1 of Advanced Project Filtering Feature Implementation
+
+---
+
+### Tasks Completed / In Progress
+| Task ID | Issue Title                              | Status    | Notes |
+|---------|------------------------------------------|-----------|-------|
+| TBD     | Advanced Project Filtering (Part 1)      | Completed | Core engine with 466 lines, 11 sorting options, full-text search |
+
+---
+
+### What I Did
+
+**1. Core Filtering Engine (`src/insights/project_filter.py` - ~466 lines)**
+- Implemented `ProjectFilterEngine` with comprehensive filtering capabilities:
+  - Date range filtering (created/modified dates)
+  - Technology stack filtering (languages, frameworks, skills)
+  - Project type filtering (personal, academic, professional)
+  - Complexity and importance filtering
+  - Success metrics filtering (LOC, commits, contributors, files with min/max thresholds)
+  - Full-text search across project names, descriptions, taglines, and summaries
+- Added 11 custom sorting options:
+  - By importance, creation date, modification date, LOC, commits, contributors, name, project type
+  - Both ascending and descending order support
+- Implemented pagination with limit/offset support
+
+**2. Filter Preset Management**
+- Created `FilterPreset` class for saving custom filter configurations
+- Implemented CRUD operations:
+  - Save presets with custom names and descriptions
+  - Load presets by ID or name
+  - List all saved presets
+  - Delete presets
+- Added new database table: `filter_presets` for persistent storage
+
+**3. Type-Safe Design**
+- Used dataclasses for clean data structures:
+  - `ProjectFilter` - Main filter configuration
+  - `FilterPreset` - Saved filter configurations
+  - `DateRange` - Date filtering
+  - `SuccessMetrics` - Metric thresholds
+- Created enums for type safety:
+  - `SortBy` - Sorting options
+  - `ProjectType` - Project categories
+
+**4. Database Integration**
+- Full integration with existing schema (project_info, projects, portfolio_insights, tags, skill_evidence)
+- SQL query builder with dynamic WHERE clause generation
+- Automatic table creation with `CREATE TABLE IF NOT EXISTS`
+- No breaking changes to existing functionality
+
+**5. Testing & Documentation**
+- Created `test_filter.py` demonstrating all filtering features
+- Added comprehensive inline docstrings
+- Provided manual testing commands for Docker environment
+- Verified compatibility with existing database schema
+
+**Technical Details:**
+- SQL query generation with proper JOIN operations across 5 tables
+- Support for multiple filter combinations
+- Performance-conscious design using existing database indexes
+- Type-safe throughout with Python type hints
+
+---
+
+### Additional Context
+- **No breaking changes** - All additions are backward compatible
+- **Database migration** - New table created automatically on first use
+- **Performance** - Leverages existing indexes, scales well with current dataset
+- All filtering operations tested with existing project data
+- Ready for Part 2: REST API endpoint implementation
+
+---
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 6 Goals:**
+- Implement Part 2: REST API endpoints for filtering system
+- Add `/insights/filter` endpoint for applying filters
+- Create endpoints for filter preset management
 - Enhance API error handling and response consistency
-- Support real-time pipeline status updates
