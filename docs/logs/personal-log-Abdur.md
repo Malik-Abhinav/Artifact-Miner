@@ -586,3 +586,56 @@ This section outlines the individual log for week 15 of Semester 2
   - Run full test suites to validate compatibility with other insights routes.  
   - Integrate the insights router into the main FastAPI application if not already included.  
   - Explore extending customization support to additional portfolio fields or UI-driven edits.
+
+
+## Week 5 Semester 2  
+
+### Tasks
+![](images/abdur-week5s2.png)
+
+- Implemented user contribution–based ranking in the project ranking system.
+- Added a new `"user_contrib"` ranking criterion to prioritize projects based on the user’s contribution percentage.
+- Implemented smart user identification using exact email matching and partial name matching.
+- Updated ranking logic to accept an optional `user_email` parameter while maintaining backward compatibility.
+- Enhanced summary generation and export formats (JSON, CSV, Text) to include user contribution scores.
+- Ensured all existing ranking functionality works unchanged when no user is specified.
+- Wrote automated tests for contribution scoring, ranking behavior, and summary generation.
+
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Introduce user-aware ranking to better reflect personal project impact.
+   - Maintain full backward compatibility with existing ranking logic.
+   - Integrate contribution data into summaries and export outputs.
+
+2. **Testing & Quality**
+   - Add pytest coverage for user contribution scoring and ranking scenarios.
+   - Validate ranking order across different criteria.
+   - Ensure no regressions in existing functionality.
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - The new ranking logic integrated smoothly into the existing scoring system.
+  - Backward compatibility was preserved without requiring major refactoring.
+  - Automated tests provided strong confidence in edge cases (no user provided, unmatched authors, single-author projects).
+  - Manual testing confirmed correct ordering across ranking strategies.
+
+- **What didn’t go well**
+  - Some additional time was required to fine tune contribution weighting within the scoring formula.
+  - Refining user identification logic (email vs. name matching) required careful handling to avoid incorrect matches.
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 6 Semester 2 Goals**
+  - Fine tune contribution weighting based on additional test datasets.
+  - Review PR feedback and implement requested improvements.
+  - Explore extending contribution-aware ranking into additional analytics features.
+  - Evaluate potential UI-level integration if applicable.
