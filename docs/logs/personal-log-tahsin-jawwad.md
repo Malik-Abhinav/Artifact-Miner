@@ -4,6 +4,7 @@
 [T2 Week 2 Personal Logs](#term-2-week-2)
 [T2 Week 3 Personal Logs](#term-2-week-3)
 [T2 Week 4-5 Personal Logs](#term-2-week-4-5)
+[T2 Week 6 Personal Logs](#term-2-week-6)
 
 [Week 3 Personal Logs](#week-3)
 [Week 4 Personal Logs](#week-4)
@@ -557,3 +558,86 @@ Building on last week's project filtering functionality (#225), these two weeks 
 * Foundation laid for future enhancements: multiple identifiers, advanced fuzzy matching, privacy options
 * LinkedIn formatter core functionality complete at 255 LOC; API endpoints deferred to stay under 500 LOC limit
 * LinkedIn feature produces professional, copy-paste ready posts with configurable formatting
+
+## Term 2 Week 6
+### Date Range 
+9th February 2026 - 15th February 2026
+
+### Connection to Previous Week
+Building on last week's LinkedIn formatter core (#255), this week focused on implementing REST API endpoints to expose the LinkedIn sharing functionality via HTTP. Additionally, implemented a comprehensive project filtering system to enable users to search and filter their portfolio by multiple criteria.
+
+### Type of Tasks Worked On
+![Tahsin Type of Tasks Term 2 Week 6](images/tahsin-t2-week-6.png)
+
+**Coding Tasks:**
+
+*LinkedIn API Endpoints Implementation:*
+* Created `src/api/routers/linkedin.py` with FastAPI router implementation (140 LOC)
+* Implemented `GET /linkedin/preview/{project_id}` and `POST /linkedin/preview/{project_id}/custom` endpoints
+* Created `LinkedInPreviewResponse` and `LinkedInFormatOptions` Pydantic models for validation
+* Integrated with `ProjectInsightsStore` using dependency injection pattern
+* Implemented comprehensive error handling (404 for missing projects/ungenerated portfolios)
+* Full integration with FastAPI application and OpenAPI/Swagger documentation
+
+*Project Filtering System Implementation:*
+* Created `src/insights/project_filter.py` with comprehensive filtering engine (461 LOC)
+* Implemented `ProjectFilterEngine` class with 10 filtering dimensions:
+  - Date range filtering (start/end dates)
+  - Technology filtering (languages, frameworks, skills with OR logic)
+  - Project type filtering (collaborative vs individual)
+  - Complexity level filtering (simple/moderate/complex)
+  - Success metrics filtering (min/max LOC, commits, contributors, files)
+  - Full-text search across project name, description, tagline, summary
+  - 11 different sorting options (date, LOC, commits, contributors, name, importance)
+  - Pagination support (limit + offset)
+  - Saved filter presets with CRUD operations
+* Created comprehensive data models using dataclasses:
+  - `ProjectFilter`: Main filter configuration with all criteria
+  - `DateRange`: Date range specification
+  - `SuccessMetrics`: Threshold-based metric filtering
+  - `FilterPreset`: Saved filter configurations with metadata
+  - `SortBy` and `ProjectType` enums for type safety
+* Implemented SQL query builder with proper parameterization (SQL injection protection)
+* Built preset management system with SQLite persistence (save/load/update/delete)
+* Added convenience `search_projects()` method for simple text-based searches
+
+**Testing Tasks:**
+
+*LinkedIn API Endpoint Tests (10 tests):*
+* Created `tests/api/test_linkedin_endpoints.py` with full endpoint coverage (216 LOC)
+* Tested successful responses, query parameters, custom formatting, error handling (404s)
+* Achieved 96% code coverage for API router
+* Used monkeypatching for isolated database testing
+
+*Project Filtering System Tests (38 comprehensive tests):*
+* Created `tests/insights/test_project_filter.py` with complete feature coverage (413 LOC)
+* Test breakdown by category:
+  - 4 tests for basic filtering (empty filter, date ranges)
+  - 5 tests for metrics filtering (min/max LOC, commits, contributors)
+  - 3 tests for project type and complexity filtering
+  - 4 tests for full-text search (name, description, case-insensitive, no results)
+  - 5 tests for tag filtering (languages, frameworks, skills, combinations)
+  - 4 tests for sorting functionality (date asc/desc, LOC, commits)
+  - 3 tests for pagination (limit, offset, combinations)
+  - 7 tests for preset management (save, get by ID/name, list, update, delete)
+  - 3 tests for edge cases (SQL injection, no matches, convenience method)
+* Created comprehensive fixtures with temp database and 5 sample projects
+* All 38 tests passing with 100% success rate
+* Verified SQL injection protection and error handling
+
+### Pull Request Reviews 
+* Reviewed **Fix orchestrator and filter noreply contributors errors #272**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/272)
+* Reviewed **added a new feature: filtering #268** [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/268)
+* Will review additional PRs as they come in throughout the week
+
+### Task from Project Board
+* LinkedIn API Endpoints ##273
+
+### Completed/In-progress Tasks
+* LinkedIn API Endpoints #273 (Completed)
+
+### Goals for Next Week
+* Implement frontend UI for filtering interface with dropdown selectors
+* Add LinkedIn preview UI with copy-to-clipboard functionality
+* Add integration tests for end-to-end workflows
+* Continue work on remaining Milestone #2 requirements
