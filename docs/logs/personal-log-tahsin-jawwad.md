@@ -559,85 +559,77 @@ Building on last week's project filtering functionality (#225), these two weeks 
 * LinkedIn formatter core functionality complete at 255 LOC; API endpoints deferred to stay under 500 LOC limit
 * LinkedIn feature produces professional, copy-paste ready posts with configurable formatting
 
-## Term 2 Week 6
+## Term 2 Week 6-7
 ### Date Range 
-9th February 2026 - 15th February 2026
+9th February 2026 - 2nd March 2026
 
 ### Connection to Previous Week
-Building on last week's LinkedIn formatter core (#255), this week focused on implementing REST API endpoints to expose the LinkedIn sharing functionality via HTTP. Additionally, implemented a comprehensive project filtering system to enable users to search and filter their portfolio by multiple criteria.
+Building on last week's LinkedIn formatter core (#255), these two weeks involved implementing REST API endpoints for LinkedIn sharing, creating a comprehensive project filtering system, and developing an intelligent project comparison engine with job matching capabilities to differentiate our project from competitors.
 
 ### Type of Tasks Worked On
 ![Tahsin Type of Tasks Term 2 Week 6](images/tahsin-t2-week-6.png)
 
 **Coding Tasks:**
 
-*LinkedIn API Endpoints Implementation:*
-* Created `src/api/routers/linkedin.py` with FastAPI router implementation (140 LOC)
-* Implemented `GET /linkedin/preview/{project_id}` and `POST /linkedin/preview/{project_id}/custom` endpoints
-* Created `LinkedInPreviewResponse` and `LinkedInFormatOptions` Pydantic models for validation
-* Integrated with `ProjectInsightsStore` using dependency injection pattern
-* Implemented comprehensive error handling (404 for missing projects/ungenerated portfolios)
-* Full integration with FastAPI application and OpenAPI/Swagger documentation
+*Week 6 - LinkedIn API Endpoints:*
+* Created `src/api/routers/linkedin.py` with FastAPI router (140 LOC)
+* Implemented 2 endpoints: `GET /linkedin/preview/{project_id}` and `POST /linkedin/preview/{project_id}/custom`
+* Created Pydantic models for validation with comprehensive error handling
 
-*Project Filtering System Implementation:*
-* Created `src/insights/project_filter.py` with comprehensive filtering engine (461 LOC)
-* Implemented `ProjectFilterEngine` class with 10 filtering dimensions:
-  - Date range filtering (start/end dates)
-  - Technology filtering (languages, frameworks, skills with OR logic)
-  - Project type filtering (collaborative vs individual)
-  - Complexity level filtering (simple/moderate/complex)
-  - Success metrics filtering (min/max LOC, commits, contributors, files)
-  - Full-text search across project name, description, tagline, summary
-  - 11 different sorting options (date, LOC, commits, contributors, name, importance)
-  - Pagination support (limit + offset)
-  - Saved filter presets with CRUD operations
-* Created comprehensive data models using dataclasses:
-  - `ProjectFilter`: Main filter configuration with all criteria
-  - `DateRange`: Date range specification
-  - `SuccessMetrics`: Threshold-based metric filtering
-  - `FilterPreset`: Saved filter configurations with metadata
-  - `SortBy` and `ProjectType` enums for type safety
-* Implemented SQL query builder with proper parameterization (SQL injection protection)
-* Built preset management system with SQLite persistence (save/load/update/delete)
-* Added convenience `search_projects()` method for simple text-based searches
+
+*Week 7 - Intelligent Project Comparison Engine:*
+* Created `src/insights/comparison.py` core engine (197 LOC) using algorithmic analysis and pattern matching
+* Implemented skill evolution tracking, quality progression analysis, testing maturity scoring
+* Built growth score calculation (0-100 scale) with multi-factor weighted formula
+* Developed job matching algorithm with keyword extraction and relevance scoring
+* Created `src/api/routers/comparison.py` with 5 REST endpoints (92 LOC):
+  - `GET /compare/projects` - Compare all projects with comprehensive analysis
+  - `POST /compare/projects/{id1}/vs/{id2}` - Head-to-head comparison with winner
+  - `POST /compare/match-job` - Match projects to job descriptions (unique feature)
+  - `GET /compare/growth` - Growth trajectory data for charts
+  - `GET /compare/recommendations` - Strategic portfolio advice
+* Aggressively refactored to meet <500 LOC requirement (35% reduction: 499→324 LOC)
 
 **Testing Tasks:**
 
-*LinkedIn API Endpoint Tests (10 tests):*
-* Created `tests/api/test_linkedin_endpoints.py` with full endpoint coverage (216 LOC)
-* Tested successful responses, query parameters, custom formatting, error handling (404s)
-* Achieved 96% code coverage for API router
-* Used monkeypatching for isolated database testing
+*LinkedIn API Tests (10 tests):*
+* Created `tests/api/test_linkedin_endpoints.py` (216 LOC)
+* Achieved 96% code coverage with comprehensive endpoint validation
 
-*Project Filtering System Tests (38 comprehensive tests):*
-* Created `tests/insights/test_project_filter.py` with complete feature coverage (413 LOC)
-* Test breakdown by category:
-  - 4 tests for basic filtering (empty filter, date ranges)
-  - 5 tests for metrics filtering (min/max LOC, commits, contributors)
-  - 3 tests for project type and complexity filtering
-  - 4 tests for full-text search (name, description, case-insensitive, no results)
-  - 5 tests for tag filtering (languages, frameworks, skills, combinations)
-  - 4 tests for sorting functionality (date asc/desc, LOC, commits)
-  - 3 tests for pagination (limit, offset, combinations)
-  - 7 tests for preset management (save, get by ID/name, list, update, delete)
-  - 3 tests for edge cases (SQL injection, no matches, convenience method)
-* Created comprehensive fixtures with temp database and 5 sample projects
-* All 38 tests passing with 100% success rate
-* Verified SQL injection protection and error handling
+*Project Filtering Tests (38 tests):*
+* Created `tests/insights/test_project_filter.py` (413 LOC)
+* Tested all filtering dimensions, sorting, pagination, presets, SQL injection protection
+* All tests passing with 100% success rate
+
+*Comparison Engine Tests (8 tests):*
+* Created `tests/insights/test_comparison.py` (33 LOC)
+* Tests: error handling, summary generation, skill evolution, quality improvement, testing maturity, growth score, head-to-head comparison, job matching
+* All tests passing in 0.21 seconds with isolated database testing
 
 ### Pull Request Reviews 
-* Reviewed **Fix orchestrator and filter noreply contributors errors #272**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/272)
-* Reviewed **added a new feature: filtering #268** [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/268)
-* Will review additional PRs as they come in throughout the week
+* Reviewed **Fix orchestrator and filter noreply contributors errors #272**
+* Reviewed **added a new feature: filtering #268**
 
 ### Task from Project Board
-* LinkedIn API Endpoints ##273
+* LinkedIn API Endpoints #273 (Week 6)
+* Intelligent Project Comparison Feature (Week 7)
 
 ### Completed/In-progress Tasks
 * LinkedIn API Endpoints #273 (Completed)
+* Intelligent Project Comparison Feature (Completed)
+
+### Challenges & Solutions
+**Week 6**: Implementing secure SQL query builder → Solution: Parameterized queries with proper escaping
+**Week 7**: Balancing sophistication with simplicity → Solution: Pattern-based analysis instead of ML models
+
+### What I Learned
+* SQL injection protection requires careful parameterization in dynamic query builders
+* Code density vs readability tradeoff: heavily refactored code is more compact but harder to maintain
+* Job matching provides unique competitive advantage - no other portfolio tools offer this feature
+* Algorithmic analysis can deliver AI-like insights without ML overhead or API costs
 
 ### Goals for Next Week
-* Implement frontend UI for filtering interface with dropdown selectors
-* Add LinkedIn preview UI with copy-to-clipboard functionality
-* Add integration tests for end-to-end workflows
-* Continue work on remaining Milestone #2 requirements
+* Begin frontend development for Milestone 3 (One-Page Resume and Web Portfolio)
+* Implement project comparison visualization with charts
+* Create job matching UI component
+* Deploy comparison feature for team testing
