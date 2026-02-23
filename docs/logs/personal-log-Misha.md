@@ -389,3 +389,100 @@ My contributions included:
 - Add `/insights/filter` endpoint for applying filters
 - Create endpoints for filter preset management
 - Enhance API error handling and response consistency
+
+---
+
+## Semester 2 - Week 6 (Week 20 - February 16 to February 22, 2026)
+
+### Recap of Weekly Goals
+
+This week focused on implementing **Part 2** of the advanced project filtering system: REST API endpoints and comprehensive unit tests.
+
+My contributions included:
+- Building 8 REST API endpoints for project filtering and preset management
+- Creating comprehensive unit tests (12 test cases) covering all filtering functionality
+- Implementing request/response validation with Pydantic models
+- Fixing critical OFFSET-without-LIMIT SQL bug in core filtering engine
+- Registering filter router in main API application
+
+---
+
+### Features Owned in Project Plan
+- Project Filtering REST API
+- Filter Preset Management Endpoints
+- Full-text Search API
+- Filter Options Discovery Endpoint
+
+---
+
+### Tasks from Project Board Associated with These Features
+- Part 2 of Advanced Project Filtering Feature Implementation
+
+---
+
+### Tasks Completed / In Progress
+| Task ID | Issue Title                              | Status    | Notes |
+|---------|------------------------------------------|-----------|-------|
+| TBD     | Advanced Project Filtering (Part 2)      | Completed | 8 API endpoints, 12 unit tests, bug fixes |
+
+---
+
+### What I Did
+
+**1. REST API Endpoints (`src/api/routers/filter.py`)**
+- Implemented comprehensive filtering API with 8 routes:
+  - `POST /filter/` - Apply filter configuration and get matching projects
+  - `GET /filter/search?q=` - Full-text search across project names, descriptions, summaries
+  - `GET /filter/options` - Available filter options for UI dropdowns (languages, frameworks, types, importance levels)
+  - `GET /filter/presets` - List all saved filter presets
+  - `GET /filter/presets/{id}` - Get specific preset by ID
+  - `POST /filter/presets` - Save or update a filter preset
+  - `DELETE /filter/presets/{id}` - Delete a preset
+  - `POST /filter/presets/{id}/apply` - Apply a saved preset directly
+- Request/response validation with Pydantic models:
+  - Metrics range validation (min ≤ max)
+  - Preset name length constraints (1-100 chars)
+  - Pagination bounds validation
+- Registered filter router in `src/api/routers/__init__.py`
+
+**2. Unit Tests (`tests/insights/test_project_filter.py`)**
+- Created 12 comprehensive test cases covering:
+  - `ProjectFilter` serialization (to_dict/from_dict)
+  - Basic filtering by technologies and project type
+  - Full-text search functionality
+  - Sorting (by importance, date, metrics)
+  - Success metrics filtering (LOC, commits, contributors, files)
+  - Pagination with limit/offset
+  - Filter preset CRUD operations (save, load, list, delete, apply)
+- All tests pass with mocked database responses
+
+**3. Bug Fixes**
+- Fixed critical OFFSET-without-LIMIT SQL bug in `src/insights/project_filter.py`
+- Issue: SQL OFFSET clause was applied without LIMIT, causing unpredictable results
+- Solution: Only apply OFFSET when LIMIT is explicitly set
+
+**Technical Details:**
+- FastAPI framework with async/await support
+- Dependency injection for database access
+- RESTful API design with proper HTTP status codes
+- Comprehensive error handling and validation
+- Auto-generated OpenAPI documentation
+
+---
+
+### Additional Context
+- **Complete filtering system** - Both backend engine (Part 1) and REST API (Part 2) now fully implemented
+- **Production-ready** - Includes validation, error handling, tests, and documentation
+- **Frontend-ready** - `/filter/options` endpoint provides all data needed for filter UI dropdowns
+- **Verified in Swagger UI** - All endpoints tested and documented at `/docs`
+- All tests passing, no linter errors
+
+---
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 7 Goals:**
+- Integrate filtering API with frontend UI
+- Add advanced filter combinations and edge case handling
+- Explore performance optimization for large project datasets
+- Consider caching strategies for frequently used filter presets
