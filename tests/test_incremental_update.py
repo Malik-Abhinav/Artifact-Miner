@@ -1,16 +1,3 @@
-"""
-Test suite for the Incremental ZIP Update feature.
-
-Covers:
-    - Storage layer: list_projects_for_zip_detailed, reassign_projects_to_zip_hash,
-      delete_projects_by_names, delete_zip_if_empty
-    - Orchestrator layer: incremental_update() merge logic
-    - API layer: POST /projects/update/{old_zip_hash}
-
-Run from the project root:
-    docker compose run --rm backend pytest -v tests/test_incremental_update.py
-"""
-
 import os
 import sys
 import inspect
@@ -27,8 +14,6 @@ from fastapi.testclient import TestClient
 
 project_root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(project_root))
-
-# Compatibility shim: older httpx versions don't accept the 'app' kwarg used by Starlette's TestClient
 if "app" not in inspect.signature(httpx.Client.__init__).parameters:
     _orig_httpx_init = httpx.Client.__init__
 
@@ -46,11 +31,6 @@ from src.insights.storage import (
 )
 from src.config.config_manager import UserConfigManager
 from tests.insights.utils import build_pipeline_payload
-
-
-# ---------------------------------------------------------------------------
-# Fixtures
-# ---------------------------------------------------------------------------
 
 @pytest.fixture()
 def temp_store(tmp_path):
@@ -85,10 +65,6 @@ def _project_count_in_db(store):
     with store._connect() as conn:
         return conn.execute(f"SELECT COUNT(*) FROM {PROJECTS_TABLE};").fetchone()[0]
 
-
-# ===========================================================================
-# 1. Storage Layer Tests
-# ===========================================================================
 
 
 class TestListProjectsForZipDetailed:
@@ -322,9 +298,7 @@ class TestIncrementalUpdate:
                 new_zip_path=str(new_zip),
                 old_zip_hash=old_hash,
             )
-
         assert result["status"] == "cancelled"
-
     def test_no_store_raises(self, tmp_path):
         """incremental_update() requires an insights store."""
         from src.pipeline.orchestrator import ArtifactPipeline
@@ -335,52 +309,35 @@ class TestIncrementalUpdate:
                 new_zip_path="/tmp/fake.zip",
                 old_zip_hash="abc123",
             )
-
     def test_old_zip_cleaned_up(self, temp_store, tmp_path):
         """After update, old zip record should be deleted if no projects remain."""
         _seed_zip(temp_store, "/tmp/old.zip", ["Alpha"])
         old_hash = _get_zip_hash(temp_store, "/tmp/old.zip")
 
-        # Verify old hash has ingest records
         with temp_store._connect() as conn:
             count = conn.execute(
                 f"SELECT COUNT(*) FROM {INGEST_TABLE} WHERE source_hash = ?;",
                 (old_hash,),
             ).fetchone()[0]
         assert count >= 1
-
         new_zip = tmp_path / "new.zip"
         _create_test_zip(new_zip, ["Alpha"])
-
         pipeline = self._make_pipeline(temp_store)
-
         def mock_start(zip_path, **kwargs):
             payload = build_pipeline_payload(project_names=("Alpha",))
             temp_store.record_pipeline_run(str(zip_path), payload)
             return {"projects": {"Alpha": {}}}
-
         with patch.object(pipeline, "start", side_effect=mock_start):
             with patch.object(pipeline, "_get_zip_hash", return_value="new-hash-cleanup"):
                 result = pipeline.incremental_update(
                     new_zip_path=str(new_zip),
                     old_zip_hash=old_hash,
                 )
-
         assert result["status"] == "complete"
-
-        # Old hash should have no projects left
         remaining = _project_names_for_hash(temp_store, old_hash)
         assert remaining == set()
-
-
-# ===========================================================================
-# 3. API Endpoint Tests
-# ===========================================================================
-
-
 class TestUpdateEndpoint:
     """Tests for POST /projects/update/{old_zip_hash}."""
-
     def _get_client(self, store, manager):
         """Create a test client with dependency overrides."""
         from src.api import deps
@@ -390,7 +347,6 @@ class TestUpdateEndpoint:
         app.dependency_overrides[deps.get_config_manager] = lambda: manager
         client = TestClient(app)
         return client, app
-
     def _make_manager(self, tmp_path, user_id="1"):
         """Create a UserConfigManager and seed consent for the given user."""
         db_path = str(tmp_path / "config.db")
@@ -403,7 +359,6 @@ class TestUpdateEndpoint:
             data_access_consent=True,
         )
         return manager
-
     def test_404_when_old_zip_not_found(self, temp_store, tmp_path):
         manager = self._make_manager(tmp_path)
         client, app = self._get_client(temp_store, manager)
@@ -420,15 +375,11 @@ class TestUpdateEndpoint:
             assert "No existing analysis found" in response.json()["detail"]
         finally:
             app.dependency_overrides.clear()
-
     def test_404_when_user_consent_missing(self, temp_store, tmp_path):
         _seed_zip(temp_store, "/tmp/old.zip", ["Alpha"])
         old_hash = _get_zip_hash(temp_store, "/tmp/old.zip")
-
-        # Manager without consent for user "99"
         db_path = str(tmp_path / "config_empty.db")
         manager = UserConfigManager(db_path=db_path)
-
         client, app = self._get_client(temp_store, manager)
         try:
             response = client.post(
@@ -443,13 +394,10 @@ class TestUpdateEndpoint:
             assert "Consent not found" in response.json()["detail"]
         finally:
             app.dependency_overrides.clear()
-
     def test_successful_update(self, temp_store, tmp_path):
         _seed_zip(temp_store, "/tmp/old.zip", ["Alpha", "Beta"])
         old_hash = _get_zip_hash(temp_store, "/tmp/old.zip")
-
         manager = self._make_manager(tmp_path)
-
         mock_summary = {
             "status": "complete",
             "new_zip_hash": "new-hash-xyz",
@@ -459,7 +407,6 @@ class TestUpdateEndpoint:
             "updated_projects": ["Beta"],
             "total_projects": 3,
         }
-
         client, app = self._get_client(temp_store, manager)
         try:
             with patch(
@@ -469,7 +416,6 @@ class TestUpdateEndpoint:
                 mock_instance = MagicMock()
                 mock_instance.incremental_update.return_value = mock_summary
                 MockPipeline.return_value = mock_instance
-
                 response = client.post(
                     f"/projects/update/{old_hash}",
                     json={
@@ -478,7 +424,6 @@ class TestUpdateEndpoint:
                         "new_zip_path": "/tmp/new.zip",
                     },
                 )
-
             assert response.status_code == 200
             data = response.json()
             assert data["status"] == "ok"
@@ -489,13 +434,10 @@ class TestUpdateEndpoint:
             assert "Gamma" in data["new_only_projects"]
         finally:
             app.dependency_overrides.clear()
-
     def test_cancelled_update(self, temp_store, tmp_path):
         _seed_zip(temp_store, "/tmp/old.zip", ["Alpha"])
         old_hash = _get_zip_hash(temp_store, "/tmp/old.zip")
-
         manager = self._make_manager(tmp_path)
-
         client, app = self._get_client(temp_store, manager)
         try:
             with patch(
@@ -508,7 +450,6 @@ class TestUpdateEndpoint:
                     "message": "Pipeline was cancelled during update",
                 }
                 MockPipeline.return_value = mock_instance
-
                 response = client.post(
                     f"/projects/update/{old_hash}",
                     json={
@@ -517,19 +458,15 @@ class TestUpdateEndpoint:
                         "new_zip_path": "/tmp/new.zip",
                     },
                 )
-
             assert response.status_code == 200
             data = response.json()
             assert data["status"] == "cancelled"
         finally:
             app.dependency_overrides.clear()
-
     def test_pipeline_failure_returns_500(self, temp_store, tmp_path):
         _seed_zip(temp_store, "/tmp/old.zip", ["Alpha"])
         old_hash = _get_zip_hash(temp_store, "/tmp/old.zip")
-
         manager = self._make_manager(tmp_path)
-
         client, app = self._get_client(temp_store, manager)
         try:
             with patch(
@@ -548,17 +485,9 @@ class TestUpdateEndpoint:
                         "new_zip_path": "/tmp/new.zip",
                     },
                 )
-
             assert response.status_code == 500
         finally:
             app.dependency_overrides.clear()
-
-
-# ===========================================================================
-# Helpers
-# ===========================================================================
-
-
 def _create_test_zip(zip_path: Path, project_names: list):
     """Create a minimal valid ZIP with one file per project directory."""
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
