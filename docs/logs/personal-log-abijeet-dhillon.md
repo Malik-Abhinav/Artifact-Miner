@@ -33,7 +33,7 @@
 
 ### 2. Recap of Weekly Goals
 
-During these weeks (week 6, week 7, and week 8), my work focused on enhancing the skills api endpoint, implementing user choice in upload representation (Milestone 2 requirement 23), and fixing key errors in our implementation that were causing our tests to fail.
+During these weeks (week 6, week 7, and week 8), my work focused on enhancing the skills api endpoint, implementing user choice in upload representation (milestone 2 requirement 23), and fixing key errors in our implementation that were causing our tests to fail.
 
 I spent week 6 working on implementing [Issue #276](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/276). This issue implemented per-project Skills API add/edit/remove support and timeline filtering, plus documentation on how to use the skills api endpoints and tests in [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277).
 
@@ -53,6 +53,14 @@ In week 8, I implemented [Issue #284](https://github.com/COSC-499-W2025/capstone
 **Issues / Blockers**
 
 - None this week.
+
+**Coding Recap**
+
+In [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277), I expanded the Skills API with per-project add, edit, remove, and year-filter support, along with persistence updates for project skills. In [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289), I added configurable upload representations and section-specific project routes. [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285) then fixed pipeline, storage, and progress-tracking regressions.
+
+**Testing Recap**
+
+My testing work this cycle focused on API reliability and regression coverage. [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277) added endpoint tests for skill normalization, deduplication, edits, removals, timeline filtering, and validation. [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289) added upload representation tests for section filtering and invalid requests, while [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285) resolved 10 failing and 6 erroring tests.
 
 ---
 
@@ -84,7 +92,7 @@ In week 8, I implemented [Issue #284](https://github.com/COSC-499-W2025/capstone
 
 ### 6. Future Cycle Plans & Reflection On This Week
 
-This 3 week long stint was very productive. Our team meet multiple times and we discussed which features we would want implemented and their timelines. I also felt like this longer period between logs was more beneficial for the team since we could all spend our complete effort towards implementing code and working on our presentation (which was last week). At this stage, we have wrapped up our milestone 2 deliverable and more feel confident in our project than we did at the end of milestone 1.
+This 3 week long sprint was very productive. Our team meet multiple times and we discussed which features we would want implemented and their timelines. I also felt like this longer period between logs was more beneficial for the team since we could all spend our complete effort towards implementing code and working on our presentation (which was last week). At this stage, we have wrapped up our milestone 2 deliverable and more feel confident in our project than we did at the end of milestone 1.
 
 Next week, I intend on studying for the quiz (which is on Wednesday), meeting with my group to hold a sprint planning session for milestone 3, and to work on the front-end of our application.
 
