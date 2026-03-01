@@ -564,7 +564,7 @@ Building on last week's project filtering functionality (#225), these two weeks 
 9th February 2026 - 2nd March 2026
 
 ### Connection to Previous Week
-Building on last week's LinkedIn formatter core (#255), these two weeks involved implementing REST API endpoints for LinkedIn sharing, creating a comprehensive project filtering system, and developing an intelligent project comparison engine with job matching capabilities to differentiate our project from competitors.
+Building on last week's LinkedIn formatter core (#255), these weeks involved implementing REST API endpoints for LinkedIn sharing, developing an intelligent project comparison engine with job matching, and extending the unified CLI with incremental ZIP update support, and a representation view.
 
 ### Type of Tasks Worked On
 ![Tahsin Type of Tasks Term 2 Week 6](images/tahsin-t2-week-6.png)
@@ -589,6 +589,16 @@ Building on last week's LinkedIn formatter core (#255), these two weeks involved
   - `GET /compare/growth` - Growth trajectory data for charts
   - `GET /compare/recommendations` - Strategic portfolio advice
 
+*Week 8 - CLI Incremental Update & Representation View:*
+* Updated menu item 2 (`_iact_incremental`) to use `ArtifactPipeline.incremental_update()` properly: lists existing ZIP analyses from the store, prompts the user to pick one as the base, then merges the new ZIP (old-only projects retained, duplicates replaced, new-only added)
+* Added `handle_incremental` handler and `incremental` argparse subcommand (`new_zip_path`, `old_zip_hash`) for non-interactive use
+* Replaced stub menu item 14 with `_iact_representation`: interactive builder for ranking (criteria, top-N, manual order), chronology toggle, skills (highlight/suppress), and showcase (selected projects); renders a formatted preview reusing `_build_ranking_output`, `_build_skills_output`, `_build_showcase_output` from the API router
+* Refactored `src/pipeline/cli.py` to reduce LOC by ~65 lines without losing functionality:
+  - Extracted `_split_csv`, `_inp_zip_path`, `_load_project_payload`, `_iact_show` helpers
+  - Added `_LIST_ARGS` shared constant to eliminate repeated `argparse.Namespace` construction
+  - Collapsed `_iact_delete` branches to a single `handle_delete` call
+  - Simplified `_iact_generate`, `_iact_analyze`, `_iact_incremental`, `_iact_list`, `_iact_view_portfolio`, `_iact_view_resume`
+
 **Testing Tasks:**
 
 *LinkedIn API Tests (10 tests):*
@@ -605,28 +615,42 @@ Building on last week's LinkedIn formatter core (#255), these two weeks involved
 * Tests: error handling, summary generation, skill evolution, quality improvement, testing maturity, growth score, head-to-head comparison, job matching
 * All tests passing in 0.21 seconds with isolated database testing
 
+*CLI Tests (13 new tests, 34 total):*
+* Added `TestIncrementalCommand` (5 tests): missing args, new ZIP not found, old hash not in DB, success path, cancellation
+* Added `TestRepresentationInteractiveAction` (6 tests): no runs in DB, report not loadable, ranking displayed, skills displayed, invalid criteria fallback, chronology opt-out
+* All 34 tests passing in ~6 s
+
 ### Pull Request Reviews 
 * Reviewed **Fix orchestrator and filter noreply contributors errors #272**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/272)
 * Reviewed **added a new feature: filtering #268**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/268)
 * Reviewed **Enhance Skills API Endpoint #277**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277)
+* Reviewed **Add project role management and thumbnail upload persistence in main workflow #291**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/291)
+* Reviewed **Implement User Choice In Upload Representation #289**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289)
+* Reviewed **new test suite for the incremental update feature #288**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/288)
+* Reviewed **Bug Fix: Fix Failing Tests Milestone 2 #285**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285)
+* Reviewed **Filtering tests #281**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/281)
 
 ### Task from Project Board
 * LinkedIn API Endpoints #273 (Week 6)
-* Intelligent Project Comparison Feature (Week 7)
+* Intelligent Project Comparison #278 (Week 7)
+* Demo CLI Milestone #2 #294 (Week 8)
 
 ### Completed/In-progress Tasks
 * LinkedIn API Endpoints #273 (Completed)
-* Intelligent Project Comparison Feature (Completed)
+* Intelligent Project Comparison #278 (Completed)
+* Demo CLI Milestone #2 (Completed)
 
 ### Challenges & Solutions
 **Week 6**: Implementing secure SQL query builder → Solution: Parameterized queries with proper escaping
 **Week 7**: Balancing sophistication with simplicity → Solution: Pattern-based analysis instead of ML models
+**Week 8**: Wiring incremental update into interactive CLI without duplicating orchestrator logic → Solution: Delegated entirely to `ArtifactPipeline.incremental_update()` and reused existing API router helpers for representation preview
 
 ### What I Learned
 * SQL injection protection requires careful parameterization in dynamic query builders
 * Code density vs readability tradeoff: heavily refactored code is more compact but harder to maintain
 * Job matching provides unique competitive advantage - no other portfolio tools offer this feature
 * Algorithmic analysis can deliver AI-like insights without ML overhead or API costs
+* Extracting small single-purpose helpers (`_split_csv`, `_inp_zip_path`, `_load_project_payload`) pays off quickly when the same pattern appears more than twice
 
 ### Goals for Next Week
 * Begin frontend development for Milestone 3 (One-Page Resume and Web Portfolio)
