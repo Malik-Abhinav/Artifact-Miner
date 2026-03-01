@@ -559,7 +559,7 @@ Building on last week's project filtering functionality (#225), these two weeks 
 * LinkedIn formatter core functionality complete at 255 LOC; API endpoints deferred to stay under 500 LOC limit
 * LinkedIn feature produces professional, copy-paste ready posts with configurable formatting
 
-## Term 2 Week 6-7
+## Term 2 Week 6-8
 ### Date Range 
 9th February 2026 - 2nd March 2026
 
@@ -572,43 +572,43 @@ Building on last week's LinkedIn formatter core (#255), these two weeks involved
 **Coding Tasks:**
 
 *Week 6 - LinkedIn API Endpoints:*
-* Created `src/api/routers/linkedin.py` with FastAPI router (140 LOC)
+* Created `src/api/routers/linkedin.py` with FastAPI router
 * Implemented 2 endpoints: `GET /linkedin/preview/{project_id}` and `POST /linkedin/preview/{project_id}/custom`
 * Created Pydantic models for validation with comprehensive error handling
 
 
 *Week 7 - Intelligent Project Comparison Engine:*
-* Created `src/insights/comparison.py` core engine (197 LOC) using algorithmic analysis and pattern matching
+* Created `src/insights/comparison.py` core engine using algorithmic analysis and pattern matching
 * Implemented skill evolution tracking, quality progression analysis, testing maturity scoring
 * Built growth score calculation (0-100 scale) with multi-factor weighted formula
 * Developed job matching algorithm with keyword extraction and relevance scoring
-* Created `src/api/routers/comparison.py` with 5 REST endpoints (92 LOC):
+* Created `src/api/routers/comparison.py` with 5 REST endpoints:
   - `GET /compare/projects` - Compare all projects with comprehensive analysis
   - `POST /compare/projects/{id1}/vs/{id2}` - Head-to-head comparison with winner
   - `POST /compare/match-job` - Match projects to job descriptions (unique feature)
   - `GET /compare/growth` - Growth trajectory data for charts
   - `GET /compare/recommendations` - Strategic portfolio advice
-* Aggressively refactored to meet <500 LOC requirement (35% reduction: 499→324 LOC)
 
 **Testing Tasks:**
 
 *LinkedIn API Tests (10 tests):*
-* Created `tests/api/test_linkedin_endpoints.py` (216 LOC)
+* Created `tests/api/test_linkedin_endpoints.py`
 * Achieved 96% code coverage with comprehensive endpoint validation
 
 *Project Filtering Tests (38 tests):*
-* Created `tests/insights/test_project_filter.py` (413 LOC)
+* Created `tests/insights/test_project_filter.py`
 * Tested all filtering dimensions, sorting, pagination, presets, SQL injection protection
 * All tests passing with 100% success rate
 
 *Comparison Engine Tests (8 tests):*
-* Created `tests/insights/test_comparison.py` (33 LOC)
+* Created `tests/insights/test_comparison.py`
 * Tests: error handling, summary generation, skill evolution, quality improvement, testing maturity, growth score, head-to-head comparison, job matching
 * All tests passing in 0.21 seconds with isolated database testing
 
 ### Pull Request Reviews 
-* Reviewed **Fix orchestrator and filter noreply contributors errors #272**
-* Reviewed **added a new feature: filtering #268**
+* Reviewed **Fix orchestrator and filter noreply contributors errors #272**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/272)
+* Reviewed **added a new feature: filtering #268**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/268)
+* Reviewed **Enhance Skills API Endpoint #277**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277)
 
 ### Task from Project Board
 * LinkedIn API Endpoints #273 (Week 6)
