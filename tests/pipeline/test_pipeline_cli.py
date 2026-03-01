@@ -258,6 +258,216 @@ class TestDeleteCommand:
             assert conn.execute("SELECT COUNT(*) FROM ingest;").fetchone()[0] == 0
 
 
+class TestIncrementalCommand:
+    """Tests for the 'incremental' subcommand."""
+
+    def test_incremental_missing_args_exits(self):
+        """Missing positional args causes argparse to exit."""
+        with pytest.raises(SystemExit):
+            cli.main(["incremental"])
+
+    def test_incremental_new_zip_not_found(self, tmp_path, capsys):
+        """Returns error when the new ZIP file does not exist."""
+        exit_code = cli.main([
+            "incremental",
+            str(tmp_path / "nonexistent.zip"),
+            "deadbeefdeadbeef",
+        ])
+        assert exit_code == 1
+        assert "not found" in capsys.readouterr().err.lower()
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_incremental_old_hash_not_found(self, mock_store_cls, tmp_path, capsys):
+        """Returns error when old_zip_hash has no stored projects."""
+        # Create a real file so the file-existence check passes
+        zip_file = tmp_path / "new.zip"
+        zip_file.write_bytes(b"PK")
+        mock_store_cls.return_value.list_projects_for_zip.return_value = []
+
+        exit_code = cli.main([
+            "incremental",
+            str(zip_file),
+            "deadbeefdeadbeef",
+        ])
+        assert exit_code == 1
+        assert "No existing analysis" in capsys.readouterr().err
+
+    @patch("src.pipeline.orchestrator.ArtifactPipeline")
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_incremental_success(self, mock_store_cls, mock_pipeline_cls, tmp_path, capsys):
+        """Returns 0 and prints merge summary on success."""
+        zip_file = tmp_path / "new.zip"
+        zip_file.write_bytes(b"PK")
+
+        mock_store_cls.return_value.list_projects_for_zip.return_value = ["OldProject"]
+        mock_pipeline_cls.return_value.incremental_update.return_value = {
+            "status": "complete",
+            "new_zip_hash": "newhashabc",
+            "new_only_projects": ["NewProj"],
+            "retained_projects": ["OldProject"],
+            "updated_projects": [],
+            "total_projects": 2,
+        }
+
+        exit_code = cli.main([
+            "incremental",
+            str(zip_file),
+            "oldhash123",
+        ])
+        assert exit_code == 0
+        out = capsys.readouterr().out
+        assert "Incremental update complete" in out
+        assert "newhashabc" in out
+
+    @patch("src.pipeline.orchestrator.ArtifactPipeline")
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_incremental_cancelled_returns_error(self, mock_store_cls, mock_pipeline_cls, tmp_path, capsys):
+        """Returns 1 when pipeline signals cancellation."""
+        zip_file = tmp_path / "new.zip"
+        zip_file.write_bytes(b"PK")
+
+        mock_store_cls.return_value.list_projects_for_zip.return_value = ["Proj"]
+        mock_pipeline_cls.return_value.incremental_update.return_value = {
+            "status": "cancelled",
+            "message": "User cancelled",
+        }
+
+        exit_code = cli.main([
+            "incremental",
+            str(zip_file),
+            "oldhash123",
+        ])
+        assert exit_code == 1
+        assert "cancelled" in capsys.readouterr().out.lower()
+
+
+class TestRepresentationInteractiveAction:
+    """Tests for _iact_representation interactive action."""
+
+    def _make_report(self):
+        return {
+            "projects": {
+                "Alpha": {
+                    "project_metrics": {
+                        "languages": ["Python"],
+                        "frameworks": [],
+                        "skills": ["Django", "REST"],
+                        "total_lines": 5000,
+                        "total_commits": 100,
+                    },
+                    "git_analysis": {
+                        "total_commits": 100,
+                        "total_contributors": 2,
+                        "last_commit_at": "2025-01-01",
+                        "activity_mix": {"code": 80, "test": 10, "doc": 10},
+                        "contributors": [{"commits": 60}],
+                    },
+                    "portfolio_item": {"tagline": "Alpha tagline"},
+                    "resume_item": {"bullets": ["Built Alpha"]},
+                },
+            },
+            "global_insights": {
+                "chronological_skills": {
+                    "timeline": [
+                        {"timestamp": "2024-01-01T00:00:00", "category": "code", "skills": ["Python"]}
+                    ],
+                    "total_events": 1,
+                    "categories": ["code"],
+                }
+            },
+        }
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_representation_no_runs_exits_gracefully(self, mock_store_cls, capsys):
+        """Exits gracefully when no analyses exist."""
+        mock_store_cls.return_value.list_recent_zipfiles.return_value = []
+
+        with patch("builtins.input", return_value=""):
+            cli._iact_representation()
+
+        assert "No analyses found" in capsys.readouterr().out
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_representation_no_report_exits_gracefully(self, mock_store_cls, capsys):
+        """Exits gracefully when the report cannot be loaded."""
+        mock_store_cls.return_value.list_recent_zipfiles.return_value = [
+            {"zip_hash": "abc123"}
+        ]
+        mock_store_cls.return_value.load_zip_report.return_value = None
+
+        with patch("builtins.input", return_value=""):
+            cli._iact_representation()
+
+        assert "Could not load report" in capsys.readouterr().out
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_representation_displays_ranking(self, mock_store_cls, capsys):
+        """Ranking section is shown with project entries."""
+        mock_store_cls.return_value.list_recent_zipfiles.return_value = [
+            {"zip_hash": "abc123"}
+        ]
+        mock_store_cls.return_value.load_zip_report.return_value = self._make_report()
+
+        # Provide defaults for all prompts: criteria, n, manual_order,
+        # show_chron (y), show_skills (y), highlight, suppress, show_showcase (y), selected
+        inputs = iter(["score", "", "", "y", "y", "", "", "y", ""])
+        with patch("builtins.input", side_effect=inputs):
+            cli._iact_representation()
+
+        out = capsys.readouterr().out
+        assert "RANKING" in out
+        assert "Alpha" in out
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_representation_displays_skills(self, mock_store_cls, capsys):
+        """Skills section lists aggregated skills."""
+        mock_store_cls.return_value.list_recent_zipfiles.return_value = [
+            {"zip_hash": "abc123"}
+        ]
+        mock_store_cls.return_value.load_zip_report.return_value = self._make_report()
+
+        inputs = iter(["score", "", "", "y", "y", "", "", "y", ""])
+        with patch("builtins.input", side_effect=inputs):
+            cli._iact_representation()
+
+        out = capsys.readouterr().out
+        assert "SKILLS" in out
+        assert "Django" in out or "REST" in out
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_representation_invalid_criteria_falls_back_to_score(self, mock_store_cls, capsys):
+        """Invalid ranking criteria defaults to 'score' without crashing."""
+        mock_store_cls.return_value.list_recent_zipfiles.return_value = [
+            {"zip_hash": "abc123"}
+        ]
+        mock_store_cls.return_value.load_zip_report.return_value = self._make_report()
+
+        inputs = iter(["invalid_criteria", "", "", "y", "y", "", "", "y", ""])
+        with patch("builtins.input", side_effect=inputs):
+            cli._iact_representation()
+
+        out = capsys.readouterr().out
+        assert "RANKING" in out  # still renders
+
+    @patch("src.insights.storage.ProjectInsightsStore")
+    def test_representation_chronology_skipped_when_disabled(self, mock_store_cls, capsys):
+        """Chronology data block is omitted from the preview when user opts out."""
+        mock_store_cls.return_value.list_recent_zipfiles.return_value = [
+            {"zip_hash": "abc123"}
+        ]
+        mock_store_cls.return_value.load_zip_report.return_value = self._make_report()
+
+        # Opt out of chronology (n), keep everything else as defaults
+        inputs = iter(["score", "", "", "n", "y", "", "", "y", ""])
+        with patch("builtins.input", side_effect=inputs):
+            cli._iact_representation()
+
+        out = capsys.readouterr().out
+        # The [CHRONOLOGY] prompt label appears, but the data output line
+        # "  CHRONOLOGY  (N events)" must not be present in the preview block.
+        assert "  CHRONOLOGY  (" not in out
+
+
 class TestMainFunction:
     """Tests for main() function behavior"""
     
