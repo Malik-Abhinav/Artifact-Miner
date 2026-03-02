@@ -489,7 +489,7 @@ My contributions included:
 
 ---
 
-## Semester 2 - Week 7 (Week 21 - February 23 to March 1, 2026)
+## Semester 2 - Week 8 (February 23 to March 1, 2026)
 
 ### Tasks
 ![Misha Gavura Week 21 Task Type Screenshot](images/misha-week-mar1.png)
