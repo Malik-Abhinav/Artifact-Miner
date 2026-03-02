@@ -639,3 +639,59 @@ This section outlines the individual log for week 15 of Semester 2
   - Review PR feedback and implement requested improvements.
   - Explore extending contribution-aware ranking into additional analytics features.
   - Evaluate potential UI-level integration if applicable.
+
+  
+## Week 8 Semester 2  
+
+### Tasks
+![](images/abdur-week8s2.png)
+
+- **Enhanced Project Filtering System**: Added comprehensive skill trend analysis and progression tracking to existing ProjectFilterEngine
+- **Implemented Skill Trends API**: Created `GET /filter/skills/trends?skill=python` endpoint providing monthly usage trends over 24 months
+- **Implemented Skill Progression API**: Created `GET /filter/skills/progression` endpoint with comprehensive statistics including first/last seen dates, project counts, and total contribution metrics
+- **Advanced Analytics Integration**: Added SQL-based queries with proper indexing and efficient data aggregation for time-based analysis
+- **Maintained Backward Compatibility**: Ensured all existing filter functionality remains unchanged while adding new analytics capabilities
+- **Comprehensive Testing**: Validated all existing tests pass (38/38) and new functionality works correctly
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Build skill trend analysis on top of existing filter system
+   - Implement time-based analytics for skill progression tracking
+   - Add comprehensive skill usage statistics and metrics
+   - Maintain full backward compatibility with existing API endpoints
+
+2. **Testing & Quality**
+   - Ensure all existing filter tests continue to pass
+   - Validate new skill trends and progression endpoints work correctly
+   - Test edge cases and error handling scenarios
+   - Keep implementation under 500 lines as requested
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - Successfully built on Misha's existing ProjectFilterEngine without duplicating functionality
+  - Implemented complex SQL queries with proper joins across tags → skill_evidence → project_info tables
+  - Maintained all existing test coverage while adding new analytics capabilities
+  - Stayed well under the 500-line limit requirement (only 85 lines added)
+  - All API tests pass (31/31) and filter tests pass (38/38)
+
+- **What didn't go well**
+  - Initial implementation had database schema issues in test setup requiring careful debugging
+  - Had to understand existing codebase structure to avoid breaking changes
+  - Required multiple iterations to properly integrate with existing dependency injection patterns
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 9 Semester 2 Goals**
+  - Monitor PR feedback and implement any requested improvements
+  - Consider adding additional analytics endpoints based on user feedback
+  - Explore performance optimization for large datasets
+  - Document new API endpoints for better developer experience
+  - Evaluate potential UI integration opportunities for skill analytics
