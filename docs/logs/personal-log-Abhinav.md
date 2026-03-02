@@ -1,6 +1,6 @@
 # Individual Log - Abhinav Malik
 
-[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5)  
+[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5) | [Semester 2 - Week 6-8](#s2w6w8)  
 [Semester 1 - Week 3](#s1w3) | [Semester 1 - Week 4](#s1w4) | [Semester 1 - Week 5](#s1w5) | [Semester 1 - Week 6](#s1w6) | [Semester 1 - Week 7](#s1w7) | [Semester 1 - Week 8](#s1w8)  
 [Semester 1 - Week 9](#s1w9) | [Semester 1 - Week 10](#s1w10) | [Semester 1 - Week 12](#s1w12) | [Semester 1 - Week 13](#s1w13) | [Semester 1 - Week 14](#s1w14)
 
@@ -172,6 +172,66 @@ My contributions included:
 
  - Support frontend integration and improve response consistency.
  - Do more test runs for the api endpoints and its edgecases.
+
+<a id="s2w6w8"></a>
+## Semester 2 - Week 6-8 (Week 20-22 - February 9 to March 1, 2026)
+
+### 1. Type of Tasks Worked On
+![Week 20-22 Task Screenshot](images/week20-abhinav.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+These three weeks focused on Milestone 2 backend stabilization, API feature completion, and test artifact delivery.  
+My contributions included:
+- adding testing ZIP artifacts for Milestone 2 requirements 33 and 34
+- implementing end-to-end project role management and project thumbnail upload/persistence in the FastAPI workflow
+- adding and validating role/thumbnail API endpoints with storage integration and dependency-driven limits
+- propagating role and thumbnail metadata into project, portfolio, and resume read flows
+- fixing a pipeline break caused by indentation/duplicate block issues in project detection logic
+- filtering `users.noreply.github.com` contributors in reports as a temporary deduplication workaround
+
+---
+
+### 3. Features Owned in Project Plan
+
+ - Milestone 2 testing artifacts (R33/R34)
+ - Project role and thumbnail management APIs
+ - Pipeline stability and contributor deduplication cleanup
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+ - Issue #300 - Add testing ZIPs for Milestone 2 requirements 33 and 34
+ - Issue #290 - Implement project role + thumbnail API/persistence workflow
+ - Issue #271 - Fix pipeline break and improve contributor deduplication behavior
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+| Task ID | Issue Title                                   | Status     | Notes |
+|---------|-----------------------------------------------|------------|-------|
+| 300     | Milestone 2 testing ZIPs (R33/R34)            | Completed  | Added testing ZIP artifacts required for requirement validation |
+| 290     | Project role + thumbnail API and persistence  | Completed  | Added endpoints, validation, DI config, storage methods, and propagation to read APIs |
+| 271     | Pipeline indentation fix + noreply filtering  | Completed  | Fixed orchestrator break and filtered unmatched noreply contributors to reduce duplicates |
+
+---
+
+### 6. Additional Context
+
+ - Added/updated FastAPI TestClient coverage for role and thumbnail workflows, including validation, project-not-found paths, content retrieval, and delete flows.
+ - Verified tests locally with `pytest -q tests/api` and `pytest -q tests/projects/test_thumbnail_upload.py`.
+ - Verified pipeline/list-filtering behavior in Docker and updated expectations for noreply filtering.
+ - Current noreply workaround can undercount contributors when only noreply identities exist; full identity mapping support (`.mailmap`/manual mapping) is a future improvement.
+
+---
+
+### 7. Next Week's Focus
+
+ - Plan on starting frontend development for the project.
+ - Finalize framework decisions and alignment with teammates.
 
 ## Semester 1
 
