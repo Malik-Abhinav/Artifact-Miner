@@ -392,7 +392,7 @@ My contributions included:
 
 ---
 
-## Semester 2 - Week 6 (Week 20 - February 16 to February 22, 2026)
+## Semester 2 - Week 6,7 (Week 20 - February 16 to February 22, 2026)
 
 ### Recap of Weekly Goals
 
@@ -481,8 +481,89 @@ My contributions included:
 
 ### Planning Activities for Next Cycle
 
-**Semester 2 - Week 7 Goals:**
+**Semester 2 - Week 8 Goals:**
 - Integrate filtering API with frontend UI
 - Add advanced filter combinations and edge case handling
 - Explore performance optimization for large project datasets
 - Consider caching strategies for frequently used filter presets
+
+---
+
+## Semester 2 - Week 8 (February 23 to March 1, 2026)
+
+### Tasks
+![Misha Gavura Week 21 Task Type Screenshot](images/misha-week-mar1.png)
+
+---
+
+### Recap of Weekly Goals
+
+This week focused on **fixing backend startup crash** and **adding portfolio template support**, plus presentation activities and filter testing.
+
+My contributions included:
+- Fixing critical `SyntaxError` in projects router that prevented Uvicorn from starting
+- Resolving portfolio route conflict (int parsing errors on `/portfolio/templates`)
+- Adding optional `?template=industry` and `?template=academic` query parameters to portfolio endpoint
+- Creating new `GET /portfolio/templates` and `GET /portfolio/templates/{template_id}` endpoints
+- **Watching presentations** from other teams
+- **Giving presentations** for the team
+- **Writing tests for the filters**
+
+---
+
+### Features Owned in Project Plan
+- Portfolio Template Query Parameter
+- Portfolio Templates API Endpoints
+- Backend Bug Fixes (Projects Router)
+
+---
+
+### Tasks from Project Board Associated with These Features
+- Backend startup crash fix
+- Portfolio template support (industry/academic)
+
+---
+
+### Tasks Completed / In Progress
+| Task ID | Issue Title                              | Status    | Notes |
+|---------|------------------------------------------|-----------|-------|
+| -       | Backend startup crash fix                | Completed | Removed orphaned/incomplete code in projects router |
+| -       | Portfolio route conflict fix             | Completed | Moved `/portfolio/templates` above `/{project_id}` |
+| -       | Portfolio template query parameter       | Completed | `?template=industry` / `?template=academic` on GET /portfolio/{project_id} |
+| -       | Portfolio templates endpoints            | Completed | GET /portfolio/templates, GET /portfolio/templates/{template_id} |
+| -       | Filter tests                             | Complated | Writing tests for the filters |
+
+---
+
+### What I Did
+
+**1. Bug Fixes**
+- **SyntaxError in projects router** – Removed orphaned `@router.post("/upload")` and incomplete `def upload_projects(` before `_resolve_representation`, which caused `SyntaxError: '(' was never closed` when Uvicorn started.
+- **Portfolio route conflict** – Moved `/portfolio/templates` and `/portfolio/templates/{template_id}` above `/{project_id}` so `/portfolio/templates` is not parsed as `project_id` (which caused `int_parsing` errors).
+
+**2. New Feature: Portfolio Template Query Parameter**
+- Added optional `?template=industry` or `?template=academic` to `GET /portfolio/{project_id}`.
+- **Industry**: Impact-focused fields (`impact_summary`, `deliverables`, `team_context`, `metrics_formatted`).
+- **Academic**: Research-focused fields (`context_summary`, `artifacts`, `documentation`, `test_coverage`, `metrics_formatted`).
+- Both templates add structured `sections` for rendering.
+
+**3. New Endpoints**
+- `GET /portfolio/templates` – List available templates.
+- `GET /portfolio/templates/{template_id}` – Get config for `industry` or `academic`.
+
+**4. Presentations & Testing**
+- Watched other teams' presentations
+- Gave presentations for the team
+- Wrote tests for the filter functionality
+
+---
+
+### Additional Context
+- `python -m pytest tests/api/test_projects_endpoints.py::test_projects_list_and_detail_and_portfolio` passes
+- Manual verification: `GET /portfolio/85`, `GET /portfolio/85?template=academic`, `GET /portfolio/85?template=industry`, `GET /portfolio/templates` all work correctly
+- Task types this sprint: system setup/admin, project planning, design mocks, coding, code review, testing (own + teammate's), documentation, presentations, team meetings, problem-solving
+
+---
+
+### Planning Activities for Next Cycle
+Working on the Frontend
