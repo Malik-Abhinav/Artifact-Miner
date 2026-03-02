@@ -566,6 +566,151 @@ These two weeks addressed several correctness gaps identified after Milestone 1 
 - Prioritize end-to-end flows (upload → list → insights) using shared demo ZIPs.
 - Add API-level tests for critical workflows before UI integration.
 
+<a id="s2w6w8"></a>
+## Semester 2 - Week 6-8 (Week 20-22 - February 9 2026 to March 1 2026)
+
+### February 9 2026 to March 1 2026
+
+### 1. Milestone Goals Recap
+
+These three weeks focused on completing Milestone 2 backend features, stabilizing the API surface, and preparing for the Milestone 2 demo and presentation.
+
+Planned Features for This Milestone:
+- Implement LinkedIn API endpoints for portfolio sharing
+- Build intelligent project comparison engine with job matching
+- Implement incremental ZIP update feature for portfolio updates
+- Enhance Skills API with per-project add/edit/remove and timeline filtering
+- Implement user choice in upload representation (Milestone 2 Requirement 23)
+- Add project role and thumbnail persistence in the main API workflow
+- Implement advanced project filtering REST API (Part 2)
+- Fix failing tests and pipeline regressions across the codebase
+- Record Milestone 2 demo video and finalize deliverables
+
+Tasks from Project Board/PR Issue Number Associated with These Features:
+- #273 LinkedIn API Endpoints
+- #278 Intelligent Project Comparison Engine
+- #276 Enhance Skills API Endpoint
+- #284 Implement User Choice in Upload Representation
+- #283 Bug Fix: Fix Failing Tests Milestone 2
+- #290 Project Role + Thumbnail API and Persistence Workflow
+- #300 Add Testing ZIPs for Milestone 2 Requirements 33 and 34
+- #271 Fix Pipeline Break and Improve Contributor Deduplication
+- #294 Demo CLI Milestone 2
+- #304 Skill Trend & Progression Analytics
+
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 20](images/week20-burnup-chart.png)
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Week 20](images/week20-kanban.png)
+
+| Task ID | Issue Title                                                    | Username        | Associated Feature                                    | Status    |
+| ------- | -------------------------------------------------------------- | --------------- | ----------------------------------------------------- | --------- |
+| 273     | LinkedIn API Endpoints                                         | tahsinj         | Portfolio sharing via LinkedIn                        | Completed |
+| 278     | Intelligent Project Comparison Engine                          | tahsinj         | Project comparison and job matching                   | Completed |
+| 294     | Demo CLI Milestone 2 | tahsinj         | CLI usability and Milestone 2 demo                    | Completed |
+| N/A     | Incremental ZIP update feature + API endpoint                  | kmerchant1      | Incremental portfolio updates                         | Completed |
+| 276     | Enhance Skills API Endpoint                                    | abijeet-dhillon | Per-project skill add/edit/remove + timeline filter   | Completed |
+| 284     | Implement User Choice in Upload Representation                 | abijeet-dhillon | Configurable upload response representation           | Completed |
+| 283     | Bug Fix: Fix Failing Tests Milestone 2                         | abijeet-dhillon | Test suite stability and regression fixes             | Completed |
+| 290     | Project Role + Thumbnail API and Persistence Workflow          | Malik-Abhinav   | Role and thumbnail management in main API workflow    | Completed |
+| N/A     | Add Testing ZIPs for Milestone 2 R33/R34                       | Malik-Abhinav   | Milestone 2 requirement validation artifacts          | Completed |
+| 271     | Fix pipeline break + noreply contributor filtering             | Malik-Abhinav   | Pipeline stability and contributor deduplication      | Completed |
+| N/A     | Advanced Project Filtering REST API                  | mishgGavura     | Filter API endpoints and preset management            | Completed |
+| 204     | Skill Trend & Progression Analytics                  | abdur026     | Skills API            | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this cycle was accompanied by automated tests and validated manually.
+
+**Tahsin (LinkedIn API, Comparison Engine, CLI)**
+- LinkedIn API: `pytest tests/api/test_linkedin_endpoints.py -v` — **10 passed**, 96% coverage
+- Project Comparison: `pytest tests/insights/test_comparison.py -v` — **8 passed** in 0.21s
+- CLI (incremental + representation): `pytest tests/pipeline/test_pipeline_cli.py -v` — **34 passed** (~6s), including 5 new incremental tests and 6 new representation tests
+
+**Kaiden (Incremental ZIP Update)**
+- `pytest tests/test_incremental_update.py -v` — **22 passed** in 2.68s across storage, orchestrator, and API layers
+
+**Abijeet (Skills API, Upload Representation, Bug Fixes)**
+- Skills API endpoint tests: normalization, deduplication, edits, removals, timeline filtering — all passing
+- Upload representation tests: section filtering and invalid request handling — all passing
+- Bug Fix PR #285: resolved 10 failing and 6 erroring tests across pipeline, storage, and progress-tracking modules
+
+**Abhinav (Role/Thumbnail API, Pipeline Fixes)**
+- `pytest -q tests/api` and `pytest -q tests/projects/test_thumbnail_upload.py` — all passing
+- Validated role and thumbnail workflows including validation, project-not-found paths, content retrieval, and delete flows
+
+**Misha (Advanced Project Filtering API)**
+- `pytest tests/insights/test_project_filter.py -v` — **12 passed** covering serialization, filtering, sorting, pagination, and preset CRUD
+
+
+[Week 20 Tests 1](images/week20-tests-1.png)
+[Week 20 Tests 2](images/week20-tests-2.png)
+---
+
+### 6. Additional Context
+
+These three weeks closed out the Milestone 2 backend feature set:
+- **LinkedIn integration** is now end-to-end: formatter (Week 4-5), API endpoints, and a secure SQL-based project filter all shipped.
+- **Incremental updates** allow users to upload a new ZIP on top of an existing analysis run, with set-based merge logic retaining old-only projects and replacing duplicates.
+- **Project comparison** provides growth trajectory, skill evolution, head-to-head comparison, and job description matching — all via algorithmic analysis without ML overhead.
+- **Skills API** now supports per-project skill management (add, edit, remove) with year-based timeline filtering.
+- **Upload representation controls** let callers choose which sections of the analysis response are returned without re-running the pipeline.
+- **Role and thumbnail persistence** are fully wired into the main upload/retrieval workflow, propagating into portfolio and resume read flows.
+- **Advanced filtering** (Part 2) adds 8 REST endpoints for applying filters, managing presets, and full-text search, completing the filtering system started in Weeks 4-5.
+- Note: Week 7 (February 16-22) was Reading Break; any work done during that period was bonus.
+
+---
+
+### 7. Future Cycle Plans
+
+- Begin frontend development for Milestone 3 (web portfolio and one-page resume views)
+- Integrate API endpoints with frontend UI components
+- Implement project comparison visualization with charts
+- Add authentication and rate limiting for production deployment
+- Plan Milestone 3 sprint and backlog review
+
+---
+
+### 8. Reflection on This Cycle
+
+**What went well:**
+- Strong parallel delivery across all contributors with comprehensive test coverage
+- Incremental update and comparison engine shipped as clean, self-contained features with minimal coupling
+- Bug fix PR resolved a large batch of regressions systematically, improving overall suite health
+- Team coordinated effectively across a 3-week window including a reading break
+
+**What could be improved:**
+- Earlier alignment on API response shapes would reduce integration friction between features
+- Some pipeline regressions could have been caught sooner with more frequent integration runs
+
+**How this informs us for the next cycle:**
+- Prioritize end-to-end frontend integration using the now-stable API surface
+- Establish shared demo dataset and integration test suite before Milestone 3 feature work begins
+
+---
 
 ## Semester 1
 
