@@ -17,6 +17,7 @@
 1. [Semester 2 - Week 2](#semester-2---week-2)
 1. [Semester 2 - Week 3](#semester-2---week-3)
 1. [Semester 2 - Week 4/5](#semester-2---week-45)
+1. [Semester 2 - Week 6/7](#semester-2---week-67)
 
 ## Week 3
 This section outlines the individual log for week 3
@@ -894,3 +895,94 @@ unregister_tracker(zip_hash)           # Called in finally block
 - Update `docker-compose.yml` with uvicorn command to run API server
 - Test cancel endpoint with actual HTTP requests (cURL/Postman)
 - Implement health check endpoints for API monitoring
+
+## Semester 2 - Week 6/7/8
+This section outlines the individual log for Semester 2, Week 6/7
+
+### February 9 - March 1
+
+### Tasks
+
+![](images/kaiden_sem2_week678_tasks.png)
+
+### Weekly Goals
+
+1. My Features:
+    - Implement incremental ZIP update feature to allow users to update an existing analyzed portfolio without full re-analysis
+    - Add new storage methods to support merge logic between old and new ZIP analysis results
+    - Implement `incremental_update()` method on pipeline orchestrator
+    - Add `POST /projects/update/{old_zip_hash}` API endpoint
+    - Create comprehensive test suite for incremental update feature
+    - Test all Milestone 2 requirements end-to-end and record demo video
+
+2. Associated Tasks
+    - Incremental Update Endpoint Implementation
+    - Storage Layer Methods
+    - Orchestrator Integration
+    - Test Suite Development
+    - Milestone 2 Requirements Testing
+    - Demo Video Recording
+
+3. Completed/In-Progress
+    - ✅ Added 4 new storage methods to `ProjectInsightsStore` (`src/insights/storage.py`):
+        - `list_projects_for_zip_detailed()` — retrieves all project records (id, name, zip hash) for a given zip hash
+        - `reassign_projects_to_zip_hash()` — moves retained old-only projects from old zip hash to new zip hash
+        - `delete_projects_by_names()` — removes old duplicate project records that have been replaced by new versions
+        - `delete_zip_if_empty()` — cleans up the old zip ingest record if no projects remain under it
+    - ✅ Implemented `incremental_update()` method on `ArtifactPipeline` (`src/pipeline/orchestrator.py`):
+        - Snapshots old project names before running new pipeline
+        - Runs standard pipeline on new ZIP to produce new analysis
+        - Computes set difference between old and new project names:
+            - Old-only projects → reassigned to new zip hash (retained)
+            - New-only projects → added as new records under new zip hash
+            - Duplicate projects (same name in both) → old record deleted, new record kept
+        - Cleans up old zip record if empty after reassignment and deletion
+        - Returns summary: `retained_projects`, `updated_projects`, `new_only_projects`, `total_projects`
+    - ✅ Added `POST /projects/update/{old_zip_hash}` endpoint (`src/api/routers/projects.py`):
+        - Accepts `user_id`, `old_zip_hash`, and `new_zip_path` in request body
+        - Returns 404 if old zip hash does not exist in database
+        - Returns 404 if user config not found
+        - Returns 403 if user has not given data access consent
+        - Delegates to `pipeline.incremental_update()` and returns merge summary
+    - ✅ Created comprehensive test suite (`tests/test_incremental_update.py`):
+        - 22 tests across 3 layers: storage methods, orchestrator logic, and API endpoint
+        - All 22 tests passing in 2.68s
+        - Coverage includes: merge set logic, 404 handling, consent enforcement, storage method correctness, cascade deletes, and regression checks
+    - ✅ Manually tested full incremental update workflow end-to-end:
+        - Uploaded initial ZIP (`test_incremental_OG.zip`) and confirmed projects stored under correct zip hash
+        - Ran incremental update with new ZIP (`test_incremental_NEW.zip`) containing overlapping and new projects
+        - Verified new-only projects added under new zip hash
+        - Verified old-only projects reassigned from old zip hash to new zip hash
+        - Verified duplicate projects replaced — old records deleted, new records kept
+        - Verified old zip hash record cleaned up after all projects reassigned or deleted
+        - Verified 404 response for non-existent old zip hash
+        - Confirmed no regressions on existing `/projects/upload` endpoint
+    - ✅ Tested all Milestone 2 requirements end-to-end and recorded demo video
+
+### Reflection Points
+
+**What went well:**
+- Merge logic using Python set operations (old & new, old - new, new - old) is clean and easy to reason about
+- Non-breaking implementation — existing `/projects/upload` endpoint completely unaffected
+- Test suite caught several edge cases during development (empty zip records, cascade deletes)
+- Manual testing with SQLite queries gave high confidence in correctness of database state after each operation
+- 22/22 tests passing
+
+**What didn't go well:**
+- Initial patch target for mocking `ArtifactPipeline` in tests was wrong due to lazy import inside the endpoint function — had to change patch target to `src.pipeline.orchestrator.ArtifactPipeline`
+- `UserConfigManager` constructor kwarg was `db_path=` not `config_dir=` — caused a round of test failures before fixing
+- Video took a while to complete because of a couple change I h ad to make
+
+**Technical Decisions:**
+- Used lazy import of `ArtifactPipeline` inside the endpoint function to avoid circular imports
+- Chose set-based merge logic for simplicity and clarity over row-level diffing
+- Implemented `delete_zip_if_empty()` as a separate method to keep deletion logic composable
+- Stored `old_zip_hash` in the request body as well as the path parameter for explicit validation
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 8 Goals:**
+- Begin Electron.js setup and scaffolding for the desktop frontend application
+- Research Electron + React or Electron + Vue architecture for the frontend
+- Connect frontend upload form to `POST /projects/upload` API endpoint
+- Plan frontend component structure to map to existing API endpoints
