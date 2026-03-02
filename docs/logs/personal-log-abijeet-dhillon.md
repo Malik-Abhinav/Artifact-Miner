@@ -4,6 +4,7 @@
 [Semester 2 Week 2 Individual Logs](#semester-2-week-2-individual-logs)<br>
 [Semester 2 Week 3 Individual Logs](#semester-2-week-3-individual-logs)<br>
 [Semester 2 Week 5 Individual Logs](#semester-2-week-5-individual-logs)<br>
+[Semester 2 Week 8 Individual Logs](#semester-2-week-8-individual-logs)<br>
 [Week 3 Individual Logs](#week-3)<br>
 [Week 4 Individual Logs](#week-4)<br>
 [Week 5 Individual Logs](#week-5)<br>
@@ -15,6 +16,85 @@
 [Week 12 Individual Logs](#week-12)<br>
 [Week 13 Individual Logs](#week-13)<br>
 [Week 14 Individual Logs](#week-14)
+
+---
+
+## Semester 2 Week 8 Individual Logs
+
+### NOTE: This log covers week 6, 7, and 8 (as stated in the course schedule on Canvas).
+
+### February 9 2026 to March 1 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 8 Task Types Screenshot](images/abijeetdhillon_s2w8_tasks.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+During these weeks (week 6, week 7, and week 8), my work focused on enhancing the skills api endpoint, implementing user choice in upload representation (milestone 2 requirement 23), and fixing key errors in our implementation that were causing our tests to fail.
+
+I spent week 6 working on implementing [Issue #276](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/276). This issue implemented per-project Skills API add/edit/remove support and timeline filtering, plus documentation on how to use the skills api endpoints and tests in [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277).
+
+I didn't do much work in week 7, this is because it was reading break that week and any work done during this period would have counted as bonus work.
+
+In week 8, I implemented [Issue #284](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/284) and [Issue #283](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/283). Issue #284 was implemented in [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289), where I implemented upload response representation controls for the Projects API so users can choose which analyzed information is returned without changing the underlying analysis pipeline, plus focused test coverage for the new upload behavior. Issue #283 was implemented in [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285), where I fixed 10 failing and 6 erroring tests with comprehensive documentation in the PR description that explained the root causes of why tests were failing and their fixes.
+
+**Pull Request / Issue References**
+
+- PR: [#277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277)
+- PR: [#285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285)
+- PR: [#289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289)
+- Issue: [#276](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/276)
+- Issue: [#283](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/283)
+- Issue: [#284](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/284)
+
+**Issues / Blockers**
+
+- None this week.
+
+**Coding Recap**
+
+In [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277), I expanded the Skills API with per-project add, edit, remove, and year-filter support, along with persistence updates for project skills. In [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289), I added configurable upload representations and section-specific project routes. [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285) then fixed pipeline, storage, and progress-tracking regressions.
+
+**Testing Recap**
+
+My testing work this cycle focused on API reliability and regression coverage. [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277) added endpoint tests for skill normalization, deduplication, edits, removals, timeline filtering, and validation. [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289) added upload representation tests for section filtering and invalid requests, while [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285) resolved 10 failing and 6 erroring tests.
+
+---
+
+### 3. Features Owned in Project Plan
+
+- Enhance Skills API Endpoint ([Issue #276](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/276), [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277))
+- Implement User Choice in Upload Representation ([Issue #284](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/284), [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289))
+- Bug Fix: Fix Failing Tests Milestone 2 ([Issue #283](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/283), [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285))
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+- Enhance Skills API Enpoint Issue: [#276](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/276)
+- Bug Fix: Fix Failing Tests Milestone 2 Issue: [#283](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/283)
+- Implement User Choice in Upload Representation Issue: [#284](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/284)
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue                                                                                                                              | Status    | Notes                                                                                          |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
+| 276     | [Enhance Skills API Enpoint Issue #276](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/276)                     | Completed | Completed in [PR #277](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/277)    |
+| 283     | [Bug Fix: Fix Failing Tests Milestone 2 Issue #283](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/283)         | Completed | Completed in [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285)    |
+| 284     | [Implement User Choice in Upload Representation Issue #284](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/284) | Completed | Completed in PR [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289) |
+
+---
+
+### 6. Future Cycle Plans & Reflection On This Week
+
+This 3 week long sprint was very productive. Our team meet multiple times and we discussed which features we would want implemented and their timelines. I also felt like this longer period between logs was more beneficial for the team since we could all spend our complete effort towards implementing code and working on our presentation (which was last week). At this stage, we have wrapped up our milestone 2 deliverable and more feel confident in our project than we did at the end of milestone 1.
+
+Next week, I intend on studying for the quiz (which is on Wednesday), meeting with my group to hold a sprint planning session for milestone 3, and to work on the front-end of our application.
 
 ---
 
