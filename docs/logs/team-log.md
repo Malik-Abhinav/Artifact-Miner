@@ -4,6 +4,7 @@
 [Semester 2 - Week 2 Team Logs](#s2w2)<br>
 [Semester 2 - Week 3 Team Logs](#s2w3)<br>
 [Semester 2 - Week 4-5 Team Logs](#s2w4w5)<br>
+[Semester 2 - Week 6-8 Team Logs](#s2w6w8)<br>
 [Week 3 Team Logs](#week-3)<br>
 [Week 4 Team Logs](#week-4)<br>
 [Week 5 Team Logs](#week-5)<br>
