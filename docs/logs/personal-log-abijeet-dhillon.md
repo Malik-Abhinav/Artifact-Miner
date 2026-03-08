@@ -56,21 +56,14 @@ My testing work this cycle focused on artifact generation, upload response cover
 
 ---
 
-### 3. Features Owned in Project Plan
-
-- Implement Functionality To Generate One-Page Resume (rough version) ([Issue #312](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/312), [PR #315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315))
-- Create .tex Resume Template ([Issue #313](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/313), [PR #315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315))
-
----
-
-### 4. Tasks from Project Board Associated with These Features
+### 3. Features Owned in Project Plan/Tasks from Project Board Associated with These Features
 
 - Implement Functionality To Generate One-Page Resume (rough version) Issue: [#312](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/312)
 - Create .tex Resume Template Issue: [#313](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/313)
 
 ---
 
-### 5. Tasks Completed / In Progress in the Last 2 Weeks
+### 4. Tasks Completed / In Progress in the Last 2 Weeks
 
 | Task ID | Issue                                                                                                                                                   | Status    | Notes                                                                                          |
 | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
@@ -81,7 +74,7 @@ My testing work this cycle focused on artifact generation, upload response cover
 
 ---
 
-### 6. Future Cycle Plans & Reflection On This Week
+### 5. Future Cycle Plans & Reflection On This Week
 
 This cycle was productive because it turned the analyzed upload output into a tangible resume artifact that can now be returned directly from the API. I was able to keep the implementation localized to the pipeline, reuse shared rendering logic, and add the supporting test coverage needed to make the change safer. I also refined the original .tex artifact work into a PDF-based output, which made the final behavior more useful and cleaner for users of the upload endpoint.
 
