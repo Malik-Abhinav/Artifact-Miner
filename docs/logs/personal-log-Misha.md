@@ -567,3 +567,69 @@ My contributions included:
 
 ### Planning Activities for Next Cycle
 Working on the Frontend
+
+---
+
+## Semester 2 - Week 8 (Week 22 - March 2 to March 8, 2026)
+
+### Tasks
+![Misha Gavura Week 22 Task Type Screenshot](images/misha-week-mar8.png)
+
+---
+
+### Recap of Weekly Goals
+
+This week focused on implementing a **full project filtering UI** in the Electron/React frontend that mirrors the backend's filter API.
+
+My contributions included:
+- Adding a filter panel and project results component to the desktop app
+- Porting all backend filter features: text search, languages/frameworks/skills, project type, complexity, sort options, date range, and success metrics
+- Creating TypeScript API client and types for `/filter` endpoints
+- Adding Dashboard/Projects navigation tabs with conditional rendering
+- No new dependencies added
+
+---
+
+### Features Owned in Project Plan
+- Project Filtering Frontend UI
+- Projects View Component
+- Filter API Integration
+
+---
+
+### What I Did
+
+**1. New Files**
+- `frontend/src/renderer/src/api.ts` — TypeScript types and API client for `POST /filter/` and `GET /filter/options`
+- `frontend/src/renderer/src/ProjectsView.tsx` — Filter panel and project results component
+
+**2. Modified Files**
+- `App.tsx` — Dashboard/Projects navigation tabs with conditional rendering
+- `assets/styles.css` — Styles for nav tabs, filter panel, metrics section, and project result cards
+
+**3. Filter Features Ported from Backend**
+- Text search (name, description, tagline, summary)
+- Language, framework, and skill filtering (comma-separated)
+- Project type (all / individual / collaborative)
+- Complexity level (any / simple / moderate / complex)
+- Sort by (all 11 backend options loaded from `GET /filter/options`)
+- Date range (start/end date pickers)
+- Success metrics (expandable min/max for lines, commits, contributors, files)
+
+**4. UX Details**
+- Apply Filters and Reset buttons
+- Enter key triggers filter apply in text fields
+- Expandable "▸ Show Metrics Filters" section
+
+---
+
+### Additional Context
+- Manual testing completed against running backend
+- Dashboard tab unchanged with no regressions
+- No lint errors; UI checked on desktop
+- Backend must run (`python -m src.api.app`) and frontend (`cd frontend && npm run dev`) to use Projects tab
+
+---
+
+### Planning Activities for Next Cycle
+- Continue frontend work and integration
