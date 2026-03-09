@@ -4,3 +4,8 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 .benchmarks/
+
+frontend/node_modules/
+frontend/package-lock.json
+frontend/dist/
+frontend/src/renderer/node_modules/
