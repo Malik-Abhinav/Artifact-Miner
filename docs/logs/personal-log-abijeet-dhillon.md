@@ -5,6 +5,7 @@
 [Semester 2 Week 3 Individual Logs](#semester-2-week-3-individual-logs)<br>
 [Semester 2 Week 5 Individual Logs](#semester-2-week-5-individual-logs)<br>
 [Semester 2 Week 8 Individual Logs](#semester-2-week-8-individual-logs)<br>
+[Semester 2 Week 9 Individual Logs](#semester-2-week-9-individual-logs)<br>
 [Week 3 Individual Logs](#week-3)<br>
 [Week 4 Individual Logs](#week-4)<br>
 [Week 5 Individual Logs](#week-5)<br>
@@ -16,6 +17,68 @@
 [Week 12 Individual Logs](#week-12)<br>
 [Week 13 Individual Logs](#week-13)<br>
 [Week 14 Individual Logs](#week-14)
+
+---
+
+## Semester 2 Week 9 Individual Logs
+
+### March 2 2026 to March 8 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 9 Task Types Screenshot](images/abijeetdhillon_s2w9_tasks.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+During this cycle, my work focused on implementing the initial one-page resume generation feature and the supporting .tex resume template, then refining the upload flow so it surfaces a compiled PDF resume artifact instead of an intermediate LaTeX file. This work covered both the reusable rendering layer and the integration into POST /projects/upload, while keeping router and storage boundaries clean.
+
+I worked on Issue #312 and Issue #313, which were implemented together in PR #315. The result was a reusable resume artifact pipeline that builds context from analyzed report data, renders a Jinja2-enabled LaTeX template, compiles it to PDF, and returns resume_pdf_path from the upload response. I also added the minimal LaTeX class support required for compilation and kept the output behavior clean so new runs produce JSON and PDF artifacts only.
+
+**Pull Request / Issue References**
+
+- Issue: [#312](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/312)
+- Issue: [#313](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/313)
+- PR: [#315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315)
+
+**Issues / Blockers**
+
+No major implementation blockers, but PDF generation depends on pdflatex being installed in the runtime environment because it is a system binary rather than a Python package.
+
+**Coding Recap**
+
+In PR #315, I added a reusable resume artifact module that handles resume context building, LaTeX escaping, template rendering, and artifact generation. I integrated this flow into the upload pipeline so analyzed report data can generate a resume artifact without moving rendering logic into the router or storage layer. I also updated the upload response to return resume_pdf_path, switched artifact output from .tex to .pdf, ensured intermediate .tex files are only created in a temporary build directory, and added a minimal resume.cls file required for LaTeX compilation.
+
+**Testing Recap**
+
+My testing work this cycle focused on artifact generation, upload response coverage, and PDF failure handling. PR #315 added and updated tests for resume artifact rendering, LaTeX escaping, successful PDF generation with mocked compilation, compile-failure behavior, pipeline artifact output, and upload endpoint response fields. The updated tests also verify that new runs leave only JSON and PDF artifacts in reports/, and validation included passing resume tests and py_compile on the changed files.
+
+---
+
+### 3. Features Owned in Project Plan/Tasks from Project Board Associated with These Features
+
+- Implement Functionality To Generate One-Page Resume (rough version) Issue: [#312](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/312)
+- Create .tex Resume Template Issue: [#313](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/313)
+
+---
+
+### 4. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue                                                                                                                                                   | Status    | Notes                                                                                          |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
+| 283     | [Bug Fix: Fix Failing Tests Milestone 2 Issue #283](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/283)                              | Completed | Completed in [PR #285](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/285)    |
+| 284     | [Implement User Choice in Upload Representation Issue #284](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/284)                      | Completed | Completed in PR [PR #289](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/289) |
+| 312     | [Implement Functionality To Generate One-Page Resume (rough version) Issue #312](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/312) | Completed | Completed in [PR #315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315)    |
+| 313     | [Create .tex Resume Template Issue #313](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/313)                                         | Completed | Completed in [PR #315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315)    |
+
+---
+
+### 5. Future Cycle Plans & Reflection On This Week
+
+This cycle was productive because it turned the analyzed upload output into a tangible resume artifact that can now be returned directly from the API. I was able to keep the implementation localized to the pipeline, reuse shared rendering logic, and add the supporting test coverage needed to make the change safer. I also refined the original .tex artifact work into a PDF-based output, which made the final behavior more useful and cleaner for users of the upload endpoint.
+
+Next week, I intend on further updating the resume generation so users have the option to add in key contact details in the user configuration db to populate the resume header. I will also start implementing our front-end.
 
 ---
 
