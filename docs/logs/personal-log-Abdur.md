@@ -695,3 +695,54 @@ This section outlines the individual log for week 15 of Semester 2
   - Explore performance optimization for large datasets
   - Document new API endpoints for better developer experience
   - Evaluate potential UI integration opportunities for skill analytics
+
+
+  ## Week 9 Semester 2  
+
+### Tasks
+![](images/abdur-week9s2.png)
+
+- **Skills Timeline Frontend Feature**: Implemented a Skills Timeline UI component that demonstrates learning progression and increasing depth of expertise over time.
+- **Milestones + Projects Detail View**: Added milestone tracking (beginner → intermediate → advanced → expert) and project evidence per skill, shown in an interactive modal.
+- **Category Filtering**: Implemented filtering for skill categories (All Skills, Languages, Frameworks, Backends) to keep the UI readable and navigable.
+- **Dashboard Integration**: Integrated the Skills Timeline into the existing frontend dashboard flow (added a timeline view switch so the feature is actually accessible when running the app).
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Build a Skills Timeline UI that clearly shows skill progression over time
+   - Add depth indicators, milestones, and project examples to support a portfolio style presentation
+   - Ensure the timeline is accessible through the dashboard (not just implemented in isolation)
+  
+
+2. **Testing & Quality**
+   - Ensure all UI changes have test coverage and tests run reliably in CI/local runs
+   - Fix test discovery gaps so timeline tests are not skipped
+   - Validate overall application still runs correctly after merges and conflict resolution
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - Successfully delivered an interactive Skills Timeline with filtering + detailed modal content.
+  - Identified and fixed the Vitest include-pattern issue so renderer tests are discovered and executed.
+  - Corrected missing CSS application by importing timeline styles properly in the renderer entry file.
+  - All tests run and pass together (`10/10`) after config + setup fixes.
+
+- **What didn't go well**
+  - Merging introduced conflicts that overwrote parts of the frontend integration, temporarily hiding the feature when running the app.
+  - Initial push accidentally included too many files (node_modules), requiring cleanup and force push correction.
+  - Test configuration differences across branches caused the timeline test suite to be skipped until the include globs were fixed.
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 10 Semester 2 Goals**
+  - Monitor PR feedback and implement any requested refinements for the Skills Timeline UX/UI.
+  - Improve data realism/consistency (ensure yearsExperience and milestone spacing align cleanly with timeline constraints).
+  - Add optional screenshot evidence to PR and log entry for easier review.
+  - Verify conflict free integration with `develop` to avoid regressions when the PR is merged.
