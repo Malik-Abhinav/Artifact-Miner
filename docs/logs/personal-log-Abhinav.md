@@ -1,6 +1,6 @@
 # Individual Log - Abhinav Malik
 
-[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5) | [Semester 2 - Week 6-8](#s2w6w8)  
+[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5) | [Semester 2 - Week 6-8](#s2w6w8) | [Semester 2 - Week 9](#s2w9)  
 [Semester 1 - Week 3](#s1w3) | [Semester 1 - Week 4](#s1w4) | [Semester 1 - Week 5](#s1w5) | [Semester 1 - Week 6](#s1w6) | [Semester 1 - Week 7](#s1w7) | [Semester 1 - Week 8](#s1w8)  
 [Semester 1 - Week 9](#s1w9) | [Semester 1 - Week 10](#s1w10) | [Semester 1 - Week 12](#s1w12) | [Semester 1 - Week 13](#s1w13) | [Semester 1 - Week 14](#s1w14)
 
@@ -232,6 +232,63 @@ My contributions included:
 
  - Plan on starting frontend development for the project.
  - Finalize framework decisions and alignment with teammates.
+
+<a id="s2w9"></a>
+## Semester 2 - Week 9 (Week 23 - March 2 to March 8, 2026)
+
+### 1. Type of Tasks Worked On
+![Week 23 Task Screenshot](images/week23-abhinav.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+This week focused on beginning Milestone 3 frontend implementation with a low-risk dashboard shell that teammates can build on.  
+My contributions included:
+- implementing a frontend dashboard mode toggle (`Private` / `Public`) in the Electron + React renderer
+- adding a local search and category filter bar for dashboard sections
+- creating placeholder portfolio/resume/timeline/heatmap/showcase cards to structure Milestone 3 UI
+- updating frontend tests to validate mode switching and search/filter interactions
+- validating frontend build and targeted backend API smoke tests to confirm branch stability
+
+I intentionally scoped this as frontend template work to avoid merge conflicts while teammates were implementing the timeline and heatmap backend logic.
+
+---
+
+### 3. Features Owned in Project Plan
+
+ - Milestone 3 frontend dashboard shell
+ - Private/Public mode behavior scaffold
+ - Local search/filter UX foundation
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+ - Issue #327 - Add Dashboard Mode Toggle and Local Search/Filter Shell for Frontend
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+| Task ID | Issue Title                                   | Status     | Notes |
+|---------|-----------------------------------------------|------------|-------|
+| 324     | Dashboard mode toggle + local search/filter shell | Completed  | Added mode controls, filter UI, placeholder cards, and updated frontend tests |
+
+---
+
+### 6. Additional Context
+
+ - Frontend changes were intentionally kept lightweight and frontend-only (no backend contract changes) to avoid merge conflicts while timeline/heatmap backend work was in progress by teammates.
+ - The dashboard cards in this entry are integration placeholders/templates for teammate backend outputs.
+ - Verified with `npm test -- --run` and `npm run build` from `frontend/`.
+ - Ran backend smoke coverage (`tests/api/test_health.py`, `test_runs.py`, `test_projects_endpoints.py`, `test_resume_and_skills_endpoints.py`) to ensure no regressions.
+
+---
+
+### 7. Next Week's Focus
+
+ - Coordinate section-level ownership handoff so teammates can plug timeline/heatmap/showcase implementations into the shell.
+ - Refine frontend structure for Milestone 3 coherence and documentation alignment.
 
 ## Semester 1
 
