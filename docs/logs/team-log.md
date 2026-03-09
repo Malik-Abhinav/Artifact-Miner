@@ -5,6 +5,7 @@
 [Semester 2 - Week 3 Team Logs](#s2w3)<br>
 [Semester 2 - Week 4-5 Team Logs](#s2w4w5)<br>
 [Semester 2 - Week 6-8 Team Logs](#s2w6w8)<br>
+[Semester 2 - Week 9 Team Logs](#s2w9)<br>
 [Week 3 Team Logs](#week-3)<br>
 [Week 4 Team Logs](#week-4)<br>
 [Week 5 Team Logs](#week-5)<br>
@@ -709,6 +710,131 @@ These three weeks closed out the Milestone 2 backend feature set:
 **How this informs us for the next cycle:**
 - Prioritize end-to-end frontend integration using the now-stable API surface
 - Establish shared demo dataset and integration test suite before Milestone 3 feature work begins
+
+---
+
+<a id="s2w9"></a>
+## Semester 2 - Week 9 (Week 23 - March 2 2026 to March 8 2026)
+
+### March 2 2026 to March 8 2026
+
+### 1. Milestone Goals Recap
+
+This week marked the start of Milestone 3, focused on initializing the frontend shell, adding new backend portfolio endpoints, and integrating a PDF resume generation pipeline.
+
+Planned Features for This Milestone:
+- Set up Electron + React frontend scaffolding for the desktop application
+- Build dashboard interaction layer with mode toggle, search, and filtering
+- Add weekly commit-activity heatmap endpoint to portfolio API
+- Add top-N project showcase endpoint with ranking and evolution data
+- Implement LaTeX-based PDF resume generation in the upload pipeline
+
+Tasks from Project Board/PR Issue Number Associated with These Features:
+- #312 LaTeX Resume Template + PDF Generation
+- #313 Resume Artifact Pipeline Integration
+- Electron + React Frontend Scaffolding
+- Frontend Dashboard Shell (mode toggle, search, filter)
+- Weekly Commit-Activity Heatmap Endpoint
+- Top Projects Showcase Endpoint
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 23](images/week23-burnup-chart.png)
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Week 23](images/week23-kanban.png)
+
+| Task ID | Issue Title                                                    | Username        | Associated Feature                                    | Status    |
+| ------- | -------------------------------------------------------------- | --------------- | ----------------------------------------------------- | --------- |
+| N/A     | Electron + React Frontend Scaffolding                          | kmerchant1      | Desktop frontend foundation                           | Completed |
+| N/A     | Frontend Dashboard Shell (mode toggle, search, filter, cards)  | Malik-Abhinav   | Dashboard interaction layer for Milestone 3            | Completed |
+| N/A     | Weekly Commit-Activity Heatmap Endpoint (GET /portfolio/heatmap) | tahsinj       | Portfolio activity visualization                       | Completed |
+| N/A     | Top Projects Showcase Endpoint (GET /portfolio/top)             | tahsinj         | Ranked project showcase with evolution data            | Completed |
+| 312/313 | LaTeX Resume Template + PDF Generation Pipeline                | abijeet-dhillon | PDF resume artifact from upload pipeline               | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this week was accompanied by automated tests.
+
+**Kaiden (Electron + React Frontend Scaffolding)**
+- Vitest + React Testing Library — **6 tests passed**
+- Covers: app title rendering, welcome card display, placeholder action buttons
+
+**Abhinav (Frontend Dashboard Shell)**
+- Vitest + React Testing Library — **5 tests passed** (`frontend/tests/App.test.tsx`)
+- Covers: default private mode, public mode disables customization, search filtering, category filtering
+
+**Tahsin (Heatmap + Top Projects Endpoints)**
+- Heatmap: `pytest tests/api/test_heatmap.py -v` — **15 tests passed** (11 unit + 4 integration)
+- Top Projects: `pytest tests/api/test_top_projects.py -v` — **6 tests passed**
+- All integration tests use dependency injection overrides with seeded synthetic data
+
+**Abijeet (PDF Resume Generation)**
+- `pytest tests/resume/test_resume_artifact.py tests/pipeline/test_json_report.py tests/api/test_projects_endpoints.py -v` — all passing
+- Covers: PDF path inclusion in response, artifact cleanup, compile-failure fallback behavior, resume.cls compilation
+
+**Week 23 Test Results:**
+
+![Week 23 Tests](images/week23-tests.png)
+
+---
+
+### 6. Additional Context
+
+This week kicked off Milestone 3 with work across both frontend and backend:
+- **Frontend scaffolding** was set up using Electron + React with TypeScript, Vite for builds, and electron-builder for packaging. This gives the team a desktop app shell to build features into.
+- **Dashboard interaction layer** adds private/public mode toggle, search, category filtering, and placeholder cards for each milestone section (resume, portfolio, timeline, heatmap, showcase). No API wiring yet — intentionally kept as local state so teammates can integrate independently.
+- **Heatmap endpoint** provides GitHub-style weekly activity data using a two-tier strategy: actual event timestamps when available, evenly-distributed commit ranges as fallback.
+- **Top projects endpoint** returns ranked projects by a composite score (commits + LOC) with an evolution block showing each project's development journey. Supports public/private modes and configurable limits.
+- **PDF resume generation** compiles analyzed project data into a LaTeX resume artifact during the upload pipeline. If PDF compilation fails, the main analysis still completes successfully.
+
+---
+
+### 7. Future Cycle Plans
+
+- Wire frontend dashboard components to backend API endpoints
+- Implement resume and portfolio view components in the Electron app
+- Add heatmap and top-projects visualization components
+- Continue expanding test coverage for frontend components
+- Integrate file upload form in the frontend to replace curl-based workflows
+
+---
+
+### 8. Reflection on This Cycle
+
+**What went well:**
+- Clean split between frontend scaffolding and dashboard shell — two PRs that don't conflict and build on each other
+- Backend endpoints (heatmap, top projects) shipped with comprehensive test suites and clean helper function design
+- PDF resume generation is a strong demo feature with graceful fallback on compile failure
+- All PRs include automated tests and follow established patterns
+
+**What could be improved:**
+- Frontend has no API wiring yet — need to prioritize this next week so the shell becomes functional
+- Dashboard cards currently show "Coming Soon" for heatmap and showcase even though the backend endpoints are ready
+
+**How this informs us for the next cycle:**
+- Focus on connecting the frontend shell to the stable backend API surface
+- Prioritize the upload flow in the frontend since it's the entry point for all features
 
 ---
 
