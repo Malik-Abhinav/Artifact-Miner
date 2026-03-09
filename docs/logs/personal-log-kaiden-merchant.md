@@ -18,6 +18,7 @@
 1. [Semester 2 - Week 3](#semester-2---week-3)
 1. [Semester 2 - Week 4/5](#semester-2---week-45)
 1. [Semester 2 - Week 6/7](#semester-2---week-67)
+1. [Semester 2 - Week 9](#semester-2---week-9)
 
 ## Week 3
 This section outlines the individual log for week 3
@@ -986,3 +987,80 @@ This section outlines the individual log for Semester 2, Week 6/7
 - Research Electron + React or Electron + Vue architecture for the frontend
 - Connect frontend upload form to `POST /projects/upload` API endpoint
 - Plan frontend component structure to map to existing API endpoints
+
+## Semester 2 - Week 9
+This section outlines the individual log for Semester 2 - Week 9
+
+### March 2 - March 8
+
+### Tasks
+
+![](images/kaiden_sem2_week9_tasks.png)
+
+### Weekly Goals
+
+1. My Features:
+    - Set up Electron + React + TypeScript desktop application scaffold
+    - Establish project structure, build pipeline, and dev/test workflows for the frontend
+    - Create a default homepage with app branding and placeholder navigation
+    - Build a component test suite for the renderer layer
+    - Plan frontend portfolio generation UI for future work
+
+2. Associated Tasks
+    - Electron + Vite + React scaffolding
+    - Homepage Component Implementation
+    - Build Pipeline Configuration (tsc + Vite + electron-builder)
+    - Test Suite Development (Vitest + React Testing Library)
+    - `.gitignore` Updates
+
+3. Completed/In-Progress
+    - ✅ Created `frontend/` directory at repo root with full Electron + React + TypeScript project:
+        - `src/main/index.ts` — Electron main process: creates `BrowserWindow`, loads dev server or production build
+        - `src/preload/index.ts` — Preload bridge using `contextBridge` to safely expose Node.js APIs to the renderer
+        - `src/renderer/index.html` — HTML shell with Content Security Policy headers
+        - `src/renderer/src/main.tsx` — React entry point
+        - `src/renderer/src/App.tsx` — Default homepage with app title, welcome card, and placeholder action buttons
+        - `src/renderer/src/assets/styles.css` — Dark theme styling
+    - ✅ Configured multi-target build pipeline:
+        - `tsconfig.node.json` — compiles main and preload to CommonJS for Electron
+        - `vite.config.ts` — builds React renderer with `@vitejs/plugin-react`
+        - `electron-builder` config in `package.json` for producing `.dmg` (macOS), `.exe` (Windows), `.AppImage` (Linux)
+    - ✅ Set up npm scripts:
+        - `npm run dev` — starts Vite dev server + Electron with hot reload via `concurrently` and `wait-on`
+        - `npm start` — full production build then launch
+        - `npm run build` — compiles renderer (Vite) and main/preload (tsc)
+        - `npm run dist` — produces distributable package
+    - ✅ Created test suite (`tests/App.test.tsx`) with Vitest + React Testing Library:
+        - 6 tests covering: title, subtitle, welcome card, action buttons present, buttons disabled by default, footer
+        - All 6 tests passing
+    - ✅ Updated root `.gitignore` to exclude `frontend/node_modules/`, `frontend/dist/`, `frontend/out/`
+    - ✅ Verified full workflow: `npm run build` compiles cleanly, `electron .` opens desktop window with homepage
+
+### Reflection Points
+
+**What went well:**
+- Electron + Vite build pipeline is clean and well-separated: main process, preload, and renderer are clearly isolated
+- Hot reload in dev mode works well — changes to React components reflect in the window without restarting Electron
+- Test suite integrates naturally with the renderer layer — no Electron mocking needed for component tests
+- The `contextIsolation: true` / `nodeIntegration: false` preload approach follows current Electron security best practices
+- `electron-builder` config is in place so producing a distributable is a single command (`npm run dist`)
+
+**What didn't go well:**
+- The `npm create electron-vite` scaffold tool is interactive and doesn't support fully non-interactive setup — had to manually create the project structure instead
+- Required careful separation of `tsconfig.json` (renderer, bundler module resolution) vs `tsconfig.node.json` (main/preload, CommonJS) to avoid type resolution conflicts
+
+**Technical Decisions:**
+- Used Vite as the renderer bundler (over webpack) for speed and simpler config
+- Chose TypeScript throughout for consistency with the team's existing codebase conventions
+- Kept homepage minimal and placeholder-driven — action buttons are present but disabled, ready to be wired up to API endpoints in future PRs
+- Used `contextBridge` in preload to expose a typed `window.electronAPI` object rather than enabling `nodeIntegration`, which would be a security risk
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 10 Goals:**
+- Design and implement the portfolio generation UI — upload form wired to `POST /projects/upload`
+- Add routing (React Router) to support multiple pages: Home, Projects, Report
+- Display project list by fetching from `GET /projects`
+- Display per-project analysis results from `GET /projects/{id}`
+- Plan report viewer UI for browsing generated JSON reports in a readable layout
+
