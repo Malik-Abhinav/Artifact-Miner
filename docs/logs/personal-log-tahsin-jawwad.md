@@ -4,7 +4,8 @@
 [T2 Week 2 Personal Logs](#term-2-week-2)
 [T2 Week 3 Personal Logs](#term-2-week-3)
 [T2 Week 4-5 Personal Logs](#term-2-week-4-5)
-[T2 Week 6 Personal Logs](#term-2-week-6)
+[T2 Week 6-8 Personal Logs](#term-2-week-6-8)
+[T2 Week 9 Personal Logs](#term-2-week-9)
 
 [Week 3 Personal Logs](#week-3)
 [Week 4 Personal Logs](#week-4)
@@ -657,3 +658,74 @@ Building on last week's LinkedIn formatter core (#255), these weeks involved imp
 * Implement project comparison visualization with charts
 * Create job matching UI component
 * Deploy comparison feature for team testing
+
+## Term 2 Week 9
+### Date Range
+3rd March 2026 - 8th March 2026
+
+### Connection to Previous Week
+Building on the CLI and comparison engine work from the previous sprint, this week focused on extending the portfolio API with two new data-rich endpoints: a weekly activity heatmap for visualizing development cadence, and a top-N projects showcase for surfacing the most significant work.
+
+### Type of Tasks Worked On
+
+![Tahsin Type of Tasks Term 2 Week 9](images/tahsin-t2-week-9.png)
+
+**Coding Tasks:**
+
+*Heatmap Endpoint (`feature/heatmap/tj`):*
+* Added `GET /portfolio/heatmap` endpoint to `src/api/routers/portfolio.py`
+* Implemented `_iso_week_key()` helper to normalize any ISO date or datetime string to its ISO week Monday
+* Implemented `_weeks_from_range()` to generate all Monday keys spanning a date range
+* Implemented `_heatmap_from_timeline()` to count per-file activity events from chronological skills timeline data (uses actual timestamps when available)
+* Implemented `_heatmap_from_range()` as a fallback: distributes total commits evenly across the project's active date range when no per-event timeline exists
+* Implemented `_merge_heatmaps()` to aggregate heatmaps across multiple projects into a single dict
+* Endpoint returns `weeks` (ISO-date → count, sorted chronologically), `total_weeks`, `total_activity`, and `date_range`; returns 404 when store is empty
+
+*Top Projects Endpoint (`feature/top-3-project-endpoint/tj`):*
+* Added `GET /portfolio/top` endpoint to `src/api/routers/portfolio.py`
+* Implemented `_score_project()` helper: composite ranking score using `0.5 × commits + 0.4 × √LOC + 0.1 × (code_fraction × 100)`
+* Implemented `_build_evolution()` helper: extracts first/last commit dates, duration, total commits, contributors, and activity mix to illustrate project progression
+* Endpoint supports `limit` query param (default 3, max 10) and `mode` query param (`public` strips editable customization fields; `private` includes all fields)
+* Returns projects in descending score order with sequential ranks starting at 1; returns 404 when store is empty
+
+**Testing Tasks:**
+
+*Heatmap Tests (15 tests — `tests/api/test_heatmap.py`):*
+* 11 unit tests for pure helper functions: ISO week key normalization, range generation, timeline counting, range-based distribution, and heatmap merging
+* 4 integration tests via HTTP client: response shape, chronological sort order, `total_activity` consistency, and 404 on empty store
+* Used dependency injection overrides for isolated database testing
+
+*Top Projects Tests (6 tests — `tests/api/test_top_projects.py`):*
+* `test_top_projects_returns_ranked_list_with_evolution`: full response shape including all `evolution` sub-fields
+* `test_top_projects_limit_param_respected`: `limit=1` returns exactly one project
+* `test_top_projects_public_mode_omits_customization_fields`: public mode strips tagline, key_features, is_collaborative but keeps summary
+* `test_top_projects_private_mode_includes_customization_fields`: private mode includes all editable fields
+* `test_top_projects_returns_404_when_no_projects`: 404 on empty store
+* `test_top_projects_ordered_highest_score_first`: descending score order, sequential ranks
+* Seeded deterministic test data with distinct commit counts to make ranking predictable
+
+### Pull Request Reviews
+* Reviewing **Generate Resume When Running Upload #315**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315)
+* Will review incoming PRs as they are raised this week
+
+### Task from Project Board
+* Heatmap API Endpoint #320 
+* Top 3 Project Endpoint #319
+
+### Completed/In-progress Tasks
+* Heatmap API Endpoint #320 (Completed)
+* Top 3 Project Endpoint #319 (Completed)
+
+### Challenges & Solutions
+* **Dual data strategy for heatmap**: Projects analyzed before chronological skills tracking was introduced have no per-event timestamps. Solution: implemented a two-tier approach — use actual event timestamps when present, otherwise fall back to evenly distributing total commits across the active date range.
+* **Deterministic test ranking**: Without controlled commit counts, ranking order in tests would be non-deterministic. Solution: seeded each synthetic project with distinct `total_commits` values so score ordering is always predictable.
+
+### What I Learned
+* A two-tier fallback strategy (precise data → estimated data) is a clean pattern for endpoints that must remain useful even when richer data isn't available
+* Composite scoring formulas benefit from a square-root transform on large raw values (like LOC) to prevent a single metric from dominating
+* Keeping helper functions pure (no side effects, no I/O) makes them trivially unit-testable without any database or HTTP setup
+
+### Goals for Next Week
+* Begin frontend integration for heatmap visualization component
+* Connect top projects endpoint to portfolio showcase UI
+* Explore chart library options for rendering the weekly activity heatmap
