@@ -2,6 +2,18 @@
 1. [Week 3](#week-3)
 1. [Week 4](#week-4)
 1. [Week 5](#week-5)
+1. [Week 6](#week-6)
+1. [Week 7](#week-7)
+1. [Week 8](#week-8)
+1. [Week 9](#week-9)
+1. [Week 10](#week-10)
+1. [Week 12](#week-12)
+1. [Week 13](#week-13)
+1. [Week 14](#week-14)
+1. [Week 1 semester 2](#week-1-semester-2)
+1. [Week 2 semester 2](#week-2-semester-2)
+1. [Week 3 semester 2](#week-3-semester-2)
+
 
 ## Week 3 
 
@@ -109,3 +121,680 @@ This section outlines the individual log for week 6
 3. Completed/In-Progress
     - Completed initial WBS chart
     - Revised WBS chart according to updated project requirements
+
+
+## Week 7 – October 13 to October 19
+
+### 1. Type of Tasks Worked On
+![Week 7 Task Screenshot](images/abdurweek7.png)
+---
+
+### 3. Recap of Weekly Goals
+This week focused on developing and testing the consent management functionality for the system.
+My main contributions included:
+
+-implementing the User Directory Consent Manager module to handle user consent for directory data access
+
+- writing and running unit tests to verify consent operations such as grant, revoke, and reset
+
+- designing the system to be compatible with future modules like LLM access consent and external data analysis
+---
+
+### 4. Features Owned in Project Plan
+- User Consent – Directory Access  
+- Consent Management Module  
+
+---
+
+### 5. Tasks from Project Board Associated with These Features
+- User Consent – Directory Access (#16)  
+ 
+
+---
+
+### 6. Tasks Completed / In Progress in the Last 2 Weeks
+| Task ID | Issue Title                           | Status       | Notes |
+|----------|---------------------------------------|--------------|-------|
+| 16     | User Consent – Directory Access | Completed  | 
+---
+
+### 7. Additional Context
+- All tests for the User Directory Consent Manager passed successfully after debugging one write-handling issue.
+
+- Code was structured to integrate easily with future LLM access consent and external analysis features.
+
+
+- Continued documenting and refining the module for clarity and maintainability.
+
+
+
+## Week 8
+This section outlines the individual log for week 7
+
+### October 20 - October 26
+
+### Tasks
+![](images/abdur-week8.png)
+
+
+### Weekly Goals
+
+1. My Features:
+    - Implement a comprehensive PNG/JPEG Image Processor capable of extracting detailed metrics from image files
+    - Build full unit test coverage and documentation
+    - Integrate batch image analysis functionality
+    - Improve code performance for color and brightness analysis
+
+2. Associated Tasks
+    - Develop ImageProcessor class with all metric extraction methods
+    - Implement methods for:
+        - Resolution, aspect ratio, file stats, brightness, and color analysis
+        - EXIF metadata extraction and edit frequency tracking
+    - Create automated tests covering all major and edge cases
+    - Write complete API documentation and example usage scripts
+    - Update requirements.txt with necessary dependencies (Pillow, NumPy)
+
+3. Completed/In-Progress
+    - src/image_processor.py 
+        - Implemented ImageProcessor class with all core metric extraction features
+        - Added full error handling, logging, and validation
+    - tests/test_image_processor.py 
+        - Added 24 comprehensive unit tests
+        - Verified edge cases and error conditions
+        - All tests passing 
+    - docs/IMAGE_PROCESSOR.md 
+        - Full API documentation
+        - Usage examples, return structures, and detailed metric descriptions
+    - src/image_processor_example.py 
+        - Demonstrates single and batch image analysis
+    
+
+### Reflection Points
+
+**What went well:**
+- Successfully implemented a fully functional and modular image processor
+- Achieved 100% test coverage with well-structured, maintainable tests
+- Documentation provides clear guidance for both users and developers
+- Batch processing feature optimized for speed and memory efficiency
+
+**What didn't go well:**
+- Initial dominant color extraction was slow — required optimization using image resizing
+- Documentation took longer than planned due to scope and completeness goals
+- Some EXIF data parsing inconsistencies between image formats
+
+### Planning Activities for Next Cycle
+
+**Week 9 Goals:**
+- Most likely will take on more of a dev role next week to start implementing features.
+- Review and refine issue descriptions based on team feedback
+- Begin sprint planning with team for Milestone #1 deliverables
+- Focus on core infrastructure components that other features depend on
+
+## Week 9
+This section outlines the individual log for week 9
+
+### October 27 - November 2
+
+### Tasks
+![](images/abdur-week9.png)
+
+### Weekly Goals
+
+1. **My Features:**
+   - Transform the Image Processor into a full **content analysis system** capable of understanding and describing image contents.  
+   - Extend functionality to detect and classify faces, text, shapes, patterns, and textures.  
+   - Integrate OCR (Tesseract) and shape/edge analysis for enhanced content understanding.  
+   - Add classification logic for different image types such as portraits, documents, screenshots, and diagrams.  
+   - Ensure all features run locally with no external AI API dependencies.  
+
+2. **Associated Tasks**
+   - Implement new analysis methods in `src/image_processor.py`:  
+     - `detect_edges()`, `detect_shapes()`, `extract_text()`, `detect_faces()`, `analyze_texture()`, `detect_patterns()`, `classify_content_type()`, and `get_key_features()`.  
+   - Add new libraries: `opencv-python`, `pytesseract`, `scikit-image`, and `pyzbar`.  
+   - Create structured output returning both technical and content-based insights.  
+   - Develop and run example scripts to demonstrate single and batch image analysis.  
+
+3. **Completed/In-Progress**
+   - Enhanced `ImageProcessor` to analyze not just metrics but also **meaningful visual content** (faces, text, shapes, patterns).  
+   - Integrated **OCR-based text extraction**, **Haar Cascade face detection**, and **GLCM texture analysis**.  
+   - Implemented **edge and shape detection** to analyze composition and complexity.  
+   - Added **classification logic** to describe images in natural language (e.g., “group photo” or “document scan”).  
+   - Updated requirements and documentation with new dependencies and setup instructions.  
+
+### Reflection Points
+
+**What went well:**
+- The image processor was successfully upgraded into a full content understanding module.  
+- Integration of face detection, OCR, and texture analysis greatly improved the system’s descriptive power.  
+- Local-only implementation avoids reliance on cloud APIs while maintaining strong accuracy and speed.  
+- Testing and documentation were thorough, covering all major features and use cases.  
+
+**What didn’t go well:**
+- Some image types (especially complex diagrams) required parameter tuning for accurate shape detection.  
+- Tesseract OCR performance varied with image quality, requiring preprocessing improvements.  
+- Initial runs were slower before optimization of resizing and color analysis functions.  
+
+### Planning Activities for Next Cycle
+
+**Week 10 Goals:**
+- Begin integrating the **Image Processor** output with the unified reporting pipeline.  
+- Add visualization and summary metrics to reports (e.g., charts showing detected faces or color profiles).  
+- Optimize performance for batch image analysis.  
+- Prepare module for final milestone integration and peer testing.
+
+
+## Week 10
+This section outlines the individual log for week 10
+
+### November 3 – November 9
+
+### Tasks
+![](images/abdur-week10.png)
+
+### Weekly Goals
+
+1. **My Features:**
+   - Extend the **Skill Extraction System** to perform deep analysis of code artifacts across multiple languages.  
+   - Move beyond surface-level detection to infer developer reasoning, optimization awareness, and design principles.   
+   - Implement a unified, multi-language skill detector capable of analyzing **Python, Java, C, C++, JavaScript**, and others.  
+
+2. **Associated Tasks:**
+   - Enhance `advanced_skill_extractor.py` to support structural and regex-based code analysis.  
+   - Implement detection of:  
+     - **Design patterns** (Strategy, Dependency Injection, Custom Exception Hierarchies)  
+     - **Algorithmic optimizations** (e.g., O(n²) → O(n), set-based lookups)  
+     - **Type safety and resource management** (type hints, RAII, smart pointers)  
+   - Add test coverage for all supported languages in `test_advanced_skill_extractor.py`.  
+   - Maintain total line additions under 500 while improving coverage and accuracy.  
+
+### Reflection Points
+
+**What went well:**
+- Successfully implemented deep, multi-language skill detection while staying under the code limit.  
+- Maintained strong test coverage and structured design.  
+- Achieved full local analysis—no external dependencies required.  
+- Clear commit history and clean branch ready for integration.  
+
+**What didn’t go well:**
+- Regex based detection for C and C++ required fine tuning to avoid false positives.  
+- Balancing detection accuracy across languages introduced some complexity in test maintenance.   
+
+### Planning Activities for Next Cycle
+
+**Week 11 Goals:**
+- Integrate the **Skill Extraction System** with the **report generation module** for combined analytics.  
+- Add visualization tools to represent detected skills and code quality metrics.  
+- Enhance configuration flexibility (language detection thresholds, rule customization).  
+- Prepare branch for peer review and merge into the main development pipeline.
+
+## Week 12
+This section outlines the individual log for week 12
+
+### November 17 – November 23
+
+### Tasks
+![](images/abdur-week12.png)
+
+### Weekly Goals
+
+1. **My Features:**
+   - Implement a fully deterministic **project ranking and summary generation module** for `ProjectInfo` objects.  
+   - Support flexible ranking criteria (`score`, `recency`, `commits`, `loc`, `impact`) while enforcing 3–5 item output limits.  
+   - Produce concise, multi-format summaries (JSON, CSV, text) with consistent structure and no GenAI usage.  
+
+2. **Associated Tasks:**
+   - Build and refine `rank_projects`, `generate_summary`, `generate_summaries`, and `to_format`.  
+   - Ensure summaries include key metrics (commits, LOC, duration, languages, recency, contributor highlights).  
+   - Add comprehensive tests verifying:  
+     - Correct ranking behavior and clamped output sizes  
+     - Differences across ranking criteria  
+     - Summary length limits  
+     - Consistent formatting for JSON/CSV/Text  
+     - Proper recency based ordering  
+   - Update exports in `src/project/__init__.py`.
+
+### Reflection Points
+
+**What went well:**  
+- Completed the ranking and summary module with clean, predictable behavior.  
+- Achieved thorough test coverage across ranking logic, formatting, and length constraints.  
+- Summary outputs are consistently structured and easy to integrate downstream.  
+
+
+**What didn’t go well:**  
+- Ensuring all criteria produced meaningful ordering differences required iterative tuning.  
+- Summary truncation edge cases needed refinement to avoid awkward sentence breaks.
+
+### Planning Activities for Next Cycle
+
+**Week 13 Goals:**  
+- Finish remaining pipeline work and integrate the new ranking/summary module where applicable.  
+- Begin completing **Milestone 1** with a focus on stability and end-to-end workflow validation.  
+- Add any missing tests required for integration with upstream components.  
+- Prepare the branch for review and merging into the main pipeline.
+
+
+## Week 13
+This section outlines the individual log for week 13
+
+### November 24 – November 30
+
+### Tasks
+![](images/abdur-week13.png)
+
+### Weekly Goals
+
+1. **My Features:**  
+   - Implement full **insights deletion capabilities** (`delete_all`, `delete_zip`, `delete_project`) within the storage layer.  
+   - Add a **deletion audit log** and ensure changes are compatible with the existing encrypted database structure.  
+   - Integrate deletion routes into the FastAPI layer with stable DELETE endpoints.
+
+2. **Associated Tasks:**  
+   - Write storage-level tests covering all delete operations, including edge cases with multiple ZIPs and nested project data.  
+   - Add API-level tests verifying the DELETE endpoints (with auto skip when FastAPI is not installed).  
+   - Conduct manual testing on the real database (`data/app.db`) to confirm irreversible deletion behavior.  
+   - Validate that shared data structures remain intact after project-level deletion.  
+   - Update documentation explaining deletion behavior and API usage.
+
+### Reflection Points
+
+**What went well:**  
+- Successfully implemented all delete operations with clear, predictable behavior.  
+- All automated tests passed, and manual testing confirmed correct deletion in the real database.  
+- The deletion audit log provides useful transparency for irreversible actions.
+
+**What didn’t go well:**  
+- Creating consistent deletion behavior across nested structures required more coordination than expected.  
+- Integrating FastAPI routes revealed some serialization edge cases that needed patching.
+
+### Planning Activities for Next Cycle
+
+**Week 14 Goals:**  
+- Finalize all integration points for Milestone 1 and conduct end-to-end pipeline validation.  
+- Improve documentation for the insights lifecycle (generation → storage → retrieval → deletion).  
+- Identify any remaining gaps in test coverage and address them before merging.  
+- Prepare a clean branch for review and inclusion in the main pipeline.
+
+### December 1 – December 7
+
+### Tasks
+![](images/abdur-week14.png)
+
+- Worked on **team contract**, defining rules, responsibilities, and workflow agreements to ensure smooth collaboration.  
+- Verified that all features for **Milestone 1** were working correctly across the storage and API layers.  
+- Created a **Pull Request** from `develop` to `main` for the Milestone 1 deliverable, preparing it for review and integration.
+
+### Weekly Goals
+
+1. **Team Collaboration:**  
+   - Establish a clear **team contract** outlining responsibilities, communication norms, and workflow practices.  
+   - Ensure all team members are aligned on coding standards, task assignments, and review processes.
+
+2. **Milestone 1 Deliverable:**  
+   - Confirm full **integration and functionality** of implemented features.  
+   - Submit a **Pull Request** for review and merge into the `main` branch.  
+   - Conduct final checks to ensure no breaking changes or regressions exist.
+
+### Reflection Points
+
+**What went well:**  
+- Team contract was successfully drafted and agreed upon, providing a clear framework for collaboration.  
+- Verified all features worked as expected, and the Pull Request is ready for merge, marking a key milestone achievement.  
+- The workflow from `develop` to `main` is clean and organized, reducing the chance of integration issues.
+
+**What didn’t go well:**  
+- No major issues this week; minor delays in scheduling team discussions were handled efficiently.  
+
+### Planning Activities for Next Cycle
+
+**Week 15 Goals:**  
+- Address any feedback from the Milestone 1 Pull Request review and make necessary updates.  
+- Begin planning and scoping tasks for the next milestone or sprint.  
+- Continue fostering team collaboration, ensuring adherence to the team contract in ongoing work.
+
+
+## Week 1 semester 2
+This section outlines the individual log for week 1 of Semester 2
+### Tasks
+![](images/abdur-week1s2.png)
+
+- Implemented a **thumbnail upload feature** for projects using FastAPI, including endpoints for rendering an upload form and validating uploaded images.  
+- Added **server-side validation** to enforce allowed image types (PNG, JPEG, WebP) and a maximum file size of 5 MB.  
+- Wrote **automated tests** to verify successful uploads, invalid file types, oversized files, and form rendering.  
+- Created and prepared a **Pull Request** documenting the new feature and test coverage for review.
+
+---
+
+### Weekly Goals
+
+1. **Feature Development:**  
+   - Add a secure and validated **thumbnail upload endpoint** for projects.  
+   - Ensure uploaded images meet defined **type and size constraints**.
+
+2. **Testing & Quality:**  
+   - Create **pytest tests** to confirm correct behavior for valid and invalid uploads.  
+   - Ensure the feature integrates cleanly with the existing FastAPI application.
+
+---
+
+### Reflection Points
+
+**What went well:**  
+- The upload endpoints were implemented cleanly and validated through automated tests.  
+- The FastAPI router design made it easy to isolate and test the new functionality.  
+- Test coverage provides confidence that edge cases like invalid types and oversized files are handled properly.
+
+**What didn’t go well:**  
+- Minor time was spent tuning file size and MIME type validation logic, but no major blockers occurred.
+
+---
+
+### Planning Activities for Next Cycle
+
+**Week 2 semester 2  Goals:**  
+- Integrate the thumbnail upload router into the main application if not already done.  
+- Add **persistent storage** (local or S3) for uploaded thumbnails.  
+- Introduce a **thumbnail URL field** in the project model and database.  
+
+## Week 2 semester 2  
+This section outlines the individual log for week 15 of Semester 2  
+
+### Tasks
+![](images/abdur-week2s2.png)
+- Implemented a **persistent storage layer** to support portfolio insight customization, including updating editable portfolio fields and replacing resume bullets.  
+- Added transactional methods to ensure **safe and consistent updates** while honoring the existing database schema.  
+- Developed a **PATCH API endpoint** (`/insights/portfolio/{project_info_id}`) to apply portfolio and resume updates selectively using validated payloads.  
+- Introduced **input validation and whitelisting** to prevent unintended field updates and ensure clean resume bullet data.  
+- Wrote **automated tests** to verify successful updates, no-op behavior, and proper handling of invalid project IDs.  
+- Created and finalized a **Pull Request** documenting the feature, API behavior, and test coverage.
+
+---
+
+### Weekly Goals
+
+1. **Feature Development:**  
+   - Enable users to **customize portfolio insight fields** and manually manage resume bullets.  
+   - Ensure updates are **persisted reliably** using transactions.
+
+2. **Testing & Quality:**  
+   - Add **pytest coverage** to confirm persistence, ordering, and error handling.  
+   - Validate API responses for success, no-op updates, and missing resources.
+
+---
+
+### Reflection Points
+
+**What went well:**  
+- The storage and API layers were implemented cleanly and integrated smoothly with the existing insights system.  
+- Using transactions helped ensure data consistency when updating multiple related records.  
+- The tests provided strong confidence that both positive and negative cases behave as expected.
+
+**What didn’t go well:**  
+- Some time was spent refining payload validation and handling no-op updates, but no major blockers were encountered.
+
+---
+
+### Planning Activities for Next Cycle
+
+**Week 3 semester 2 Goals:**  
+- Run full test suites to validate compatibility with other insights routes.  
+- Integrate the insights router into the main FastAPI application if not already included.  
+- Explore extending customization support to additional portfolio fields or UI-driven edits.
+
+
+## Week 3 Semester 2  
+
+
+### Tasks
+![](images/abdur-week3s2.png)
+- Implemented a persistent storage layer to support portfolio insight customization, including updating editable portfolio fields and replacing resume bullets.
+- Added transactional methods to ensure safe and consistent updates while honoring the existing database schema.
+- Developed a PATCH API endpoint (`/insights/portfolio/{project_info_id}`) to apply portfolio and resume updates selectively using validated payloads.
+- Introduced input validation and whitelisting to prevent unintended field updates and ensure clean resume bullet data.
+- Wrote automated tests to verify successful updates, no-op behavior, and proper handling of invalid project IDs.
+- Created and finalized a Pull Request documenting the feature, API behavior, and test coverage.
+
+---
+
+### Weekly Goals
+
+1. Feature Development  
+   - Enable users to customize portfolio insight fields and manually manage resume bullets.  
+   - Ensure updates are persisted reliably using transactions.
+
+2. Testing & Quality  
+   - Add pytest coverage to confirm persistence, ordering, and error handling.  
+   - Validate API responses for success, no-op updates, and missing resources.
+
+---
+
+### Reflection Points
+
+- What went well  
+  - The storage and API layers were implemented cleanly and integrated smoothly with the existing insights system.  
+  - Using transactions ensured data consistency when updating multiple related records.  
+  - Tests provided strong confidence that both positive and negative cases behave as expected.
+
+- What didn’t go well  
+  - Some time went into refining payload validation and handling no-op updates, but no major blockers were encountered.
+
+---
+
+### Planning Activities for Next Cycle
+
+- Week 4 Semester 2 Goals  
+  - Run full test suites to validate compatibility with other insights routes.  
+  - Integrate the insights router into the main FastAPI application if not already included.  
+  - Explore extending customization support to additional portfolio fields or UI-driven edits.
+
+
+## Week 5 Semester 2  
+
+### Tasks
+![](images/abdur-week5s2.png)
+
+- Implemented user contribution–based ranking in the project ranking system.
+- Added a new `"user_contrib"` ranking criterion to prioritize projects based on the user’s contribution percentage.
+- Implemented smart user identification using exact email matching and partial name matching.
+- Updated ranking logic to accept an optional `user_email` parameter while maintaining backward compatibility.
+- Enhanced summary generation and export formats (JSON, CSV, Text) to include user contribution scores.
+- Ensured all existing ranking functionality works unchanged when no user is specified.
+- Wrote automated tests for contribution scoring, ranking behavior, and summary generation.
+
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Introduce user-aware ranking to better reflect personal project impact.
+   - Maintain full backward compatibility with existing ranking logic.
+   - Integrate contribution data into summaries and export outputs.
+
+2. **Testing & Quality**
+   - Add pytest coverage for user contribution scoring and ranking scenarios.
+   - Validate ranking order across different criteria.
+   - Ensure no regressions in existing functionality.
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - The new ranking logic integrated smoothly into the existing scoring system.
+  - Backward compatibility was preserved without requiring major refactoring.
+  - Automated tests provided strong confidence in edge cases (no user provided, unmatched authors, single-author projects).
+  - Manual testing confirmed correct ordering across ranking strategies.
+
+- **What didn’t go well**
+  - Some additional time was required to fine tune contribution weighting within the scoring formula.
+  - Refining user identification logic (email vs. name matching) required careful handling to avoid incorrect matches.
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 6 Semester 2 Goals**
+  - Fine tune contribution weighting based on additional test datasets.
+  - Review PR feedback and implement requested improvements.
+  - Explore extending contribution-aware ranking into additional analytics features.
+  - Evaluate potential UI-level integration if applicable.
+
+  
+## Week 8 Semester 2  
+
+### Tasks
+![](images/abdur-week8s2.png)
+
+- **Enhanced Project Filtering System**: Added comprehensive skill trend analysis and progression tracking to existing ProjectFilterEngine
+- **Implemented Skill Trends API**: Created `GET /filter/skills/trends?skill=python` endpoint providing monthly usage trends over 24 months
+- **Implemented Skill Progression API**: Created `GET /filter/skills/progression` endpoint with comprehensive statistics including first/last seen dates, project counts, and total contribution metrics
+- **Advanced Analytics Integration**: Added SQL-based queries with proper indexing and efficient data aggregation for time-based analysis
+- **Maintained Backward Compatibility**: Ensured all existing filter functionality remains unchanged while adding new analytics capabilities
+- **Comprehensive Testing**: Validated all existing tests pass (38/38) and new functionality works correctly
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Build skill trend analysis on top of existing filter system
+   - Implement time-based analytics for skill progression tracking
+   - Add comprehensive skill usage statistics and metrics
+   - Maintain full backward compatibility with existing API endpoints
+
+2. **Testing & Quality**
+   - Ensure all existing filter tests continue to pass
+   - Validate new skill trends and progression endpoints work correctly
+   - Test edge cases and error handling scenarios
+   - Keep implementation under 500 lines as requested
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - Successfully built on Misha's existing ProjectFilterEngine without duplicating functionality
+  - Implemented complex SQL queries with proper joins across tags → skill_evidence → project_info tables
+  - Maintained all existing test coverage while adding new analytics capabilities
+  - Stayed well under the 500-line limit requirement (only 85 lines added)
+  - All API tests pass (31/31) and filter tests pass (38/38)
+
+- **What didn't go well**
+  - Initial implementation had database schema issues in test setup requiring careful debugging
+  - Had to understand existing codebase structure to avoid breaking changes
+  - Required multiple iterations to properly integrate with existing dependency injection patterns
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 9 Semester 2 Goals**
+  - Monitor PR feedback and implement any requested improvements
+  - Consider adding additional analytics endpoints based on user feedback
+  - Explore performance optimization for large datasets
+  - Document new API endpoints for better developer experience
+  - Evaluate potential UI integration opportunities for skill analytics
+
+
+  ## Week 9 Semester 2  
+
+### Tasks
+![](images/abdur-week9s2.png)
+
+- **Skills Timeline Frontend Feature**: Implemented a Skills Timeline UI component that demonstrates learning progression and increasing depth of expertise over time.
+- **Milestones + Projects Detail View**: Added milestone tracking (beginner → intermediate → advanced → expert) and project evidence per skill, shown in an interactive modal.
+- **Category Filtering**: Implemented filtering for skill categories (All Skills, Languages, Frameworks, Backends) to keep the UI readable and navigable.
+- **Dashboard Integration**: Integrated the Skills Timeline into the existing frontend dashboard flow (added a timeline view switch so the feature is actually accessible when running the app).
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Build a Skills Timeline UI that clearly shows skill progression over time
+   - Add depth indicators, milestones, and project examples to support a portfolio style presentation
+   - Ensure the timeline is accessible through the dashboard (not just implemented in isolation)
+  
+
+2. **Testing & Quality**
+   - Ensure all UI changes have test coverage and tests run reliably in CI/local runs
+   - Fix test discovery gaps so timeline tests are not skipped
+   - Validate overall application still runs correctly after merges and conflict resolution
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - Successfully delivered an interactive Skills Timeline with filtering + detailed modal content.
+  - Identified and fixed the Vitest include-pattern issue so renderer tests are discovered and executed.
+  - Corrected missing CSS application by importing timeline styles properly in the renderer entry file.
+  - All tests run and pass together (`10/10`) after config + setup fixes.
+
+- **What didn't go well**
+  - Merging introduced conflicts that overwrote parts of the frontend integration, temporarily hiding the feature when running the app.
+  - Initial push accidentally included too many files (node_modules), requiring cleanup and force push correction.
+  - Test configuration differences across branches caused the timeline test suite to be skipped until the include globs were fixed.
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 10 Semester 2 Goals**
+  - Monitor PR feedback and implement any requested refinements for the Skills Timeline UX/UI.
+  - Improve data realism/consistency (ensure yearsExperience and milestone spacing align cleanly with timeline constraints).
+  - Add optional screenshot evidence to PR and log entry for easier review.
+  - Verify conflict free integration with `develop` to avoid regressions when the PR is merged.
+
+  ## Week 10 Semester 2  
+
+### Tasks
+![](images/abdur_15.png)
+
+- **Dynamic Skills Timeline**: Replaced hardcoded skills with a dynamic timeline that adapts to any uploaded project zip.
+- **Skills Data Hook**: Implemented `useSkillsTimeline` hook to fetch and aggregate skills using existing backend APIs.
+- **Improved Timeline Rendering**: Updated the `SkillsTimeline` component to display real skills, milestones, and associated projects.
+- **Docker Build Optimization**: Updated `Dockerfile` and `.dockerignore` to exclude unnecessary frontend files during backend builds.
+- **Testing Implementation**: Added a dedicated test suite (`SkillsTimeline.test.tsx`) to verify rendering, loading states, filtering, and modal interactions.
+- **Code Quality**: Ensured implementation stayed under the 500-line limit and all existing tests continued to pass.
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Convert the timeline feature from static data to dynamic project-based data.
+   - Integrate the timeline with existing backend endpoints (`getProjects`, `getProjectSkills`).
+   - Ensure the feature works with any uploaded repository zip.
+
+2. **Testing & Quality**
+   - Add automated tests for the timeline component and data hook.
+   - Ensure existing tests continue to pass with no regressions.
+   - Maintain clean builds and optimized Docker configuration.
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - Successfully implemented a fully dynamic skills timeline using real project data.
+  - Reused existing backend APIs instead of introducing new endpoints.
+  - Added tests to validate timeline rendering and interactions.
+  - All tests passed and the feature remained within project constraints.
+
+- **What didn't go well**
+  - Some initial debugging was required to properly aggregate skills across multiple projects.
+  - Ensuring compatibility with the existing pipeline required careful integration.
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 11 Semester 2 Goals**
+  - Address PR feedback and refine the timeline UI if needed.
+  - Improve data visualization and timeline readability.
+  - Ensure smooth integration with the `develop` branch.
+  - Consider adding additional analytics or visualization features for skills data.
+
+  
