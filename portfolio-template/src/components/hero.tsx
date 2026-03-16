@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { Github, Linkedin, Twitter, Mail, FileText } from "lucide-react";
 import type { DeveloperProfile } from "@/types/portfolio";
