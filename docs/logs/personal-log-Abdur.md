@@ -746,3 +746,53 @@ This section outlines the individual log for week 15 of Semester 2
   - Improve data realism/consistency (ensure yearsExperience and milestone spacing align cleanly with timeline constraints).
   - Add optional screenshot evidence to PR and log entry for easier review.
   - Verify conflict free integration with `develop` to avoid regressions when the PR is merged.
+
+  ## Week 10 Semester 2  
+
+### Tasks
+![](images/abdur_15.png)
+
+- **Dynamic Skills Timeline**: Replaced hardcoded skills with a dynamic timeline that adapts to any uploaded project zip.
+- **Skills Data Hook**: Implemented `useSkillsTimeline` hook to fetch and aggregate skills using existing backend APIs.
+- **Improved Timeline Rendering**: Updated the `SkillsTimeline` component to display real skills, milestones, and associated projects.
+- **Docker Build Optimization**: Updated `Dockerfile` and `.dockerignore` to exclude unnecessary frontend files during backend builds.
+- **Testing Implementation**: Added a dedicated test suite (`SkillsTimeline.test.tsx`) to verify rendering, loading states, filtering, and modal interactions.
+- **Code Quality**: Ensured implementation stayed under the 500-line limit and all existing tests continued to pass.
+
+---
+
+### Weekly Goals
+
+1. **Feature Development**
+   - Convert the timeline feature from static data to dynamic project-based data.
+   - Integrate the timeline with existing backend endpoints (`getProjects`, `getProjectSkills`).
+   - Ensure the feature works with any uploaded repository zip.
+
+2. **Testing & Quality**
+   - Add automated tests for the timeline component and data hook.
+   - Ensure existing tests continue to pass with no regressions.
+   - Maintain clean builds and optimized Docker configuration.
+
+---
+
+### Reflection Points
+
+- **What went well**
+  - Successfully implemented a fully dynamic skills timeline using real project data.
+  - Reused existing backend APIs instead of introducing new endpoints.
+  - Added tests to validate timeline rendering and interactions.
+  - All tests passed and the feature remained within project constraints.
+
+- **What didn't go well**
+  - Some initial debugging was required to properly aggregate skills across multiple projects.
+  - Ensuring compatibility with the existing pipeline required careful integration.
+
+---
+
+### Planning Activities for Next Cycle
+
+- **Week 11 Semester 2 Goals**
+  - Address PR feedback and refine the timeline UI if needed.
+  - Improve data visualization and timeline readability.
+  - Ensure smooth integration with the `develop` branch.
+  - Consider adding additional analytics or visualization features for skills data.
