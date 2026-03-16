@@ -1,6 +1,6 @@
 # Individual Log - Abhinav Malik
 
-[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5) | [Semester 2 - Week 6-8](#s2w6w8) | [Semester 2 - Week 9](#s2w9)  
+[Semester 2 - Week 1](#s2w1) | [Semester 2 - Week 2](#s2w2) | [Semester 2 - Week 3](#s2w3) | [Semester 2 - Week 4-5](#s2w4w5) | [Semester 2 - Week 6-8](#s2w6w8) | [Semester 2 - Week 9](#s2w9) | [Semester 2 - Week 10](#s2w10)  
 [Semester 1 - Week 3](#s1w3) | [Semester 1 - Week 4](#s1w4) | [Semester 1 - Week 5](#s1w5) | [Semester 1 - Week 6](#s1w6) | [Semester 1 - Week 7](#s1w7) | [Semester 1 - Week 8](#s1w8)  
 [Semester 1 - Week 9](#s1w9) | [Semester 1 - Week 10](#s1w10) | [Semester 1 - Week 12](#s1w12) | [Semester 1 - Week 13](#s1w13) | [Semester 1 - Week 14](#s1w14)
 
@@ -289,6 +289,60 @@ I intentionally scoped this as frontend template work to avoid merge conflicts w
 
  - Coordinate section-level ownership handoff so teammates can plug timeline/heatmap/showcase implementations into the shell.
  - Refine frontend structure for Milestone 3 coherence and documentation alignment.
+
+<a id="s2w10"></a>
+## Semester 2 - Week 10 (Week 24 - March 9 to March 15, 2026)
+
+### 1. Type of Tasks Worked On
+![Week 24 Task Screenshot](images/abhinav-t2w10.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+This week focused on fixing the resume ownership bug and implementing the One-Page Resume flow end-to-end for Milestone 3.  
+My contributions included:
+- separating resume owner identity from Git contributor attribution so the generated resume uses the requesting user's profile details
+- wiring the frontend One-Page Resume flow from the dashboard into a working multi-project resume generation workflow
+- extending the backend resume PDF endpoint to support multiple selected projects and richer profile metadata
+- updating the LaTeX resume template so sections render in the intended order of Education, Projects, then Skills
+- adding and updating backend/frontend tests to validate the new resume generation behavior and prevent regressions
+
+---
+
+### 3. Features Owned in Project Plan
+
+ - One-Page Resume generation workflow
+ - Resume owner identity handling
+ - Multi-project PDF resume output and template ordering
+
+---
+
+### 4. Tasks from Project Board Associated with These Features
+
+ - Issue #349 - Fix resume owner identity and implement end-to-end one-page resume PDF flow
+
+---
+
+### 5. Tasks Completed / In Progress in the Last 2 Weeks
+| Task ID | Issue Title                                   | Status     | Notes |
+|---------|-----------------------------------------------|------------|-------|
+| 349     | Fix resume owner identity and implement end-to-end one-page resume PDF flow | Completed  | Added identity fix, dashboard-triggered resume flow, multi-project PDF generation, and test coverage |
+
+---
+
+### 6. Additional Context
+
+ - This work crossed both frontend and backend boundaries because the feature needed to be validated as a complete user workflow rather than as isolated changes.
+ - Verified the flow with targeted backend tests for config/privacy/projects/resume behavior and frontend smoke coverage for the resume UI path.
+ - The final resume template now keeps Education above Projects and Skills below Projects to match the intended layout.
+
+---
+
+### 7. Next Week's Focus
+
+ - Support PR review follow-up and any requested refinements for the resume workflow.
+ - Continue Milestone 3 frontend integration work with the rest of the dashboard features.
 
 ## Semester 1
 
