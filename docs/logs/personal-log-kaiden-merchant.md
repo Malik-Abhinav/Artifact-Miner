@@ -19,6 +19,7 @@
 1. [Semester 2 - Week 4/5](#semester-2---week-45)
 1. [Semester 2 - Week 6/7](#semester-2---week-67)
 1. [Semester 2 - Week 9](#semester-2---week-9)
+1. [Semester 2 - Week 10](#semester-2---week-10)
 
 ## Week 3
 This section outlines the individual log for week 3
@@ -1063,4 +1064,87 @@ This section outlines the individual log for Semester 2 - Week 9
 - Display project list by fetching from `GET /projects`
 - Display per-project analysis results from `GET /projects/{id}`
 - Plan report viewer UI for browsing generated JSON reports in a readable layout
+
+## Semester 2 - Week 10
+This section outlines the individual log for Semester 2 - Week 10
+
+### March 9 - March 15
+
+### Tasks
+
+![](images/kaiden_sem2_week10_tasks.png)
+
+### Weekly Goals
+
+1. My Features:
+    - Begin scaffolding the portfolio template website that will eventually showcase user-selected projects
+    - Establish the data-driven architecture with a single config file as the source of truth
+    - Build the Hero and Footer sections as the first working page
+    - Finalize any outstanding work required for peer testing
+
+2. Associated Tasks
+    - Portfolio Template Project Initialization (Next.js + Tailwind + Framer Motion)
+    - TypeScript Type System and Config Data Layer
+    - Hero Component Implementation
+    - Footer Component Implementation
+    - SectionHeading Reusable Component
+    - Root Layout and Page Assembly
+    - Peer Testing Preparation and Participation
+
+3. Completed/In-Progress
+    - ✅ Created `portfolio-template/` directory at repo root as a standalone Next.js 15 (App Router) + TypeScript project:
+        - Configured Tailwind CSS v4, Framer Motion, and Lucide React icons
+        - Set up `postcss.config.mjs`, `tsconfig.json`, `next.config.ts`, and `.gitignore`
+        - Added `src/lib/utils.ts` with `cn()` utility for Tailwind class merging
+    - ✅ Defined full TypeScript type system in `src/types/portfolio.ts`:
+        - Interfaces: `DeveloperProfile`, `Project`, `Experience`, `SkillCategory`, `SocialLink`
+        - Types cover all planned sections: hero, about, skills, projects, experience, contact
+    - ✅ Created `src/config/portfolio.ts` as the single source of truth for all site content:
+        - Populated with realistic placeholder data: 4 projects, 3 experience entries, 4 skill categories, social links, about highlights
+        - Any user customization requires editing only this one file
+    - ✅ Built `src/components/hero.tsx`:
+        - Full-screen dark Hero section with name, title, bio, location, Resume and Contact CTAs, and social icon links
+        - Framer Motion entrance animation on page load
+        - Social icons dynamically rendered from config via `iconMap`
+    - ✅ Built `src/components/footer.tsx`:
+        - Minimal footer with dynamic copyright year and social icon links from config
+    - ✅ Built `src/components/section-heading.tsx`:
+        - Reusable animated section title component with optional subtitle
+        - Framer Motion scroll-triggered fade-in-up animation, ready for future sections
+    - ✅ Assembled `src/app/layout.tsx` and `src/app/page.tsx`:
+        - Root layout uses Geist Sans + Geist Mono fonts and derives `<title>` and `<meta description>` from config
+        - `page.tsx` maps config data to Hero and Footer; placeholder comment marks where future sections will be added
+    - ✅ Added `src/app/globals.css` with dark theme base styles (zinc-950 background, smooth scroll, custom text selection)
+    - ✅ Verified `npm run build` passes with 0 errors and 0 TypeScript type errors; page statically generated
+    - ✅ Kept PR diff under 500 lines (490 total) for reviewability — remaining sections (About, Skills, Projects, Experience, Contact) deferred to follow-up PRs
+    - ✅ Completed peer testing activities and addressed any feedback from the peer testing session
+
+### Reflection Points
+
+**What went well:**
+- The data-driven architecture (single config file) is clean and easy to explain — any developer can customize the site by editing one file
+- Tailwind CSS v4 with the `@tailwindcss/postcss` plugin integrates smoothly with Next.js 15 App Router
+- Framer Motion's `whileInView` + `viewport={{ once: true }}` pattern gives polished scroll animations with minimal code
+- Keeping the first PR under 500 lines made the diff focused and easy to review
+- `npm run build` passed on the first attempt with no type errors
+
+**What didn't go well:**
+- Tailwind v4 uses `@import "tailwindcss"` instead of the v3 `@tailwind` directives — this caused a brief config issue before switching to the correct syntax
+- Next.js 15 inferred an incorrect workspace root due to multiple `package-lock.json` files in the monorepo — a non-blocking warning that will be resolved by setting `outputFileTracingRoot` in a future PR
+
+**Technical Decisions:**
+- Chose Next.js App Router over Pages Router for forward compatibility and simpler layout nesting
+- Used Tailwind v4 (latest) for its zero-config PostCSS integration and improved performance
+- Deferred shadcn/ui in favour of hand-rolled components for this first pass to avoid adding install complexity before the architecture is proven
+- Strict separation of types (`src/types/`), data (`src/config/`), and UI (`src/components/`) ensures the template is easy to extend without touching presentation code
+
+### Planning Activities for Next Cycle
+
+**Semester 2 - Week 11 Goals:**
+- Build the About section with bio paragraphs and highlight stats
+- Build the Skills section with categorized skill tag grid
+- Build the Projects section with bento-box style responsive card grid
+- Build the Experience timeline section
+- Add Contact CTA section
+- Verify/do work to make sure all peer-testing tasks are complete and ready
 
