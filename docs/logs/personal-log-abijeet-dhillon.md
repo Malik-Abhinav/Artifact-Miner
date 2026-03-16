@@ -6,6 +6,7 @@
 [Semester 2 Week 5 Individual Logs](#semester-2-week-5-individual-logs)<br>
 [Semester 2 Week 8 Individual Logs](#semester-2-week-8-individual-logs)<br>
 [Semester 2 Week 9 Individual Logs](#semester-2-week-9-individual-logs)<br>
+[Semester 2 Week 10 Individual Logs](#semester-2-week-10-individual-logs)<br>
 [Week 3 Individual Logs](#week-3)<br>
 [Week 4 Individual Logs](#week-4)<br>
 [Week 5 Individual Logs](#week-5)<br>
@@ -17,6 +18,67 @@
 [Week 12 Individual Logs](#week-12)<br>
 [Week 13 Individual Logs](#week-13)<br>
 [Week 14 Individual Logs](#week-14)
+
+---
+
+## Semester 2 Week 10 Individual Logs
+
+### March 9 2026 to March 15 2026
+
+### 1. Type of Tasks Worked On
+
+![Abijeet Dhillon Semester 2 Week 10 Task Types Screenshot](images/abijeetdhillon_s2w10_tasks.png)
+
+---
+
+### 2. Recap of Weekly Goals
+
+During this cycle, my work focused on completing the end-to-end Skills Timeline flow by wiring the frontend to the existing skills and chronological endpoints, then fixing the persistence gap so add, edit, and remove actions stayed reflected after reloading or refreshing the timeline. This work covered both the React/Electron UI and the backend chronology synchronization layer, while keeping the router contracts and existing app structure intact.
+
+I worked on Issue #336 and Issue #345, which were completed in PR #347 and PR #346. The result was a backend-driven timeline experience with project and year filtering, modal-based skill mutations, card-level actions, header refresh support, frontend API coverage and tests, plus backend chronology override persistence so skills mutations update the project timeline source instead of reverting after a reload.
+
+**Pull Request / Issue References**
+
+- Issue: [#336](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/336)
+- Issue: [#345](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/345)
+- PR: [#346](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/346)
+- PR: [#347](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/347)
+
+**Issues / Blockers**
+
+The main blocker this cycle was that the timeline feature work grew beyond the preferred PR size limit, so I split it into two coordinated PRs to keep the backend persistence changes and frontend UI wiring reviewable.
+
+**Coding Recap**
+
+In PR #347, I wired the frontend to all required skills and chronological endpoints and replaced the older timeline controls with a compact backend-driven workflow. I added a unified Load timeline flow with project lookup mode selection, All projects support, year filtering, modal-based add, edit, and remove actions, a header refresh action, and timeline rendering that collapses duplicate skill cards to the most recent entry. In PR #346, I updated the backend so skills mutations also persist into the project chronology source, added optional date metadata support for mutation payloads, and ensured chronological overrides are used correctly instead of falling back to stale timeline data.
+
+**Testing Recap**
+
+My testing work this cycle focused on both frontend interaction coverage and backend persistence validation. PR #347 added frontend tests for the new API wrappers, load timeline behavior, lookup mode selection, year filtering, add/edit/remove modal flows, refresh behavior, deduplicated rendering, and representative loading or error handling, and I also validated the renderer build locally. PR #346 added backend tests for chronology synchronization after skills mutations, month and year validation behavior, and empty override handling, with validation through targeted pytest runs and backend syntax checks.
+
+---
+
+### 3. Features Owned in Project Plan/Tasks from Project Board Associated with These Features
+
+- Wire Skills & Chronological APIs to UI ([Issue #336](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/336), [PR #347](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/347))
+- Make Skills Mutations Persist In Project Chronology ([Issue #345](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/345), [PR #346](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/346))
+
+---
+
+### 4. Tasks Completed / In Progress in the Last 2 Weeks
+
+| Task ID | Issue                                                                                                                                                   | Status    | Notes                                                                                          |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ---------------------------------------------------------------------------------------------- |
+| 336     | [Wire Skills & Chronological APIs to US Issue #336](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/336)                              | Completed | Completed in [PR #347](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/347)    |
+| 345     | [Make Skills Mutations Persist In Project Chronology Issue #345](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/345)                 | Completed | Completed in PR [PR #346](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/346) |
+| 312     | [Implement Functionality To Generate One-Page Resume (rough version) Issue #312](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/312) | Completed | Completed in [PR #315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315)    |
+| 313     | [Create .tex Resume Template Issue #313](https://github.com/COSC-499-W2025/capstone-project-team-14/issues/313)                                         | Completed | Completed in [PR #315](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/315)    |
+
+---
+
+### 5. Future Cycle Plans & Reflection On This Week
+
+- This week was focused on tying together the Skills Timeline experience from the UI down to the persistence layer, and splitting the work into two PRs kept the changes more reviewable even though the frontend portion was still fairly large. Next cycle, I plan to get ready for peer testing, implement the feedback we receive from peer testing, and continue polishing the timeline and related flows for the Milestone 3 deadline.
 
 ---
 
