@@ -1,24 +1,29 @@
 # Personal Log
 
-[T2 Week 1 Personal Logs](#term-2-week-1)
-[T2 Week 2 Personal Logs](#term-2-week-2)
-[T2 Week 3 Personal Logs](#term-2-week-3)
-[T2 Week 4-5 Personal Logs](#term-2-week-4-5)
-[T2 Week 6-8 Personal Logs](#term-2-week-6-8)
-[T2 Week 9 Personal Logs](#term-2-week-9)
+**Term 2**
 
-[Week 3 Personal Logs](#week-3)
-[Week 4 Personal Logs](#week-4)
-[Week 5 Personal Logs](#week-5)
-[Week 6 Personal Logs](#week-6)
-[Week 7 Personal Logs](#week-7)
-[Week 8 Personal Logs](#week-8)
-[Week 9 Personal Logs](#week-9)
-[Week 10 Personal Logs](#week-10)
-[Week 11 Personal Logs](#week-11)
-[Week 12 Personal Logs](#week-12)
-[Week 13 Personal Logs](#week-13)
-[Week 14 Personal Logs](#week-14)
+- [T2 Week 1 Personal Logs](#term-2-week-1)
+- [T2 Week 2 Personal Logs](#term-2-week-2)
+- [T2 Week 3 Personal Logs](#term-2-week-3)
+- [T2 Week 4-5 Personal Logs](#term-2-week-4-5)
+- [T2 Week 6-8 Personal Logs](#term-2-week-6-8)
+- [T2 Week 9 Personal Logs](#term-2-week-9)
+- [T2 Week 10 Personal Logs](#term-2-week-10)
+
+**Term 1**
+
+- [Week 3 Personal Logs](#week-3)
+- [Week 4 Personal Logs](#week-4)
+- [Week 5 Personal Logs](#week-5)
+- [Week 6 Personal Logs](#week-6)
+- [Week 7 Personal Logs](#week-7)
+- [Week 8 Personal Logs](#week-8)
+- [Week 9 Personal Logs](#week-9)
+- [Week 10 Personal Logs](#week-10)
+- [Week 11 Personal Logs](#week-11)
+- [Week 12 Personal Logs](#week-12)
+- [Week 13 Personal Logs](#week-13)
+- [Week 14 Personal Logs](#week-14)
 
 ## Week 3
 ### Date Range 
@@ -729,3 +734,73 @@ Building on the CLI and comparison engine work from the previous sprint, this we
 * Begin frontend integration for heatmap visualization component
 * Connect top projects endpoint to portfolio showcase UI
 * Explore chart library options for rendering the weekly activity heatmap
+
+## Term 2 Week 10
+### Date Range
+9th March 2026 - 15th March 2026
+
+### Connection to Previous Week
+Building on last week's heatmap and top projects endpoints, this week focused on surfacing user identity data in the frontend. The backend already stored a `git_identifier` field but had no general profile API, so this week extended the data model and added a full Profile Settings view accessible from the sidebar.
+
+### Type of Tasks Worked On
+
+![Tahsin Type of Tasks Term 2 Week 10](images/tahsin-t2-week-10.png)
+
+**Coding Tasks:**
+
+*Backend — `src/config/config_manager.py`:*
+* Added 4 new optional fields to the `UserConfig` dataclass: `first_name`, `last_name`, `email`, `github_username`
+* Added `ALTER TABLE … ADD COLUMN` backfill guards in `init_db()` for each new column (same pattern as the existing `git_identifier` migration)
+* Extended `update_config()`, `_persist_config()`, and `load_config()` to read and write all new columns
+
+*Backend — `src/api/routers/privacy.py`:*
+* Added `ProfileUpdateRequest` Pydantic model with all 5 identity fields optional (for partial updates)
+* Added `GET /profile/{user_id}` endpoint returning all identity fields for a user config record
+* Added `PATCH /profile/{user_id}` endpoint for partial updates, returning the refreshed record
+
+*Frontend — `frontend/src/renderer/src/api.ts`:*
+* Added `UserProfile` and `ProfileUpdateRequest` TypeScript types
+* Added `getProfile(userId)` and `updateProfile(userId, data)` API functions
+
+*Frontend — `frontend/src/renderer/src/components/ProfileView.tsx` (new file):*
+* Controlled form component with two card sections: **Personal Information** (first name, last name, email) and **Developer Identity** (GitHub username, git identifier)
+* Loads current profile from the backend on mount; shows a contextual hint when no user config exists yet
+* Saves via `PATCH /profile/default` and fires a success/error toast
+* Extracted a reusable `Field` sub-component to eliminate repeated label/input markup
+* Used existing CSS utility classes (`input`, `card`, `action-btn`, `pill`) with a new `profile-fields` CSS grid
+
+*Frontend — `frontend/src/renderer/src/App.tsx` and `App.css`:*
+* Added `'profile'` to the `AppView` union, `NAV_ITEMS`, `PAGE_META`, and `NavIcon`
+* Added `profile-fields` CSS grid with a responsive single-column breakpoint
+
+**Testing Tasks:**
+
+*Backend profile endpoint tests — `tests/api/test_profile_endpoints.py` (6 tests):*
+* Used a shared `profile_client` context manager to eliminate repeated tempfile/teardown boilerplate
+* Covers: GET returns all fields, GET returns nulls for unset fields, GET 404 for unknown user, PATCH updates fields, PATCH partial update leaves other fields unchanged, PATCH 404 for unknown user
+* All 6 tests passing
+
+*Frontend ProfileView tests — `frontend/tests/ProfileView.test.tsx` (5 tests):*
+* Covers: initial load populates form, 404 shows not-found message, save success fires toast, save error fires error toast, loading state renders correctly
+* All 5 tests passing (19 total across all frontend test files)
+
+### Pull Request Reviews
+* Reviewing **Web portfolio template #339**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/339)
+* Reviewing **Tests for web-portfolio-template #341**: [Link](https://github.com/COSC-499-W2025/capstone-project-team-14/pull/341/changes#diff-17f7177facccf15e7b3d35307ee838170fe58d6babcccbcd322e63d6b2281645)
+* Will review incoming PRs as they are raised this week
+
+### Task from Project Board
+* Frontend UI for Profile Customization #342
+
+### Completed/In-progress Tasks
+* Frontend UI for Profile Customization #342 (Completed)
+
+### What I Learned
+* Extracting a small reusable component (like `Field`) pays off immediately when the same JSX pattern repeats more than twice — it cuts both LOC and the chance of inconsistency between similar fields
+* Using a `@contextmanager` in Python tests to wrap setup/teardown removes a lot of structural noise and makes the actual test assertions the clear focus of each function
+* Adding columns to an existing SQLite table via `ALTER TABLE … ADD COLUMN` with a guard check (`PRAGMA table_info`) is a clean zero-downtime migration pattern that works well for a local embedded database
+
+### Goals for Next Week
+* Connect the Profile data to resume and portfolio generation (use `first_name`/`last_name` in generated output)
+* Add client-side email format validation to the Profile form
+* Begin work on remaining Milestone 3 frontend features
