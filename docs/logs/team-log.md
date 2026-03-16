@@ -360,3 +360,91 @@ What didn’t go as well:
 How this informs next cycle:
 
 - To maintain steady momentum, the next cycle’s plan includes subdividing large tasks and setting clearer priorities early in the week. This will ensure that high-priority features receive consistent progress even during heavier academic weeks.
+
+## Week 9
+
+### March 10 to March 16, 2026
+
+### 1. Milestone Goals Recap
+
+This week's milestone focused on implementing dynamic frontend features and improving user experience:
+
+- Dynamic Skills Timeline Implementation
+- Frontend-Backend Integration Testing
+- Docker Build Optimization
+- Component Testing and Validation
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 9](images/burnup-week9.png)
+
+### 3. Username → Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishagavura     | Misha Gavura    |
+
+### 4. Completed Tasks
+
+![Kanban Board for Completed Tasks Week 9](images/kanban-week9.png)
+
+### 5. In Progress Tasks
+
+| Task ID | Issue Title | Username | Associated Feature |
+| ------- | ----------- | -------- | ------------------ |
+| 337 | Dynamic Skills Timeline Implementation | abdur026 | Frontend Features |
+| 338 | Docker Build Optimization | abdur026 | DevOps |
+| 339 | Component Testing Suite | abdur026 | Quality Assurance |
+
+### 6. Test Report
+
+All frontend tests passed successfully this week:
+
+- SkillsTimeline component tests: 8/8 passing
+- useSkillsTimeline hook tests: Full coverage
+- Integration tests: Frontend-backend connectivity verified
+- Performance tests: Loading states and error handling validated
+
+### 7. Additional Context
+
+This week marked significant progress on the frontend user experience. The team successfully implemented a dynamic skills timeline that adapts to uploaded zip folders, replacing previously hardcoded data. Key achievements include:
+
+**What went well:**
+- Successfully implemented dynamic skills timeline with real project data integration
+- Resolved Docker build issues and optimized container performance
+- Created comprehensive test suite with 100% pass rate
+- Maintained backward compatibility with existing pipeline
+- Kept implementation under 500 lines of code as required
+
+**Challenges encountered:**
+- Docker daemon corruption required troubleshooting and restart
+- API endpoint mismatches between frontend expectations and test setup
+- Frontend-backend integration required multiple debugging cycles
+- Time management balancing feature implementation with testing requirements
+
+**Technical achievements:**
+- Created `useSkillsTimeline` custom hook for data fetching and processing
+- Updated `SkillsTimeline` component to use dynamic data instead of hardcoded values
+- Implemented skill categorization, proficiency estimation, and milestone generation
+- Added comprehensive error handling and loading states
+- Optimized Docker build process with proper `.dockerignore` configuration
+
+**Next cycle priorities:**
+- Continue frontend feature development based on user feedback
+- Implement additional visualization components
+- Enhance backend API capabilities for advanced analytics
+- Improve test coverage for edge cases and performance scenarios
+
+### 8. Future Cycle Plans
+
+Building on this week's success, the team will focus on:
+- User experience improvements based on timeline feedback
+- Additional frontend components for project analysis
+- Enhanced data visualization features
+- Performance optimization for large datasets
+- Integration testing with real world project uploads
