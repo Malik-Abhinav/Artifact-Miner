@@ -6,6 +6,7 @@
 [Semester 2 - Week 4-5 Team Logs](#s2w4w5)<br>
 [Semester 2 - Week 6-8 Team Logs](#s2w6w8)<br>
 [Semester 2 - Week 9 Team Logs](#s2w9)<br>
+[Semester 2 - Week 10 Team Logs](#s2w10)<br>
 [Week 3 Team Logs](#week-3)<br>
 [Week 4 Team Logs](#week-4)<br>
 [Week 5 Team Logs](#week-5)<br>
@@ -835,6 +836,139 @@ This week kicked off Milestone 3 with work across both frontend and backend:
 **How this informs us for the next cycle:**
 - Focus on connecting the frontend shell to the stable backend API surface
 - Prioritize the upload flow in the frontend since it's the entry point for all features
+
+---
+
+<a id="s2w10"></a>
+## Semester 2 - Week 10 (Week 24 - March 9 2026 to March 15 2026)
+
+### March 9 2026 to March 15 2026
+
+### 1. Milestone Goals Recap
+
+This week continued Milestone 3 by moving the desktop experience from scaffolding into real end-to-end product flows. The team's work centered on wiring backend data into the frontend, improving profile and resume customization, making the skills timeline dynamic and persistent, and starting a standalone portfolio template that can later be connected to generated project data.
+
+Planned Features for This Milestone:
+- Implement the One-Page Resume workflow end to end from the dashboard
+- Complete the Skills Timeline flow with frontend API integration and backend persistence
+- Replace static timeline data with real uploaded-project data
+- Add profile customization endpoints and frontend settings UI
+- Begin the portfolio template website with a reusable data-driven structure
+
+Tasks from Project Board/PR Issue Number Associated with These Features:
+- #349 Fix resume owner identity and implement end-to-end one-page resume PDF flow
+- #336 Wire Skills & Chronological APIs to UI
+- #345 Make Skills Mutations Persist In Project Chronology
+- #342 Frontend UI for Profile Customization
+- Portfolio Template Project Initialization
+
+---
+
+### 2. Burnup Chart
+
+![Burnup Chart For Week 10](images/week10-term2-burnup.jpg)
+
+---
+
+### 3. Username - Student Name Mapping
+
+| GitHub Username | Student Name    |
+| --------------- | --------------- |
+| abijeet-dhillon | Abijeet Dhillon |
+| tahsinj         | Tahsin Jawwad   |
+| kmerchant1      | Kaiden Merchant |
+| Malik-Abhinav   | Abhinav Malik   |
+| abdur026        | Abdur Rehman    |
+| mishgGavura     | Misha Gavura    |
+
+---
+
+### 4. Completed / In Progress Tasks
+
+![Kanban Board for Completed Tasks Week 10](images/week10-term2-taskview.png)
+
+| Task ID | Issue Title | Username | Associated Feature | Status |
+| ------- | ----------- | -------- | ------------------ | ------ |
+| 349 | Fix resume owner identity and implement end-to-end one-page resume PDF flow | Malik-Abhinav | One-Page Resume workflow and multi-project PDF generation | Completed |
+| 336 | Wire Skills & Chronological APIs to UI | abijeet-dhillon | Skills Timeline frontend integration | Completed |
+| 345 | Make Skills Mutations Persist In Project Chronology | abijeet-dhillon | Skills Timeline persistence and chronology synchronization | Completed |
+| N/A | Dynamic Skills Timeline using uploaded project data | abdur026 | Timeline data integration and UX refinement | Completed |
+| 342 | Frontend UI for Profile Customization | tahsinj | Profile settings API and frontend view | Completed |
+| N/A | Portfolio Template Project Initialization | kmerchant1 | Standalone portfolio template foundation | Completed |
+
+---
+
+### 5. Test Report
+
+All new work this week was accompanied by targeted automated testing or build validation.
+
+*Abhinav (One-Page Resume End-to-End Flow)*
+- Targeted backend tests for config, privacy, projects, and resume behavior were used to validate the workflow
+- Frontend smoke coverage for the resume UI path was also run locally
+- Covers: resume owner identity fix, dashboard-triggered generation flow, multi-project PDF output, and template ordering
+
+*Abijeet (Skills Timeline UI + Chronology Persistence)*
+- Frontend tests covered API wrappers, timeline loading, lookup mode selection, year filtering, add/edit/remove modal flows, refresh behavior, deduplicated rendering, and loading or error handling
+- Targeted backend pytest runs validated chronology synchronization after skills mutations, month and year validation, and empty override handling
+- Renderer build validation and backend syntax checks were also completed
+
+*Abdur (Dynamic Skills Timeline)*
+- Added and ran a dedicated SkillsTimeline.test.tsx suite
+- Covers: rendering, loading states, filtering, modal interactions, and dynamic project-based timeline data
+- Existing tests continued to pass with no regressions
+
+*Tahsin (Profile Customization UI + API)*
+- tests/api/test_profile_endpoints.py — *6 tests passed*
+- frontend/tests/ProfileView.test.tsx — *5 tests passed*
+- Covers: GET/PATCH profile flows, partial updates, unknown-user handling, loading state, and save success/error feedback
+
+*Kaiden (Portfolio Template Initialization)*
+- npm run build — passing with 0 errors and 0 TypeScript type errors
+- Covers: initial scaffold validation, static generation, and type-safe config-driven page assembly
+
+![Test results week 10](images/test-images/tests-week10-t2.jpg)
+![Test results week 10](images/test-images/tests2-week10-t2.jpg)
+
+---
+
+### 6. Additional Context
+
+This week showed clear progress from isolated milestone features toward connected user-facing flows:
+- The *resume flow* now works as a full dashboard-triggered feature, with the generated resume using the requesting user's identity instead of inferred contributor data.
+- The *skills timeline* matured on two fronts at once: it became dynamically driven by uploaded project data, and its mutation flows now persist back into chronology data so refreshes and reloads reflect user changes correctly.
+- The new *profile settings flow* adds stored identity fields and a complete API/UI path for updating them, which sets up later integration with resume and portfolio generation.
+- The *portfolio template* work established a separate, configurable web presentation layer with typed content models and a single source-of-truth config file, giving the team a clean base for later portfolio export or generation work.
+- Several contributors explicitly kept PR size and integration risk under control by splitting work into smaller pieces, reusing existing APIs, and validating changes with focused tests instead of broad unchecked merges.
+
+---
+
+### 7. Future Cycle Plans
+
+- Connect stored profile data into resume and portfolio generation flows
+- Prepare for peer testing and address any review feedback from the new Milestone 3 features
+- Continue refining the skills timeline UI and improve readability of dynamic timeline data
+- Expand the portfolio template beyond Hero and Footer with About, Skills, Projects, Experience, and Contact sections
+- Keep frontend and backend integration moving toward a smoother end-to-end upload-to-visualization workflow
+
+---
+
+### 8. Reflection on This Cycle
+
+*What went well:*
+- Multiple Milestone 3 features moved from placeholder or local-only state into real end-to-end workflows
+- Frontend and backend work complemented each other well this week, especially around resume generation, profile customization, and timeline functionality
+- Test coverage remained a strong part of delivery, with targeted API, frontend, and workflow validation across contributors
+- Contributors reused existing APIs and structures where possible, which reduced unnecessary architectural churn
+
+*What could be improved:*
+- The team log is missing the Week 24 burnup chart, Kanban screenshot, and combined test image, so documentation artifacts are lagging behind implementation work
+- Some features still rely on targeted validation rather than a single unified "run everything" command, which makes full regression checks less consistent
+- Several milestone features are now present but still need another pass for integration polish before peer testing and final demo use
+
+*How this informs us for the next cycle:*
+- Prioritize integration polish and shared validation workflows, not just feature completion
+- Make sure weekly documentation artifacts are uploaded at the same pace as code and tests
+- Focus next on connecting profile, resume, timeline, and portfolio outputs into a coherent Milestone 3 user experience
 
 ---
 

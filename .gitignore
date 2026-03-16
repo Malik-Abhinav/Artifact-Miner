@@ -1,0 +1,15 @@
+# Python caches and virtualenvs
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+
+# Generated reports
+reports/
+
+# macOS / editor noise
+.DS_Store
