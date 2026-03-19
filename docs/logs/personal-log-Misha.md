@@ -633,3 +633,74 @@ My contributions included:
 
 ### Planning Activities for Next Cycle
 - Continue frontend work and integration
+
+---
+
+## Semester 2 - Week 9 (Week 23 - March 8 to March 15, 2026)
+
+### Tasks
+![Misha Gavura Week 23 Task Type Screenshot](images/misha-week-mar8.png)
+
+---
+
+### Recap of Weekly Goals
+
+This week focused on **major UI overhaul**, **backend integration**, and **new features** across the desktop app. I contributed approximately **3,000 lines of code** and delivered significant improvements to both frontend and backend.
+
+My contributions included:
+- Redesigning the app style and visual identity
+- Adding file/project uploading functionality
+- Implementing filtering UI and project list views
+- Connecting frontend to backend APIs end-to-end
+- System setup, administration, and DevOps work
+- Project planning and assigning people to tasks
+- Coding, code reviews, and testing (own code + teammate's code)
+- Preparing and giving presentations
+
+---
+
+### Features Owned in Project Plan
+- App Style Redesign
+- Uploading Functionality
+- Filtering and Project List UI
+- Backend–Frontend Integration
+
+---
+
+### What I Did
+
+**1. UI and Style Changes**
+- Overhauled the app's visual style and design
+- Updated layouts, components, and styling across the frontend
+- Improved consistency and polish of the user interface
+
+**2. New Features**
+- **Uploading** — Added ability to upload files and projects
+- **Filtering** — Implemented filtering UI for project discovery
+- **Project List** — Built project list view with backend data
+
+**3. Backend Integration**
+- Connected frontend to backend APIs
+- Implemented API calls for projects, filtering, and uploads
+- Resolved integration issues and ensured data flows correctly
+
+**4. Leadership and Collaboration**
+- Project planning and task assignment
+- Code reviews for teammates
+- Testing own code and teammate's code
+- System setup, administration, and DevOps
+- Prepared and delivered presentations
+
+---
+
+### Additional Context
+- ~3,000 lines of code added this week
+- Task types this sprint: system setup/admin, DevOps, project planning, assigning people to tasks, coding, code review, testing (own + teammate's), presentations
+- Frontend and backend now working together for core workflows
+
+---
+
+### Planning Activities for Next Cycle
+- Continue frontend–backend integration
+- Refine upload and filtering flows
+- Address feedback from presentations
